@@ -2,29 +2,26 @@
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
-from django.contrib.auth import login, logout
 from django.shortcuts import get_object_or_404
 
 # REST Framework Imports
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny  # NOQA
-from rest_framework.authtoken.models import Token
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 # API Imports
-from api.serializer import (GenericUniversitySerializer, GenericCollageSerializer, GenericCourseSerializer,
-                            GenericBranchSerializer, GenericSubjectSerializer, UniversitySelect2Serializer,
-                            CollageSelect2Serializer, CourseSelect2Serializer, SubjectSelect2Serializer,
+from api.serializer import (UniversitySelect2Serializer, CollageSelect2Serializer,
+                            CourseSelect2Serializer, SubjectSelect2Serializer,
                             BranchSelect2Serializer, ShowCollageSerializer, ShowCourseSerializer,
-                            ShowBranchSerializer, ShowSubjectSerializer)
+                            ShowBranchSerializer, ShowSubjectSerializer, ShowPostSerializer)
 
 
 # Models Imports
 from dashboard.models import (University, Collage,
                               Course, Subject, Branch,
-                              Post, PostFiles)
+                              Post)
 # OTHER IMPORT
 import os
 from xpapers.tasks import celery_pdf_watermark, celery_images_to_pdf
@@ -96,6 +93,53 @@ class BranchSelect2ViewSet(ModelViewSet):
         return self.queryset
 
 
+class SearchObjectTypeViewSet(ModelViewSet):
+    queryset = Post.objects.none()
+    permission_classes = (AllowAny,)
+    http_method_names = ['get', ]
+
+    def list(self, request, *args, **kwargs):
+        query_university = request.query_params.get('uni', None)
+        query_collage = request.query_params.get('col', None)
+        query_course = request.query_params.get('cou', None)
+        query_branch = request.query_params.get('bra', None)
+        query_subject = request.query_params.get('sub', None)
+
+        if query_university and \
+                not query_collage and \
+                not query_course and \
+                not query_branch and \
+                not query_subject:
+            return Response({"data": "collage"}, status=status.HTTP_200_OK)  # NOQA
+        elif query_university and \
+                query_collage and \
+                not query_course and \
+                not query_branch and \
+                not query_subject:
+            return Response({"data": "course"}, status=status.HTTP_200_OK)  # NOQA
+        elif query_university and \
+                query_collage and \
+                query_course and \
+                not query_branch and \
+                not query_subject:
+            return Response({"data": "branch"}, status=status.HTTP_200_OK)  # NOQA
+        elif query_university and \
+                query_collage and \
+                query_course and \
+                query_branch and \
+                not query_subject:
+            return Response({"data": "subject"}, status=status.HTTP_200_OK)  # NOQA
+        elif query_university and \
+                query_collage and \
+                query_course and \
+                query_branch and \
+                query_subject:
+            return Response({"data": "post"}, status=status.HTTP_200_OK)  # NOQA
+        else:
+            return Response({"data": "query not found"}, status=status.HTTP_404_NOT_FOUND)  # NOQA
+
+
+
 class UploadPaperView(APIView):
     """
     This API will upload files from dashboard page
@@ -128,7 +172,7 @@ class UploadPaperView(APIView):
         celery_images_to_pdf.delay(celery_data)
 
     def post(self, request):
-        valid_image_extenstions = ['.png', '.jpeg', '.jpg']
+        valid_image_extenstions = ['.jpeg', '.jpg']
         university = request.data.get('university', None)
         year = request.data.get('year', None)
         collage = request.data.get('collage', None)
@@ -258,7 +302,13 @@ class SearchViewSet(ModelViewSet):
                 not query_subject:
             self.serializer_class = ShowSubjectSerializer
             self.queryset = Subject.objects.all()
+        elif query_university and \
+                query_collage and \
+                query_course and \
+                query_branch and \
+                query_subject:
+            self.serializer_class = ShowPostSerializer
+            self.queryset = Post.objects.all()
         else:
-            print('400')
-
+            self.queryset = Collage.objects.none()
         return self.queryset

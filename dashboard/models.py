@@ -109,20 +109,6 @@ class Post(models.Model):
                              related_name="posts", null=True, blank=True,
                              on_delete=models.CASCADE)  # NOQA
 
-    # def celery_post(self):
-    #     print('in celery_post')
-    #     celery_data = dict
-    #     celery_data['post_id'] = self.id
-    #     celery_data['post_files'] = self.postfiles.all()
-    #     sleepy.delay(celery_data)
-    #
-    # def save(self, *args, **kwargs):
-    #     print('in save')
-    #     super(Post, self).save(*args, **kwargs)
-    #     transaction.on_commit(
-    #         self.celery_post()
-    #     )
-
     def __str__(self):
         return "%s" % (self.id,)
 

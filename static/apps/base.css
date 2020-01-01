@@ -33,3 +33,8 @@ h1 {
 .base_container{
     margin-top: 40px;
 }
+
+.error{
+    color: red;
+    display: none;
+}

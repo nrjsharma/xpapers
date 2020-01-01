@@ -23,17 +23,17 @@ def celery_pdf_watermark(*args, **kwargs):
     user = args[0]['user']
     post = Post.objects.get(id=post_id)
     packet = io.BytesIO()
-    file_name = "%s %s" % (post.subject.name, post.year)
+    file_name = "%s-%s" % (post.subject.name.replace(" ", "-"), post.year)
     # create a new PDF with Reportlab
     can = canvas.Canvas(packet, pagesize=letter)
     can.setFont('Helvetica', 12)
     can.drawString(20, 23, "for more visit:- xpapers.in")
     if user:
         can.drawString(20, 10, "@%s" % user)
-        file_name += " Xpapers %s" % user.upper()
+        file_name += "-Xpapers %s" % user.upper()
     else:
-        file_name += " Xpapers"
-    file_name += " (%s).pdf" % utils_get_random_string()
+        file_name += "-Xpapers"
+    file_name += "-(%s).pdf" % utils_get_random_string()
     can.save()
     packet.seek(0)
     new_pdf = PdfFileReader(packet)

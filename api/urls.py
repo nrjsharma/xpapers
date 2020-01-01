@@ -15,6 +15,7 @@ router.register(r'collage-select2', views.CollageSelect2ViewSet, base_name="coll
 router.register(r'course-select2', views.CourseSelect2ViewSet, base_name="course-select2")  # NOQA
 router.register(r'subject-select2', views.SubjectSelect2ViewSet, base_name="subject-select2")  # NOQA
 router.register(r'branch-select2', views.BranchSelect2ViewSet, base_name="branch-select2")  # NOQA
+router.register(r'search-object', views.SearchObjectTypeViewSet, base_name="search-object")  # NOQA
 router.register(r'search', views.SearchViewSet, base_name="search")  # NOQA
 
 urlpatterns = [

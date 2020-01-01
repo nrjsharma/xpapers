@@ -5,7 +5,8 @@ from rest_framework.serializers import (ModelSerializer, Serializer,
 
 # Models Imports
 from dashboard.models import (University, Collage,
-                              Course, Subject, Branch)
+                              Course, Subject, Branch,
+                              Post, PostFiles)
 
 
 # Generic Serializer
@@ -114,3 +115,26 @@ class ShowSubjectSerializer(ModelSerializer):
     class Meta:
         model = Subject
         fields = ('id', 'name', 'obj_type', 'slug')
+
+
+class ShowPostSerializer(ModelSerializer):
+    class SubjectSerializer(ModelSerializer):
+        class Meta:
+            model = Subject
+            fields = ('name', )
+
+    class PostFileSerializer(ModelSerializer):
+        class Meta:
+            model = PostFiles
+            fields = ('file', 'id')
+
+    obj_type = SerializerMethodField()
+    subject = SubjectSerializer()
+    postfiles = PostFileSerializer(many=True)
+
+    def get_obj_type(self, instance):
+        return "post"
+
+    class Meta:
+        model = Post
+        fields = ('id', 'subject', 'year', 'user', 'postfiles',  'obj_type')
