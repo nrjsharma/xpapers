@@ -1,0 +1,5 @@
+# For MAC
+# psycopg2==2.8.2
+
+# FOR LINEX
+psycopg2-binary==2.8.3

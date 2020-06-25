@@ -1,0 +1,4 @@
+-r requirements/requirements_dev.txt
+-r requirements/requirements_django.txt
+-r requirements/requirements_deploy.txt
+-r requirements/requirements_db.txt
