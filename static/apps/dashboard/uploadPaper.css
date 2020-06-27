@@ -1,0 +1,18 @@
+#progressBar {
+    width: 100% !important;
+    height: 60px !important;
+}
+
+.ldBar-label {
+    display: block;
+    text-align: center;
+}
+.uploading{
+    display: none;
+    width: 100%;
+    text-align: center;
+}
+
+.upload-successfully{
+    display: none;
+}

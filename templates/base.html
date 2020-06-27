@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
+    <title>Xpapers</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'utils/logo/xpapers_title.png' %}" sizes="16x16"/>
+    <!--Title Img-->
+
+    <meta name="keywords" content="xpapers, old papers,">
+    <meta name="description"
+          content="Xpapers is an online platform to share papers.">
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="canonical" href="https://xpapers.in/"/>
+
+    <meta property="og:type" content="website"/>
+    <meta property="og:site_name" content="xpapers">
+    <meta property="og:title" content="xpapers">
+    <meta property="og:description"
+          content="Xpapers is an online platform to share papers.">
+    <meta property="og:url" content="https://xpapers.in/">
+
+
+    <!--bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <!--ajax-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!--cookie-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+    <!--Progress-bar-->
+    <script src="{% static 'library/loading-bar/loading-bar.js' %}"></script>
+    <script src="{% static 'library/loading-bar/loading-bar.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'library/loading-bar/loading-bar.css' %}">
+
+    <!--Select-2-->
+    <link rel="stylesheet" type="text/css" href="{% static 'library/select2/select2.custom.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'library/select2/select2.min.css' %}"/>
+    <script src="{% static 'library/select2/select2.min.js' %}"></script>
+
+    <!--Custom_CSS-->
+    <link rel="stylesheet" type="text/css" href="{% static 'apps/base.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'apps/utils/nav.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'apps/dashboard/dashboard.css' %}"/>
+
+    <!--Custom JS-->
+    {#    <script src="{% static 'apps/dasboard/home/home.js' %}"></script>#}
+    {#    <script src="{% static 'apps/global/login-logout.js' %}"></script>#}
+</head>
+<body>
+
+<div class="base_container">
+    <section class="base_nav">
+        {% include 'utils/nav.html' %}
+    </section>
+    <section class="upload-paper-link main-container">
+        <a href="/upload-paper">Upload your Question Paper and help other students</a>
+    </section>
+    <section class="base_container main-container">
+        {% block content %}
+        {% endblock %}
+    </section>
+    <section class="base_footer">
+        {#{% include 'dashboard/home/nav.html' %}#}
+    </section>
+</div>
+
+<script>
+    var UNIVERSITY_SELECT2_URL = "{% url 'api:university-select2-list' %}";
+    var COLLAGE_SELECT2_URL = "{% url 'api:collage-select2-list' %}";
+    var COURSE_SELECT2_URL = "{% url 'api:course-select2-list' %}";
+    var SUBJECT_SELECT2_URL = "{% url 'api:subject-select2-list' %}";
+    var BRANCH_SELECT2_URL = "{% url 'api:branch-select2-list' %}";
+    var UPLOAD_PAPER_URL = "{% url 'api:upload-paper' %}";
+</script>
+
+<!--Custom_CSS-->
+{% block css %}
+
+{% endblock %}
+
+<!--Custom_JS-->
+{% block js %}
+
+{% endblock %}
+
+</body>
+</html>
