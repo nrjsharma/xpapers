@@ -1,57 +1,59 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="upload-paper">
-        <h1>Upload Paper</h1>
-        <form id="upload-paper" style="width: 50%">
-            {% csrf_token %}
-            <div class="form-group" style="width: 100px">
-                <label for="title">Year</label>
-                <select name="year" class="js-example-basic-single form-control" id="year" required>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="title">University</label>
-                <select name="university" class="js-example-basic-single form-control" id="university" required>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="title">Collage</label>
-                <select name="collage" class="js-example-basic-single form-control" id="collage" required>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="title">Course</label>
-                <select name="course" class="js-example-basic-single form-control" id="course" required>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="title">Branch</label>
-                <select name="branch" class="js-example-basic-single form-control" id="branch" required>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="title">Subject</label>
-                <select name="subject" class="js-example-basic-single form-control" id="subject" required>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="title">Select Files</label><br/>
-                <input type="file" name="file" id="getFile" autocomplete=off
-                       multiple required/>
-            </div>
-            <button type="submit" id="btn-submit">Submit</button>
-        </form>
+    <div class="wraper-paper">
+        <div class="upload-paper">
+            <h1>Upload Paper</h1>
+            <form id="upload-paper" style="width: 50%">
+                {% csrf_token %}
+                <div class="form-group" style="width: 100px">
+                    <label for="title">Year</label>
+                    <select name="year" class="js-example-basic-single form-control" id="year" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title">University</label>
+                    <select name="university" class="js-example-basic-single form-control" id="university" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title">Collage</label>
+                    <select name="collage" class="js-example-basic-single form-control" id="collage" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title">Course</label>
+                    <select name="course" class="js-example-basic-single form-control" id="course" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title">Branch</label>
+                    <select name="branch" class="js-example-basic-single form-control" id="branch" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title">Subject</label>
+                    <select name="subject" class="js-example-basic-single form-control" id="subject" required>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="title">Select Files</label><br/>
+                    <input type="file" name="file" id="getFile" autocomplete=off
+                           multiple required/>
+                </div>
+                <button type="submit" id="btn-submit">Submit</button>
+            </form>
 
-    </div>
-    <div class="uploading">
-        <h1>Uploading...</h1>
-        <div id="progressBar"
-             data-preset="rainbow">
         </div>
-    </div>
-    <div class="upload-successfully">
-        <h1>Uploaded Successfully</h1>
+        <div class="uploading">
+            <h1>Uploading...</h1>
+            <div id="progressBar"
+                 data-preset="rainbow">
+            </div>
+        </div>
+        <div class="upload-successfully">
+            <h1>Uploaded Successfully</h1>
+        </div>
     </div>
 {% endblock %}
 

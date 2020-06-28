@@ -3,6 +3,10 @@
     height: 60px !important;
 }
 
+.wraper-paper{
+    margin-top: 120px;
+}
+
 .ldBar-label {
     display: block;
     text-align: center;
