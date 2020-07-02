@@ -11,9 +11,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 # API Imports
-from api.serializer import (UniversitySelect2Serializer, CollageSelect2Serializer,
-                            CourseSelect2Serializer, SubjectSelect2Serializer,
-                            BranchSelect2Serializer)
+from api.serializer import (GenericUniversitySerializer, GenericCollageSerializer, GenericCourseSerializer,
+                            GenericBranchSerializer, GenericSubjectSerializer, UniversitySelect2Serializer,
+                            CollageSelect2Serializer, CourseSelect2Serializer, SubjectSelect2Serializer,
+                            BranchSelect2Serializer, ShowCollageSerializer, ShowCourseSerializer,
+                            ShowBranchSerializer, ShowSubjectSerializer)
 
 
 # Models Imports
@@ -24,9 +26,8 @@ from dashboard.models import (University, Collage,
 
 class UniversitySelect2ViewSet(ModelViewSet):
     serializer_class = UniversitySelect2Serializer
-    permission_classes = (IsAuthenticated,)
-    http_method_names = ['get', ]
     permission_classes = (AllowAny,)
+    http_method_names = ['get', ]
 
     def get_queryset(self, *args, **kwargs):
         self.queryset = University.objects.all()
@@ -38,9 +39,8 @@ class UniversitySelect2ViewSet(ModelViewSet):
 
 class CollageSelect2ViewSet(ModelViewSet):
     serializer_class = CollageSelect2Serializer
-    permission_classes = (IsAuthenticated,)
-    http_method_names = ['get', ]
     permission_classes = (AllowAny,)
+    http_method_names = ['get', ]
 
     def get_queryset(self, *args, **kwargs):
         self.queryset = Collage.objects.all()
@@ -52,9 +52,8 @@ class CollageSelect2ViewSet(ModelViewSet):
 
 class CourseSelect2ViewSet(ModelViewSet):
     serializer_class = CourseSelect2Serializer
-    permission_classes = (IsAuthenticated,)
-    http_method_names = ['get', ]
     permission_classes = (AllowAny,)
+    http_method_names = ['get', ]
 
     def get_queryset(self, *args, **kwargs):
         self.queryset = Course.objects.all()
@@ -66,9 +65,8 @@ class CourseSelect2ViewSet(ModelViewSet):
 
 class SubjectSelect2ViewSet(ModelViewSet):
     serializer_class = SubjectSelect2Serializer
-    permission_classes = (IsAuthenticated,)
-    http_method_names = ['get', ]
     permission_classes = (AllowAny,)
+    http_method_names = ['get', ]
 
     def get_queryset(self, *args, **kwargs):
         self.queryset = Subject.objects.all()
@@ -80,9 +78,8 @@ class SubjectSelect2ViewSet(ModelViewSet):
 
 class BranchSelect2ViewSet(ModelViewSet):
     serializer_class = BranchSelect2Serializer
-    permission_classes = (IsAuthenticated,)
-    http_method_names = ['get', ]
     permission_classes = (AllowAny,)
+    http_method_names = ['get', ]
 
     def get_queryset(self, *args, **kwargs):
         self.queryset = Branch.objects.all()
@@ -163,3 +160,48 @@ class UploadPaperView(APIView):
             return Response({'data': post.id}, status=status.HTTP_201_CREATED)
         else:
             return Response({'data': '404'}, status=status.HTTP_404_NOT_FOUND)
+
+
+class SearchViewSet(ModelViewSet):
+    serializer_class = ShowCollageSerializer
+    permission_classes = (AllowAny,)
+    http_method_names = ['get', ]
+
+    def get_queryset(self, *args, **kwargs):
+        query_university = self.request.query_params.get('uni', None)
+        query_collage = self.request.query_params.get('col', None)
+        query_course = self.request.query_params.get('cou', None)
+        query_branch = self.request.query_params.get('bra', None)
+        query_subject = self.request.query_params.get('sub', None)
+
+        if query_university and \
+                not query_collage and \
+                not query_course and \
+                not query_branch and \
+                not query_subject:
+            self.queryset = Collage.objects.all()
+        elif query_university and \
+                query_collage and \
+                not query_course and \
+                not query_branch and \
+                not query_subject:
+            self.serializer_class = ShowCourseSerializer
+            self.queryset = Course.objects.all()
+        elif query_university and \
+                query_collage and \
+                query_course and \
+                not query_branch and \
+                not query_subject:
+            self.serializer_class = ShowBranchSerializer
+            self.queryset = Branch.objects.all()
+        elif query_university and \
+                query_collage and \
+                query_course and \
+                query_branch and \
+                not query_subject:
+            self.serializer_class = ShowSubjectSerializer
+            self.queryset = Subject.objects.all()
+        else:
+            print('400')
+
+        return self.queryset

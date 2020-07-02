@@ -1,5 +1,8 @@
 from django.db import models
 from django.conf import settings
+from django.utils.text import slugify
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
 from dashboard.utils import (get_upload_path_collage,
                              get_upload_path_uni,
                              get_upload_path_post_file)
@@ -10,6 +13,7 @@ class University(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     thumbnail = models.FileField(upload_to=get_upload_path_uni,
                                  null=True, blank=True)  # NOQA
+    slug = models.SlugField(max_length=500)
 
     class Meta:
         verbose_name_plural = "Universities"
@@ -27,6 +31,7 @@ class Collage(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     thumbnail = models.FileField(upload_to=get_upload_path_collage,
                                  null=True, blank=True)  # NOQA
+    slug = models.SlugField(max_length=500)
 
     class Meta:
         verbose_name_plural = "Colleagues"
@@ -42,6 +47,7 @@ class Collage(models.Model):
 class Course(models.Model):
     name = models.CharField(max_length=500, unique=True)
     created = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(max_length=500)
 
     class Meta:
         verbose_name_plural = "Courses"
@@ -57,6 +63,7 @@ class Course(models.Model):
 class Branch(models.Model):
     name = models.CharField(max_length=500, unique=True)
     created = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(max_length=500)
 
     class Meta:
         verbose_name_plural = "Branches"
@@ -72,6 +79,7 @@ class Branch(models.Model):
 class Subject(models.Model):
     name = models.CharField(max_length=500, unique=True)
     created = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(max_length=500)
 
     class Meta:
         verbose_name_plural = "Subjects"
@@ -115,3 +123,13 @@ class PostFiles(models.Model):
 
     def __str__(self):
         return "%s" % (self.id,)
+
+
+@receiver(pre_save, sender=University)
+@receiver(pre_save, sender=Collage)
+@receiver(pre_save, sender=Course)
+@receiver(pre_save, sender=Branch)
+@receiver(pre_save, sender=Subject)
+def pre_save_level(sender, instance=None, *args, **kwargs):
+    slug = slugify(instance.name)
+    instance.slug = slug

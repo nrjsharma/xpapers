@@ -187,7 +187,5 @@ function initSelect2() {
 $(document).ready(function () {
     $('.upload-paper-link').css("display", "none");
     initSelect2();
-    // var progress_bar = new ldBar("#progressBar");
-    // progress_bar.set(15);
 });
 

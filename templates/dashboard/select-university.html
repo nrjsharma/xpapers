@@ -1,9 +1,16 @@
+{% load static %}
 <div class="select-university">
     <h2>Select University</h2>
     {% for uni in universities %}
-        <a href="#">
+        <a href="/s?uni={{ uni.slug }}">
             <div class="card mb-3">
-                <img class="card-img-top" src="{{ uni.thumbnail.url }}" alt="{{ uni.name }} " style="max-height: 500px">
+                {% if uni.thumbnail %}
+                    <img class="card-img-top" src="{{ uni.thumbnail.url }}" alt="{{ uni.name }} "
+                         style="max-height: 500px">
+                {% else %}
+                    <img class="card-img-top" src="{% static 'utils/images/default_uni.png' %}" alt="{{ uni.name }} "
+                         style="max-height: 500px">
+                {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ uni.name }}</h5>
                     <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
@@ -17,34 +24,3 @@
         </a>
     {% endfor %}
 </div>
-
-{#<div>#}
-{#    <div class="text-center">#}
-{#        <h1>Bootstrap card tiled layout</h1>#}
-{#    </div>#}
-{#    <div class="container">#}
-{#        <div class="card-columns">#}
-{#            {% for uni in universities %}#}
-{#                <div class="card">#}
-{#                    <a href="#">#}
-{#                        <img class="card-img-top"#}
-{#                             src="{{uni.thumbnail.url}}"#}
-{#                             alt="Card image cap">#}
-{#                        <div class="card-body">#}
-{#                            <h5 class="card-title">{{ uni.name }}</h5>#}
-{#                            <p class="card-text">#}
-{#                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab accusantium ad alias,#}
-{#                                aliquid#}
-{#                            </p>#}
-{#                            <p class="card-text">#}
-{#                                <small class="text-muted"><i class="fas fa-eye"></i>1000<i class="far fa-user"></i>admin<i#}
-{#                                        class="fas fa-calendar-alt"></i>Jan 20, 2018#}
-{#                                </small>#}
-{#                            </p>#}
-{#                        </div>#}
-{#                    </a>#}
-{#                </div>#}
-{#            {% endfor %}#}
-{#        </div>#}
-{#    </div>#}
-{#</div>#}
