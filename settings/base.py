@@ -55,6 +55,7 @@ REST_APPS = [
 ]
 
 XPAPERS_APPS = [
+    'xpapers',
     'dashboard',
     'api',
     'xpauth'

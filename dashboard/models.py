@@ -1,4 +1,4 @@
-from django.db import models
+from django.db import models, transaction
 from django.conf import settings
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
@@ -108,6 +108,20 @@ class Post(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name="posts", null=True, blank=True,
                              on_delete=models.CASCADE)  # NOQA
+
+    # def celery_post(self):
+    #     print('in celery_post')
+    #     celery_data = dict
+    #     celery_data['post_id'] = self.id
+    #     celery_data['post_files'] = self.postfiles.all()
+    #     sleepy.delay(celery_data)
+    #
+    # def save(self, *args, **kwargs):
+    #     print('in save')
+    #     super(Post, self).save(*args, **kwargs)
+    #     transaction.on_commit(
+    #         self.celery_post()
+    #     )
 
     def __str__(self):
         return "%s" % (self.id,)

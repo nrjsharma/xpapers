@@ -1,4 +1,10 @@
 # Django Imports
+import os
+import tempfile
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.conf import settings
+
 from django.contrib.auth import login, logout
 from django.shortcuts import get_object_or_404
 
@@ -22,6 +28,9 @@ from api.serializer import (GenericUniversitySerializer, GenericCollageSerialize
 from dashboard.models import (University, Collage,
                               Course, Subject, Branch,
                               Post, PostFiles)
+# OTHER IMPORT
+from xpapers.tasks import celery_pdf_watermark
+from xpapers.utils import utils_long_hash
 
 
 class UniversitySelect2ViewSet(ModelViewSet):
@@ -97,6 +106,7 @@ class UploadPaperView(APIView):
     http_method_names = ['post', ]
 
     def post(self, request):
+        print(111)
         university = request.data.get('university', None)
         year = request.data.get('year', None)
         collage = request.data.get('collage', None)
@@ -141,8 +151,9 @@ class UploadPaperView(APIView):
             subject = get_object_or_404(Subject, id=subject_id)
         else:
             subject = Subject.objects.create(name=subject)
-
+        # nrj
         if request.FILES.get('file', False):
+            user = request.user.username if (request.user.is_authenticated and not request.user.id == 1) else None
             files = request.FILES.getlist('file')
             post = Post()
             post.year = year
@@ -155,8 +166,16 @@ class UploadPaperView(APIView):
                 post.user = request.user
             post.save()
             for file in files:
-                obj = PostFiles(post=post, file=file)  # NOQA
-                obj.save()
+                file_name = "%s.pdf" % utils_long_hash()
+                path = default_storage.save('tmp/%s' % file_name, ContentFile(file.read()))
+                tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+                print(user)
+                celery_data = {
+                    'user': user,
+                    'post_id': post.id,
+                    'filepath': tmp_file
+                }
+                celery_pdf_watermark.delay(celery_data)
             return Response({'data': post.id}, status=status.HTTP_201_CREATED)
         else:
             return Response({'data': '404'}, status=status.HTTP_404_NOT_FOUND)
