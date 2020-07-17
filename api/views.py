@@ -31,6 +31,7 @@ from dashboard.models import (University, Collage,
 # OTHER IMPORT
 from xpapers.tasks import celery_pdf_watermark
 from xpapers.utils import utils_long_hash
+import img2pdf
 
 
 class UniversitySelect2ViewSet(ModelViewSet):
@@ -105,8 +106,21 @@ class UploadPaperView(APIView):
     permission_classes = (AllowAny,)
     http_method_names = ['post', ]
 
+    def pdf_watermark(self, post, user, file, create_pdf=True):
+        if create_pdf:
+            file_name = "%s.pdf" % utils_long_hash()
+            path = default_storage.save('tmp/%s' % file_name, ContentFile(file.read()))
+            tmp_file = os.path.join(settings.MEDIA_ROOT, path)
+        else:
+            tmp_file = file
+        celery_data = {
+            'user': user,
+            'post_id': post.id,
+            'filepath': tmp_file
+        }
+        celery_pdf_watermark.delay(celery_data)
+
     def post(self, request):
-        print(111)
         university = request.data.get('university', None)
         year = request.data.get('year', None)
         collage = request.data.get('collage', None)
@@ -151,8 +165,9 @@ class UploadPaperView(APIView):
             subject = get_object_or_404(Subject, id=subject_id)
         else:
             subject = Subject.objects.create(name=subject)
-        # nrj
+
         if request.FILES.get('file', False):
+            image_list = list()
             user = request.user.username if (request.user.is_authenticated and not request.user.id == 1) else None
             files = request.FILES.getlist('file')
             post = Post()
@@ -165,17 +180,16 @@ class UploadPaperView(APIView):
             if request.user.is_authenticated:
                 post.user = request.user
             post.save()
+            pdf_path = "file.pdf"
             for file in files:
-                file_name = "%s.pdf" % utils_long_hash()
+                # self.pdf_watermark(post=post, user=user, file=file, create_pdf=True)
+                file_name = "%s.jpg" % utils_long_hash()
                 path = default_storage.save('tmp/%s' % file_name, ContentFile(file.read()))
                 tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-                print(user)
-                celery_data = {
-                    'user': user,
-                    'post_id': post.id,
-                    'filepath': tmp_file
-                }
-                celery_pdf_watermark.delay(celery_data)
+                image_list.append(tmp_file)
+            with open(pdf_path, "wb") as f:
+                f.write(img2pdf.convert([img for img in image_list]))
+                self.pdf_watermark(post=post, user=user, file=f.name, create_pdf=False)
             return Response({'data': post.id}, status=status.HTTP_201_CREATED)
         else:
             return Response({'data': '404'}, status=status.HTTP_404_NOT_FOUND)
