@@ -1,10 +1,7 @@
 # Django Imports
-import os
-import tempfile
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
-
 from django.contrib.auth import login, logout
 from django.shortcuts import get_object_or_404
 
@@ -29,9 +26,9 @@ from dashboard.models import (University, Collage,
                               Course, Subject, Branch,
                               Post, PostFiles)
 # OTHER IMPORT
-from xpapers.tasks import celery_pdf_watermark
+import os
+from xpapers.tasks import celery_pdf_watermark, celery_images_to_pdf
 from xpapers.utils import utils_long_hash
-import img2pdf
 
 
 class UniversitySelect2ViewSet(ModelViewSet):
@@ -106,21 +103,32 @@ class UploadPaperView(APIView):
     permission_classes = (AllowAny,)
     http_method_names = ['post', ]
 
-    def pdf_watermark(self, post, user, file, create_pdf=True):
-        if create_pdf:
-            file_name = "%s.pdf" % utils_long_hash()
+    def save_file_temp(self, file, extension=None):
+        if extension and file:
+            file_name = "%s.%s" % (utils_long_hash(), extension)
             path = default_storage.save('tmp/%s' % file_name, ContentFile(file.read()))
-            tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-        else:
-            tmp_file = file
+            file_path = os.path.join(settings.MEDIA_ROOT, path)
+            return file_path
+        return "400"
+
+    def pdf_watermark(self, post_id, user, pdf_path):
         celery_data = {
             'user': user,
-            'post_id': post.id,
-            'filepath': tmp_file
+            'post_id': post_id,
+            'filepath': pdf_path,
         }
         celery_pdf_watermark.delay(celery_data)
 
+    def image_to_pdf_watermark(self, post_id, user, image_list):
+        celery_data = {
+            'user': user,
+            'post_id': post_id,
+            'image_list': image_list,
+        }
+        celery_images_to_pdf.delay(celery_data)
+
     def post(self, request):
+        valid_image_extenstions = ['.png', '.jpeg', '.jpg']
         university = request.data.get('university', None)
         year = request.data.get('year', None)
         collage = request.data.get('collage', None)
@@ -180,16 +188,32 @@ class UploadPaperView(APIView):
             if request.user.is_authenticated:
                 post.user = request.user
             post.save()
-            pdf_path = "file.pdf"
             for file in files:
-                # self.pdf_watermark(post=post, user=user, file=file, create_pdf=True)
-                file_name = "%s.jpg" % utils_long_hash()
-                path = default_storage.save('tmp/%s' % file_name, ContentFile(file.read()))
-                tmp_file = os.path.join(settings.MEDIA_ROOT, path)
-                image_list.append(tmp_file)
-            with open(pdf_path, "wb") as f:
-                f.write(img2pdf.convert([img for img in image_list]))
-                self.pdf_watermark(post=post, user=user, file=f.name, create_pdf=False)
+                extension = os.path.splitext(file.name)[1]
+                print('extension', extension)
+                if extension == ".pdf":
+                    if len(files) == 1:
+                        pdf_path = self.save_file_temp(file, extension='pdf')
+                        if not pdf_path == "400":
+                            self.pdf_watermark(post_id=post.id,
+                                               user=user,
+                                               pdf_path=pdf_path)
+                            return Response({'data': post.id}, status=status.HTTP_201_CREATED)
+                        return Response({'error': 'PDF Is Not Saved'},
+                                        status=status.HTTP_400_BAD_REQUEST)  # NOQA
+                    return Response({'error': 'Multiple PDF Not Allowed'}, status=status.HTTP_400_BAD_REQUEST)  # NOQA
+                else:
+                    if extension.lower() in valid_image_extenstions:
+                        image_path = self.save_file_temp(file, extension='jpg')
+                        if not image_path == "400":
+                            image_list.append(image_path)
+                        else:
+                            return Response({'error': 'Images Is Not Saved'},
+                                            status=status.HTTP_400_BAD_REQUEST)  # NOQA
+                    else:
+                        return Response({'error': 'Invalid Extension'},
+                                        status=status.HTTP_400_BAD_REQUEST)  # NOQA
+            self.image_to_pdf_watermark(post_id=post.id, user=user, image_list=image_list)
             return Response({'data': post.id}, status=status.HTTP_201_CREATED)
         else:
             return Response({'data': '404'}, status=status.HTTP_404_NOT_FOUND)
