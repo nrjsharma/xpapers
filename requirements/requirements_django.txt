@@ -20,3 +20,4 @@ python-dotenv==0.11.0
 celery==4.4.6
 img2pdf==0.3.6
 PyPDF2==1.26.0
+sentry-sdk==0.14.3

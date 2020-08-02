@@ -24,6 +24,7 @@ from dashboard.models import (University, Collage,
                               Post)
 # OTHER IMPORT
 import os
+from tempfile import NamedTemporaryFile
 from xpapers.tasks import celery_pdf_watermark, celery_images_to_pdf
 from xpapers.utils import utils_long_hash
 
@@ -149,10 +150,10 @@ class UploadPaperView(APIView):
 
     def save_file_temp(self, file, extension=None):
         if extension and file:
-            file_name = "%s.%s" % (utils_long_hash(), extension)
-            path = default_storage.save('tmp/%s' % file_name, ContentFile(file.read()))
-            file_path = os.path.join(settings.MEDIA_ROOT, path)
-            return file_path
+            temp_file = NamedTemporaryFile(delete=False, suffix=extension)
+            with open(temp_file.name, 'wb') as f:
+                 f.write(file.read())
+            return temp_file.name
         return "400"
 
     def pdf_watermark(self, post_id, user, pdf_path):
@@ -237,7 +238,8 @@ class UploadPaperView(APIView):
                 print('extension', extension)
                 if extension == ".pdf":
                     if len(files) == 1:
-                        pdf_path = self.save_file_temp(file, extension='pdf')
+                        pdf_path = self.save_file_temp(file, extension='.pdf')
+                        print('PDF PATH', pdf_path)
                         if not pdf_path == "400":
                             self.pdf_watermark(post_id=post.id,
                                                user=user,
@@ -248,7 +250,7 @@ class UploadPaperView(APIView):
                     return Response({'error': 'Multiple PDF Not Allowed'}, status=status.HTTP_400_BAD_REQUEST)  # NOQA
                 else:
                     if extension.lower() in valid_image_extenstions:
-                        image_path = self.save_file_temp(file, extension='jpg')
+                        image_path = self.save_file_temp(file, extension='.jpg')
                         if not image_path == "400":
                             image_list.append(image_path)
                         else:
