@@ -15,7 +15,8 @@ from rest_framework.response import Response
 from api.serializer import (UniversitySelect2Serializer, CollageSelect2Serializer,
                             CourseSelect2Serializer, SubjectSelect2Serializer,
                             BranchSelect2Serializer, ShowCollageSerializer, ShowCourseSerializer,
-                            ShowBranchSerializer, ShowSubjectSerializer, ShowPostSerializer)
+                            ShowBranchSerializer, ShowSubjectSerializer, ShowPostSerializer,
+                            GenericUniversitySerializer)
 
 
 # Models Imports
@@ -92,6 +93,13 @@ class BranchSelect2ViewSet(ModelViewSet):
         if search_query:
             return self.queryset.filter(name__icontains=search_query)
         return self.queryset
+
+
+class UniversityViewSet(ModelViewSet):
+    queryset = University.objects.all()
+    serializer_class = GenericUniversitySerializer
+    permission_classes = (AllowAny,)
+    http_method_names = ['get', ]
 
 
 class SearchObjectTypeViewSet(ModelViewSet):

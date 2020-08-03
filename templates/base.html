@@ -44,14 +44,18 @@
     <link rel="stylesheet" type="text/css" href="{% static 'library/select2/select2.min.css' %}"/>
     <script src="{% static 'library/select2/select2.min.js' %}"></script>
 
+    <!--dataTables-2-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+
     <!--Custom_CSS-->
     <link rel="stylesheet" type="text/css" href="{% static 'apps/base.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'apps/utils/nav.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'apps/dashboard/dashboard.css' %}"/>
 
     <!--Custom JS-->
-    {#    <script src="{% static 'apps/dasboard/home/home.js' %}"></script>#}
-    {#    <script src="{% static 'apps/global/login-logout.js' %}"></script>#}
+
 </head>
 <body>
 
@@ -80,6 +84,7 @@
     var UPLOAD_PAPER_URL = "{% url 'api:upload-paper' %}";
     var SEARCH_OBJECT_URL = "{% url 'api:search-object-list' %}";
     var SEARCH_URL = "{% url 'api:search-list' %}";
+    var UNIVERSITY_URL = "{% url 'api:university-list' %}";
 </script>
 
 <!--Custom_CSS-->

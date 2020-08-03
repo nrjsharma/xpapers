@@ -17,6 +17,7 @@ router.register(r'subject-select2', views.SubjectSelect2ViewSet, base_name="subj
 router.register(r'branch-select2', views.BranchSelect2ViewSet, base_name="branch-select2")  # NOQA
 router.register(r'search-object', views.SearchObjectTypeViewSet, base_name="search-object")  # NOQA
 router.register(r'search', views.SearchViewSet, base_name="search")  # NOQA
+router.register(r'university', views.UniversityViewSet, base_name="university")  # NOQA
 
 urlpatterns = [
     url(r'^upload-paper/', views.UploadPaperView.as_view(), name="upload-paper"),

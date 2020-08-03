@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    {% include 'dashboard/select-university.html' %}
+    <h2>Select University</h2>
+    <br/>
+    <table id="universityTbl" class="display" style="width:100%"></table>
+{% endblock %}
+
+<!--Custom_JS-->
+{% block js %}
+    <script src="{% static 'apps/dashboard/dashboard.js' %}"></script>
 {% endblock %}
