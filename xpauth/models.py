@@ -41,8 +41,8 @@ class XpapersUser(AbstractBaseUser):
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     username = models.CharField(max_length=255, unique=True, db_index=True)
     # Personal Information
-    first_name = models.CharField(max_length=255)
-    last_name = models.CharField(max_length=255)
+    first_name = models.CharField(max_length=255, null=True, blank=True)
+    last_name = models.CharField(max_length=255, null=True, blank=True)
     profile_image = models.FileField(upload_to=get_upload_path_user, null=True, blank=True)  # NOQA
     # Permissions
     is_active = models.BooleanField(default=True)

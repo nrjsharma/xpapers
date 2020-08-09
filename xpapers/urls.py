@@ -22,6 +22,7 @@ from django.urls import path
 urlpatterns = [
     path('superadmin/', admin.site.urls),
     path('api/v1/', include('api.urls'), name="api"),
+    path('auth/', include('xpauth.urls'), name="auth"),
     path('', include('dashboard.urls'), name='dashboard'),
 ]
 

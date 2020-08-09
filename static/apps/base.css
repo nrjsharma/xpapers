@@ -16,6 +16,8 @@ a:hover {
     text-decoration: underline;
 }
 
+button:focus { outline: none; }
+
 h1 {
     margin-bottom: 30px;
     font-size: 40px;
@@ -31,7 +33,11 @@ h1 {
 }
 
 .base_container{
-    margin-top: 40px;
+    margin-top: 120px;
+}
+
+.main-top{
+    margin-top: 30px !important;
 }
 
 .error{

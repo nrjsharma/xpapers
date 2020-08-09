@@ -4,6 +4,7 @@ from rest_framework.serializers import (ModelSerializer, Serializer,
                                         SerializerMethodField)
 
 # Models Imports
+from xpauth.models import XpapersUser
 from dashboard.models import (University, Collage,
                               Course, Subject, Branch,
                               Post, PostFiles)
@@ -42,6 +43,10 @@ class GenericBranchSerializer(ModelSerializer):
 
 # Generic Serializer END <<
 
+class SignupSerializer(ModelSerializer):
+    class Meta:
+        model = XpapersUser
+        fields = ('username', 'email', 'password')
 
 class UniversitySelect2Serializer(ModelSerializer):
     class Meta:

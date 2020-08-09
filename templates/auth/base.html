@@ -20,13 +20,16 @@
     <meta property="og:site_name" content="xpapers">
     <meta property="og:title" content="xpapers">
     <meta property="og:description"
-          content="Xpapers is an online platform to share papers.">
+          content="Xpapers auth is an online platform to share papers.">
     <meta property="og:url" content="https://xpapers.in/">
 
 
     <!--bootstrap-->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!--ajax-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -34,25 +37,9 @@
     <!--cookie-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-    <!--Progress-bar-->
-    <script src="{% static 'library/loading-bar/loading-bar.js' %}"></script>
-    <script src="{% static 'library/loading-bar/loading-bar.min.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'library/loading-bar/loading-bar.css' %}">
-
-    <!--Select-2-->
-    <link rel="stylesheet" type="text/css" href="{% static 'library/select2/select2.custom.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'library/select2/select2.min.css' %}"/>
-    <script src="{% static 'library/select2/select2.min.js' %}"></script>
-
-    <!--dataTables-2-->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8"
-            src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-
     <!--Custom_CSS-->
     <link rel="stylesheet" type="text/css" href="{% static 'apps/base.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'apps/utils/nav.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'apps/dashboard/dashboard.css' %}"/>
 
     <!--Custom JS-->
 
@@ -61,10 +48,7 @@
 
 <div class="base_container">
     <section class="base_nav">
-        {% include 'utils/nav.html' %}
-    </section>
-    <section class="upload-paper-link main-container">
-        <a href="/upload-paper">Upload your Question Paper and help other students</a>
+        {% include 'utils/auth-nav.html' %}
     </section>
     <section class="main-container main-top">
         {% block content %}
@@ -76,15 +60,7 @@
 </div>
 
 <script>
-    var UNIVERSITY_SELECT2_URL = "{% url 'api:university-select2-list' %}";
-    var COLLAGE_SELECT2_URL = "{% url 'api:collage-select2-list' %}";
-    var COURSE_SELECT2_URL = "{% url 'api:course-select2-list' %}";
-    var SUBJECT_SELECT2_URL = "{% url 'api:subject-select2-list' %}";
-    var BRANCH_SELECT2_URL = "{% url 'api:branch-select2-list' %}";
-    var UPLOAD_PAPER_URL = "{% url 'api:upload-paper' %}";
-    var SEARCH_OBJECT_URL = "{% url 'api:search-object-list' %}";
-    var SEARCH_URL = "{% url 'api:search-list' %}";
-    var UNIVERSITY_URL = "{% url 'api:university-list' %}";
+    var SIGNUP_URL = "{% url 'api:signup-list' %}";
 </script>
 
 <!--Custom_CSS-->
