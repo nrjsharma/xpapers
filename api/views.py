@@ -16,7 +16,7 @@ from api.serializer import (UniversitySelect2Serializer, CollageSelect2Serialize
                             CourseSelect2Serializer, SubjectSelect2Serializer,
                             BranchSelect2Serializer, ShowCollageSerializer, ShowCourseSerializer,
                             ShowBranchSerializer, ShowSubjectSerializer, ShowPostSerializer,
-                            GenericUniversitySerializer)
+                            GenericUniversitySerializer, SignupSerializer)
 
 
 # Models Imports
@@ -28,6 +28,12 @@ import os
 from tempfile import NamedTemporaryFile
 from xpapers.tasks import celery_pdf_watermark, celery_images_to_pdf
 from xpapers.utils import utils_long_hash
+
+
+class SignupViewSet(ModelViewSet):
+    serializer_class = SignupSerializer
+    permission_classes = (AllowAny,)
+    http_method_names = ['post', ]
 
 
 class UniversitySelect2ViewSet(ModelViewSet):
