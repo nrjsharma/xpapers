@@ -11,7 +11,20 @@
         </a>
     </div>
     <ul class="navs-links">
-        <li><a href="/auth/signup">Signup</a></li>
-        <li><a href="#">Login</a></li>
+        {% if user.is_authenticated %}
+            <li>
+                <form id="logout-form">
+                    {% csrf_token %}
+                    <a class="dropdown-item" href="javascript:$('#logout-form').submit();">Logout</a>
+                </form>
+            </li>
+        {% else %}
+            <li><a href="/auth/signup">Signup</a></li>
+            <li><a href="/auth/login">Login</a></li>
+        {% endif %}
     </ul>
 </nav>
+{% block js %}
+    <script type="text/javascript" charset="utf8"
+            src="{% static 'apps/auth/logout.js' %}"></script>
+{% endblock %}

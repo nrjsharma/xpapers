@@ -7,7 +7,7 @@ admin.site.site_header = 'Xpapers Admin'
 
 class XpapersUserAdmin(BaseUserAdmin):
 
-    list_display = ('email', 'first_name', 'created', 'last_login', )
+    list_display = ('username', 'email', 'created', 'last_login', )
     list_filter = ('is_admin',)
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
