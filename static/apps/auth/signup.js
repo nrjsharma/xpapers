@@ -41,16 +41,43 @@ $("#signupForm").submit(function (event) {
             processData: false,
             contentType: false,
             success: function (data) {
+                console.log('succ')
                 $("#formBtn").css("background-color", "#31B404");
+                var formData = new FormData();
+                formData.append('email', email);
+                formData.append('password', password);
+                $.ajax({
+                    url: LOGIN_URL,
+                    headers: {
+                        'Conten-Type': 'application/json',
+                        'X-CSRFToken': $.cookie("csrftoken")
+                    },
+                    type: "post",
+                    data: formData,
+                    cache: false,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        window.location = '/'
+                    }, error: function (rs, e) {
+                        console.log('err2', rs)
+                    }
+                }); // end ajax
             }, error: function (rs, e) {
-                responseJSONValue = Object.keys(rs.responseJSON)[0];
-                if(responseJSONValue == "username"){
-                    showError("username already registered")
-                }else if(responseJSONValue == "email"){
-                    showError("email already registered")
+                console.log('error', rs)
+                if (rs.status == 400) {
+                    let responseJSONValue = Object.keys(rs.responseJSON)[0];
+                    if (responseJSONValue == "username") {
+                        showError("username already registered")
+                    } else if (responseJSONValue == "email") {
+                        showError("email already registered")
+                    } else {
+                        showError(rs.responseJSON[responseJSONValue])
+                    }
                 }else{
-                    showError(rs.responseJSON[responseJSONValue])
+                    showError("something went wrong. try again")
                 }
+
             }, complete: function () {
                 console.log('request completed')
             }

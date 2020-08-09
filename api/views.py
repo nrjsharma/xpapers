@@ -1,4 +1,5 @@
 # Django Imports
+from django.contrib.auth import login, logout
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
@@ -7,6 +8,7 @@ from django.shortcuts import get_object_or_404
 # REST Framework Imports
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated, AllowAny  # NOQA
+from rest_framework.authtoken.models import Token
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -16,7 +18,7 @@ from api.serializer import (UniversitySelect2Serializer, CollageSelect2Serialize
                             CourseSelect2Serializer, SubjectSelect2Serializer,
                             BranchSelect2Serializer, ShowCollageSerializer, ShowCourseSerializer,
                             ShowBranchSerializer, ShowSubjectSerializer, ShowPostSerializer,
-                            GenericUniversitySerializer, SignupSerializer)
+                            GenericUniversitySerializer, SignupSerializer, LoginSerializer)
 
 
 # Models Imports
@@ -34,6 +36,34 @@ class SignupViewSet(ModelViewSet):
     serializer_class = SignupSerializer
     permission_classes = (AllowAny,)
     http_method_names = ['post', ]
+
+
+class LoginView(APIView):
+    serializer_class = LoginSerializer
+    permission_classes = (AllowAny,)
+    http_method_names = ['post', ]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        login(request, user)
+        if not Token.objects.filter(user=user).exists():
+            Token.objects.create(user=user)
+            token = Token.objects.get(user=user).key
+        token = Token.objects.get(user=user).key
+        return Response({'token': token, 'username': user.username}, status=status.HTTP_200_OK)  # NOQA
+
+
+class LogoutView(APIView):
+    permission_classes = (IsAuthenticated,)
+    http_method_names = ['post', ]
+
+    def post(self, request):
+        if Token.objects.filter(user=request.user).exists():
+            Token.objects.get(user=request.user).delete()
+        logout(request)
+        return Response(status=status.HTTP_200_OK)
 
 
 class UniversitySelect2ViewSet(ModelViewSet):
