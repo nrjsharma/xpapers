@@ -67,6 +67,17 @@ function select2_year() {
     });
 }
 
+function select2_type() {
+    let data = [
+        {id: 'F', text: "Final"},
+        {id: 'M', text: "M.S.T"}
+    ];
+    $('#type').select2({
+        data: data,
+        minimumResultsForSearch: -1
+    });
+}
+
 function select2_university() {
     $('#university').select2({
         placeholder: "University Name",
@@ -87,12 +98,12 @@ function select2_university() {
     });
 }
 
-function select2_collage() {
+function select2_collage(university_id = null) {
     $('#collage').select2({
         placeholder: "Collage Name",
         tags: true,
         ajax: {
-            url: COLLAGE_SELECT2_URL,
+            url: COLLAGE_SELECT2_URL + '?uni=' + university_id,
             dataType: 'json',
             processResults: function (data) {
                 return {
@@ -177,15 +188,48 @@ function select2_subject() {
 
 function initSelect2() {
     select2_year();
+    select2_type();
     select2_university();
-    select2_collage();
+    // select2_collage();
     select2_course();
     select2_branch();
     select2_subject();
 }
 
 $(document).ready(function () {
+    $('#divCollage').css('display', 'none');
     $('.upload-paper-link').css("display", "none");
     initSelect2();
+
+    $('#type').on('change', function (e) {
+        if ($('#university').select2('data')[0]) {
+            let university_id = $('#university').select2('data')[0].id
+            if (university_id.includes('#Ea^T|@I^p<0>-')) {
+                university_id = university_id.split('#Ea^T|@I^p<0>-')[1]
+                select2_collage(university_id);
+            } else {
+                select2_collage();
+            }
+            if ($(e.target).select2("val") == "M") {
+                $('#divCollage').css('display', 'block');
+            } else {
+                $('#divCollage').css('display', 'none');
+            }
+        }
+    });
+
+    $('#university').on('change', function (e) {
+        if ($('#type').select2('data')[0].id == "M") {
+            let university_id = $(e.target).select2("val")
+            if (university_id.includes('#Ea^T|@I^p<0>-')) {
+                university_id = university_id.split('#Ea^T|@I^p<0>-')[1]
+                select2_collage(university_id);
+            } else {
+                select2_collage();
+            }
+            $('#divCollage').css('display', 'block');
+        }
+    });
+
 });
 

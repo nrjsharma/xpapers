@@ -76,19 +76,36 @@ function loadPostTable() {
             {
                 "title": 'User',
                 "data": "user",
+                "render": function (data, type, row, meta) {
+                    if(row.user && row.user.username == "admin"){
+                        return "anon"
+                    }else if(row.user && row.user.username){
+                        return row.user.username
+                    }else{
+                        return "anon"
+                    }
+                }
             },
             {
                 "title": 'View',
                 "data": "view",
                 "render": function (data, type, row, meta) {
-                    return `<a href="${row.postfiles[0].file}" target="_blank">view</a>`
+                    if (row.postfiles[0]) {
+                        return `<a href="${row.postfiles[0].file}" target="_blank">view</a>`
+                    } else {
+                        return "-"
+                    }
                 }
             },
             {
                 "title": 'Download',
                 "data": "download",
                 "render": function (data, type, row, meta) {
-                    return `<a href="${row.postfiles[0].file}" download>download</a>`
+                    if (row.postfiles[0]) {
+                        return `<a href="${row.postfiles[0].file}" download>download</a>`
+                    } else {
+                        return "-"
+                    }
                 }
             },
         ]

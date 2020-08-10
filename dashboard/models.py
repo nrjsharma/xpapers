@@ -31,6 +31,8 @@ class Collage(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     thumbnail = models.FileField(upload_to=get_upload_path_collage,
                                  null=True, blank=True)  # NOQA
+    university = models.ForeignKey(University,
+                                   related_name="collages", on_delete=models.CASCADE)  # NOQA
     slug = models.SlugField(max_length=500)
 
     class Meta:
@@ -93,11 +95,15 @@ class Subject(models.Model):
 
 
 class Post(models.Model):
+    POST_CHOICES = (
+        ('M', 'M.S.T'),
+        ('F', 'Final'),
+    )
     year = models.IntegerField()
     university = models.ForeignKey(University,
                                    related_name="posts", on_delete=models.CASCADE)  # NOQA
     collage = models.ForeignKey(Collage,
-                                related_name="posts", on_delete=models.CASCADE)  # NOQA
+                                related_name="posts", null=True, blank=True, on_delete=models.CASCADE)  # NOQA
     course = models.ForeignKey(Course,
                                related_name="posts", on_delete=models.CASCADE)  # NOQA
     branch = models.ForeignKey(Branch,
@@ -105,6 +111,7 @@ class Post(models.Model):
     subject = models.ForeignKey(Subject,
                                 related_name="posts", on_delete=models.CASCADE)  # NOQA
     created = models.DateTimeField(auto_now_add=True)
+    type = models.CharField(max_length=1, choices=POST_CHOICES, default='F')
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name="posts", null=True, blank=True,
                              on_delete=models.CASCADE)  # NOQA

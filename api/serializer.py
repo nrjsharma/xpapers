@@ -45,6 +45,11 @@ class GenericBranchSerializer(ModelSerializer):
         fields = "__all__"
 
 
+class GenericUserSerializer(ModelSerializer):
+    class Meta:
+        model = XpapersUser
+        fields = ('username', )
+
 # Generic Serializer END <<
 
 class SignupSerializer(ModelSerializer):
@@ -172,6 +177,7 @@ class ShowPostSerializer(ModelSerializer):
 
     obj_type = SerializerMethodField()
     subject = SubjectSerializer()
+    user = GenericUserSerializer()
     postfiles = PostFileSerializer(many=True)
 
     def get_obj_type(self, instance):

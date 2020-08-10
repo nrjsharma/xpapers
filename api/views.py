@@ -85,7 +85,11 @@ class CollageSelect2ViewSet(ModelViewSet):
     http_method_names = ['get', ]
 
     def get_queryset(self, *args, **kwargs):
-        self.queryset = Collage.objects.all()
+        uni_id = self.request.GET.get('uni', None)
+        if not uni_id == "null":
+            self.queryset = Collage.objects.all()
+        else:
+            self.queryset = Collage.objects.none()
         search_query = self.request.GET.get('term', None)
         if search_query:
             return self.queryset.filter(name__icontains=search_query)
@@ -220,6 +224,7 @@ class UploadPaperView(APIView):
         valid_image_extenstions = ['.jpeg', '.jpg']
         university = request.data.get('university', None)
         year = request.data.get('year', None)
+        type = request.data.get('type', "F")
         collage = request.data.get('collage', None)
         course = request.data.get('course', None)
         branch = request.data.get('branch', None)
@@ -227,7 +232,6 @@ class UploadPaperView(APIView):
 
         if not university or \
                 not year or \
-                not collage or \
                 not course or \
                 not branch or \
                 not subject:
@@ -239,11 +243,12 @@ class UploadPaperView(APIView):
         else:
             university = University.objects.create(name=university)
 
-        if '#Ea^T|@I^p<0>-' in collage:
-            collage_id = collage.split('-')[1]
-            collage = get_object_or_404(Collage, id=collage_id)
-        else:
-            collage = Collage.objects.create(name=collage)
+        if collage:
+            if '#Ea^T|@I^p<0>-' in collage:
+                collage_id = collage.split('-')[1]
+                collage = get_object_or_404(Collage, id=collage_id)
+            else:
+                collage = Collage.objects.create(name=collage, university=university)
 
         if '#Ea^T|@I^p<0>-' in course:
             course_id = course.split('-')[1]
@@ -269,8 +274,10 @@ class UploadPaperView(APIView):
             files = request.FILES.getlist('file')
             post = Post()
             post.year = year
+            post.type = type
             post.university = university
-            post.collage = collage
+            if collage:
+                post.collage = collage
             post.course = course
             post.branch = branch
             post.subject = subject
