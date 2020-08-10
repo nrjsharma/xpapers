@@ -165,24 +165,35 @@ class ShowSubjectSerializer(ModelSerializer):
 
 
 class ShowPostSerializer(ModelSerializer):
-    class SubjectSerializer(ModelSerializer):
-        class Meta:
-            model = Subject
-            fields = ('name', )
-
     class PostFileSerializer(ModelSerializer):
         class Meta:
             model = PostFiles
             fields = ('file', 'id')
 
-    obj_type = SerializerMethodField()
-    subject = SubjectSerializer()
-    user = GenericUserSerializer()
+    type = SerializerMethodField()
+    collage = SerializerMethodField()
+    subject = SerializerMethodField()
+    user = SerializerMethodField()
     postfiles = PostFileSerializer(many=True)
 
-    def get_obj_type(self, instance):
-        return "post"
+    def get_type(self, instance):
+        return instance.get_type_display()
+
+    def get_collage(self, instance):
+        return instance.collage.name if instance.collage else "-"
+
+    def get_subject(self, instance):
+        return instance.subject.name
+    
+    def get_user(self, instance):
+        if instance.user and instance.user.id == 1:
+            return "admin"
+        elif instance.user:
+            return instance.user.username
+        else:
+            return 'anon'
 
     class Meta:
         model = Post
-        fields = ('id', 'subject', 'year', 'user', 'postfiles',  'obj_type')
+        fields = ('id', 'subject', 'type', 'year', 'collage',
+                  'user', 'postfiles')

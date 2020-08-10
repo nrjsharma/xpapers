@@ -65,26 +65,22 @@ function loadPostTable() {
             {
                 "title": 'Subject Name',
                 "data": "subject",
-                "render": function (data, type, row, meta) {
-                    return row.subject.name
-                }
             },
             {
                 "title": 'Year',
                 "data": "year",
             },
             {
+                "title": 'Type',
+                "data": "type",
+            },
+            {
+                "title": 'Collage',
+                "data": "collage",
+            },
+            {
                 "title": 'User',
                 "data": "user",
-                "render": function (data, type, row, meta) {
-                    if(row.user && row.user.username == "admin"){
-                        return "anon"
-                    }else if(row.user && row.user.username){
-                        return row.user.username
-                    }else{
-                        return "anon"
-                    }
-                }
             },
             {
                 "title": 'View',
@@ -92,17 +88,6 @@ function loadPostTable() {
                 "render": function (data, type, row, meta) {
                     if (row.postfiles[0]) {
                         return `<a href="${row.postfiles[0].file}" target="_blank">view</a>`
-                    } else {
-                        return "-"
-                    }
-                }
-            },
-            {
-                "title": 'Download',
-                "data": "download",
-                "render": function (data, type, row, meta) {
-                    if (row.postfiles[0]) {
-                        return `<a href="${row.postfiles[0].file}" download>download</a>`
                     } else {
                         return "-"
                     }

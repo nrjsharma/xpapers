@@ -149,37 +149,26 @@ class SearchObjectTypeViewSet(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         query_university = request.query_params.get('uni', None)
-        query_collage = request.query_params.get('col', None)
         query_course = request.query_params.get('cou', None)
         query_branch = request.query_params.get('bra', None)
         query_subject = request.query_params.get('sub', None)
 
         if query_university and \
-                not query_collage and \
-                not query_course and \
-                not query_branch and \
-                not query_subject:
-            return Response({"data": "collage"}, status=status.HTTP_200_OK)  # NOQA
-        elif query_university and \
-                query_collage and \
                 not query_course and \
                 not query_branch and \
                 not query_subject:
             return Response({"data": "course"}, status=status.HTTP_200_OK)  # NOQA
         elif query_university and \
-                query_collage and \
                 query_course and \
                 not query_branch and \
                 not query_subject:
             return Response({"data": "branch"}, status=status.HTTP_200_OK)  # NOQA
         elif query_university and \
-                query_collage and \
                 query_course and \
                 query_branch and \
                 not query_subject:
             return Response({"data": "subject"}, status=status.HTTP_200_OK)  # NOQA
         elif query_university and \
-                query_collage and \
                 query_course and \
                 query_branch and \
                 query_subject:
@@ -323,40 +312,29 @@ class SearchViewSet(ModelViewSet):
 
     def get_queryset(self, *args, **kwargs):
         query_university = self.request.query_params.get('uni', None)
-        query_collage = self.request.query_params.get('col', None)
         query_course = self.request.query_params.get('cou', None)
         query_branch = self.request.query_params.get('bra', None)
         query_subject = self.request.query_params.get('sub', None)
-
+        print('query_university', query_university)
         if query_university and \
-                not query_collage and \
-                not query_course and \
-                not query_branch and \
-                not query_subject:
-            self.queryset = Collage.objects.all()
-        elif query_university and \
-                query_collage and \
                 not query_course and \
                 not query_branch and \
                 not query_subject:
             self.serializer_class = ShowCourseSerializer
             self.queryset = Course.objects.all()
         elif query_university and \
-                query_collage and \
                 query_course and \
                 not query_branch and \
                 not query_subject:
             self.serializer_class = ShowBranchSerializer
             self.queryset = Branch.objects.all()
         elif query_university and \
-                query_collage and \
                 query_course and \
                 query_branch and \
                 not query_subject:
             self.serializer_class = ShowSubjectSerializer
             self.queryset = Subject.objects.all()
         elif query_university and \
-                query_collage and \
                 query_course and \
                 query_branch and \
                 query_subject:
