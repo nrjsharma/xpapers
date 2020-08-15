@@ -147,32 +147,90 @@ class SearchObjectTypeViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
     http_method_names = ['get', ]
 
+    def title(self, title=None):
+        if not title:
+            return None
+        return title.replace("-", " ").title()
+
+    def keyword_discription_maker(self, tag_line):
+        if not tag_line:
+            return None
+        return tag_line.replace(" > ", ", ")
+
     def list(self, request, *args, **kwargs):
         query_university = request.query_params.get('uni', None)
         query_course = request.query_params.get('cou', None)
         query_branch = request.query_params.get('bra', None)
         query_subject = request.query_params.get('sub', None)
-
+        university = get_object_or_404(University, slug=query_university)
+        description = "Get %s previous year question paper of various subjects"
+        keywords = "%s, previous year question paper, old question paper"
+        university_name = university.name.title()
+        tag = university_name
         if query_university and \
                 not query_course and \
                 not query_branch and \
                 not query_subject:
-            return Response({"data": "course"}, status=status.HTTP_200_OK)  # NOQA
+            description = description % university_name
+            keywords = keywords % university_name
+            return Response(
+                {
+                    "data": "course",
+                    "tag": tag,
+                    "description": description,
+                    "keywords": keywords
+                },
+                status=status.HTTP_200_OK)  # NOQA
         elif query_university and \
                 query_course and \
                 not query_branch and \
                 not query_subject:
-            return Response({"data": "branch"}, status=status.HTTP_200_OK)  # NOQA
+            _course = self.title(query_course)
+            tag = tag + " > " + _course
+            keyword_discription = self.keyword_discription_maker(tag)
+            description = description % keyword_discription
+            keywords = keywords % keyword_discription
+            return Response({
+                "data": "branch",
+                "tag": tag,
+                "description": description,
+                "keywords": keywords
+            },
+            status=status.HTTP_200_OK)  # NOQA
         elif query_university and \
                 query_course and \
                 query_branch and \
                 not query_subject:
-            return Response({"data": "subject"}, status=status.HTTP_200_OK)  # NOQA
+            _course = self.title(query_course)
+            _branch = self.title(query_branch)
+            tag = tag + " > " +_course + " > " + _branch
+            keyword_discription = self.keyword_discription_maker(tag)
+            description = description % keyword_discription
+            keywords = keywords % keyword_discription
+            return Response({
+                "data": "subject",
+                "tag": tag,
+                "description": description,
+                "keywords": keywords
+            },
+            status=status.HTTP_200_OK)  # NOQA
         elif query_university and \
                 query_course and \
                 query_branch and \
                 query_subject:
-            return Response({"data": "post"}, status=status.HTTP_200_OK)  # NOQA
+            _course = self.title(query_course)
+            _branch = self.title(query_branch)
+            tag = tag + " > " +_course + " > " + _branch + " > " + query_subject
+            keyword_discription = self.keyword_discription_maker(tag)
+            description = description % keyword_discription
+            keywords = keywords % keyword_discription
+            return Response({
+                "data": "post",
+                "tag": tag,
+                "description": description,
+                "keywords": keywords
+            },
+            status=status.HTTP_200_OK)  # NOQA
         else:
             return Response({"data": "query not found"}, status=status.HTTP_404_NOT_FOUND)  # NOQA
 
@@ -219,6 +277,7 @@ class UploadPaperView(APIView):
         branch = request.data.get('branch', None)
         subject = request.data.get('subject', None)
 
+        print('university', university)
         if not university or \
                 not year or \
                 not course or \
@@ -315,7 +374,6 @@ class SearchViewSet(ModelViewSet):
         query_course = self.request.query_params.get('cou', None)
         query_branch = self.request.query_params.get('bra', None)
         query_subject = self.request.query_params.get('sub', None)
-        print('query_university', query_university)
         if query_university and \
                 not query_course and \
                 not query_branch and \

@@ -4,13 +4,13 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
-    <title>Xpapers</title>
+    <title>xpapers</title>
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'utils/logo/xpapers_title.png' %}" sizes="16x16"/>
     <!--Title Img-->
 
-    <meta name="keywords" content="xpapers, old papers,">
+    <meta name="keywords" content="{{ keywords }}">
     <meta name="description"
-          content="Xpapers is an online platform to share papers.">
+          content="{{ description }}">
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -19,8 +19,10 @@
     <meta property="og:type" content="website"/>
     <meta property="og:site_name" content="xpapers">
     <meta property="og:title" content="xpapers">
+    <meta property="og:keywords"
+          content="{{ keywords }}">
     <meta property="og:description"
-          content="Xpapers is an online platform to share papers.">
+          content="{{ description }}">
     <meta property="og:url" content="https://xpapers.in/">
 
 

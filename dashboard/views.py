@@ -9,7 +9,21 @@ class DashboardView(View):
     template_name = 'dashboard/dashboard.html'
 
     def get(self, request, path=None):
-        return render(request, self.template_name)
+        universities_name = University.objects.all().values_list('name', flat=True)
+        university_keywords = None
+        for uni_name in universities_name:
+            if university_keywords:
+                university_keywords += ", " +uni_name.title()
+            else:
+                university_keywords = uni_name.title()
+        description = "Get %s previous year question paper of various subjects" % university_keywords
+        keywords = "%s, previous year question paper, old question paper" % university_keywords
+        context = {
+            "keywords": keywords,
+            "description": description
+        }
+        print(context)
+        return render(request, self.template_name, context)
 
 
 class UploadPaperView(View):

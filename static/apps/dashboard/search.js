@@ -135,6 +135,20 @@ function loadPostTable() {
 //         }
 //     });
 // }
+function metaTag(data) {
+    if (!data)
+        return null
+    let url = document.URL
+    $("#tagline").html(data['tag']);
+    document.title = data['tag'] + " - xpapers";
+    $('meta[name=keywords]').attr('content', data['keywords']);
+    $('meta[name=description]').attr('content', data['description']);
+    $('meta[property="og:title"]').attr('content', data['tag']);
+    $('meta[property="og:description"]').attr('content', data['description']);
+    $('meta[property="og:keywords"]').attr('content', data['keywords']);
+    $('meta[property="og:url"]').attr('content', url);
+    $("head").append(`<link rel="canonical" href="${url}"/>`);
+}
 
 $(document).ready(function () {
     let perms = window.location.search;
@@ -145,6 +159,7 @@ $(document).ready(function () {
         },
         type: "get",
         success: function (data) {
+            metaTag(data)
             if (data['data'] == "post") {
                 loadPostTable()
             } else {
