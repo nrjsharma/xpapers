@@ -14,14 +14,17 @@ class CollageAdmin(admin.ModelAdmin):
 
 class CourseAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
+    raw_id_fields = ('universities',)
 
 
 class BranchAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
+    raw_id_fields = ('universities', 'courses')
 
 
 class SubjectAdmin(admin.ModelAdmin):
     list_display = ('id', 'name')
+    raw_id_fields = ('universities', 'courses', 'branches')
 
 
 class PostAdmin(admin.ModelAdmin):

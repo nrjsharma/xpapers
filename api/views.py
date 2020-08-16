@@ -315,6 +315,24 @@ class UploadPaperView(APIView):
         else:
             subject = Subject.objects.create(name=subject)
 
+        # Adding M2M keys in course model
+        if not course.universities.filter(id=university.id).exists():
+            course.universities.add(university)
+
+        # Adding M2M keys in branch model
+        if not branch.universities.filter(id=university.id).exists():
+            branch.universities.add(university)
+        if not branch.courses.filter(id=course.id).exists():
+            branch.courses.add(course)
+
+        # Adding M2M keys in subjects model
+        if not subject.universities.filter(id=university.id).exists():
+            subject.universities.add(university)
+        if not subject.courses.filter(id=course.id).exists():
+            subject.courses.add(course)
+        if not subject.branches.filter(id=branch.id).exists():
+            subject.branches.add(branch)
+
         if request.FILES.get('file', False):
             image_list = list()
             user = request.user.username if (request.user.is_authenticated and not request.user.id == 1) else None
@@ -379,25 +397,36 @@ class SearchViewSet(ModelViewSet):
                 not query_branch and \
                 not query_subject:
             self.serializer_class = ShowCourseSerializer
-            self.queryset = Course.objects.all()
+            self.queryset = Course.objects.filter(universities=university)
         elif query_university and \
                 query_course and \
                 not query_branch and \
                 not query_subject:
+            course = get_object_or_404(Course, slug=query_course)
             self.serializer_class = ShowBranchSerializer
-            self.queryset = Branch.objects.all()
+            self.queryset = Branch.objects.filter(universities=university, courses=course)
         elif query_university and \
                 query_course and \
                 query_branch and \
                 not query_subject:
+            course = get_object_or_404(Course, slug=query_course)
+            branch = get_object_or_404(Branch, slug=query_branch)
             self.serializer_class = ShowSubjectSerializer
-            self.queryset = Subject.objects.all()
+            self.queryset = Subject.objects.filter(universities=university,
+                                                   courses=course,
+                                                   branches=branch)
         elif query_university and \
                 query_course and \
                 query_branch and \
                 query_subject:
+            course = get_object_or_404(Course, slug=query_course)
+            branch = get_object_or_404(Branch, slug=query_branch)
+            subject = get_object_or_404(Subject, slug=query_subject)
             self.serializer_class = ShowPostSerializer
-            self.queryset = Post.objects.filter(university=university)
+            self.queryset = Post.objects.filter(university=university,
+                                                course=course,
+                                                branch=branch,
+                                                subject=subject)
         else:
             self.queryset = Collage.objects.none()
         return self.queryset

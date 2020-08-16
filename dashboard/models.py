@@ -32,7 +32,7 @@ class Collage(models.Model):
     thumbnail = models.FileField(upload_to=get_upload_path_collage,
                                  null=True, blank=True)  # NOQA
     university = models.ForeignKey(University,
-                                   related_name="collages", on_delete=models.CASCADE)  # NOQA
+                                   related_name="colleagues", on_delete=models.CASCADE)  # NOQA
     slug = models.SlugField(max_length=500)
 
     class Meta:
@@ -50,6 +50,8 @@ class Course(models.Model):
     name = models.CharField(max_length=500, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=500)
+    universities = models.ManyToManyField(
+        University, related_name="courses")
 
     class Meta:
         verbose_name_plural = "Courses"
@@ -66,6 +68,10 @@ class Branch(models.Model):
     name = models.CharField(max_length=500, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=500)
+    universities = models.ManyToManyField(
+        University, related_name="branches")
+    courses = models.ManyToManyField(
+        Course, related_name="branches")
 
     class Meta:
         verbose_name_plural = "Branches"
@@ -82,6 +88,12 @@ class Subject(models.Model):
     name = models.CharField(max_length=500, unique=True)
     created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=500)
+    universities = models.ManyToManyField(
+        University, related_name="subjects")
+    courses = models.ManyToManyField(
+        Course, related_name="subjects")
+    branches = models.ManyToManyField(
+        Branch, related_name="subjects")
 
     class Meta:
         verbose_name_plural = "Subjects"
