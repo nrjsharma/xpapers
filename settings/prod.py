@@ -3,6 +3,7 @@
 
 from settings.base import *  # NOQA
 from settings.storages.aws import *  # NOQA
+from settings.sentry import *  # NOQA
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')  # NOQA
 
