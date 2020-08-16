@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <h2>Select University</h2>
+    <h1 id="tagline">Select University</h1>
     <br/>
     <table id="universityTbl" class="display" style="width:100%"></table>
+{% endblock %}
+
+<!--Custom_CSS-->
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'apps/dashboard/search.css' %}"/>
 {% endblock %}
 
 <!--Custom_JS-->

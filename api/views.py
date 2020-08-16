@@ -203,7 +203,7 @@ class SearchObjectTypeViewSet(ModelViewSet):
                 not query_subject:
             _course = self.title(query_course)
             _branch = self.title(query_branch)
-            tag = tag + " > " +_course + " > " + _branch
+            tag = tag + " > " + _course + " > " + _branch
             keyword_discription = self.keyword_discription_maker(tag)
             description = description % keyword_discription
             keywords = keywords % keyword_discription
@@ -220,7 +220,8 @@ class SearchObjectTypeViewSet(ModelViewSet):
                 query_subject:
             _course = self.title(query_course)
             _branch = self.title(query_branch)
-            tag = tag + " > " +_course + " > " + _branch + " > " + query_subject
+            _subject = self.title(query_subject)
+            tag = tag + " > " + _course + " > " + _branch + " > " + _subject
             keyword_discription = self.keyword_discription_maker(tag)
             description = description % keyword_discription
             keywords = keywords % keyword_discription
