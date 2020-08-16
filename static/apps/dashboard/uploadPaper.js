@@ -4,7 +4,7 @@ $("#upload-paper").submit(function (event) {
     $('.upload-paper').css("display", "none");
     $('.uploading').css("display", "block");
     var progress_bar = new ldBar("#progressBar");
-    var data = new FormData($('form')[1]);
+    var data = new FormData($('#upload-paper')[0]);
     data.append('csrfmiddlewaretoken', $.cookie("csrftoken"));
     $.ajax({
         // xhr method is for Progress bar

@@ -277,8 +277,6 @@ class UploadPaperView(APIView):
         course = request.data.get('course', None)
         branch = request.data.get('branch', None)
         subject = request.data.get('subject', None)
-
-        print('university', university)
         if not university or \
                 not year or \
                 not course or \
@@ -375,6 +373,7 @@ class SearchViewSet(ModelViewSet):
         query_course = self.request.query_params.get('cou', None)
         query_branch = self.request.query_params.get('bra', None)
         query_subject = self.request.query_params.get('sub', None)
+        university = get_object_or_404(University, slug=query_university)
         if query_university and \
                 not query_course and \
                 not query_branch and \
@@ -398,7 +397,7 @@ class SearchViewSet(ModelViewSet):
                 query_branch and \
                 query_subject:
             self.serializer_class = ShowPostSerializer
-            self.queryset = Post.objects.all()
+            self.queryset = Post.objects.filter(university=university)
         else:
             self.queryset = Collage.objects.none()
         return self.queryset
