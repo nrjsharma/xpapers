@@ -2,11 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from settings.base import BASE_ENV
-
-
-def set_env():
-    return "settings.{}".format(BASE_ENV)
+from xpapers.utils import set_env
 
 
 def main():
