@@ -2,11 +2,9 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from xpapers.utils import set_env
-
 
 def main():
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', set_env())
+    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'settings.dev')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
