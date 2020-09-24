@@ -20,3 +20,31 @@ def utils_short_hash():
 
 def utils_long_hash():
     return codecs.encode(os.urandom(10), 'hex').decode()
+
+
+def utils_commaSeperatedString(lists, addmessage=None, capslock="lower"):
+    """
+    This function is used to create keyword and
+    description of page
+    """
+    return_string = ""
+    for obj in lists:
+        if return_string:
+            if addmessage:
+                return_string += ", %s %s" % (obj, addmessage)
+            else:
+                return_string += ", " + obj
+        else:
+            if addmessage:
+                return_string = "%s %s" % (obj, addmessage)
+            else:
+                return_string = obj.title()
+
+    if capslock == "title":
+        return_string = return_string.title()
+    elif capslock == "upper":
+        return_string = return_string.upper()
+    else:
+        return_string = return_string.lower()
+
+    return return_string if return_string else ""

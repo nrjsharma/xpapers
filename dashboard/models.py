@@ -10,6 +10,7 @@ from dashboard.utils import (get_upload_path_collage,
 
 class University(models.Model):
     name = models.CharField(max_length=500, unique=True)
+    acronym = models.CharField(max_length=50, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     thumbnail = models.FileField(upload_to=get_upload_path_uni,
                                  null=True, blank=True)  # NOQA
@@ -20,14 +21,20 @@ class University(models.Model):
 
     def save(self, *args, **kwargs):
         self.name = self.name.upper()
+        if self.acronym:
+            self.acronym = self.acronym.upper()
         super(University, self).save(*args, **kwargs)
 
     def __str__(self):
         return "%s" % (self.id,)
 
+    def get_absolute_url(self):
+        return "/s?uni=%s" % self.slug
+
 
 class Collage(models.Model):
     name = models.CharField(max_length=500, unique=True)
+    acronym = models.CharField(max_length=50, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     thumbnail = models.FileField(upload_to=get_upload_path_collage,
                                  null=True, blank=True)  # NOQA
@@ -40,6 +47,8 @@ class Collage(models.Model):
 
     def save(self, *args, **kwargs):
         self.name = self.name.upper()
+        if self.acronym:
+            self.acronym = self.acronym.upper()
         super(Collage, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -48,6 +57,7 @@ class Collage(models.Model):
 
 class Course(models.Model):
     name = models.CharField(max_length=500, unique=True)
+    acronym = models.CharField(max_length=50, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=500)
     universities = models.ManyToManyField(
@@ -58,6 +68,8 @@ class Course(models.Model):
 
     def save(self, *args, **kwargs):
         self.name = self.name.upper()
+        if self.acronym:
+            self.acronym = self.acronym.upper()
         super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -66,6 +78,7 @@ class Course(models.Model):
 
 class Branch(models.Model):
     name = models.CharField(max_length=500, unique=True)
+    acronym = models.CharField(max_length=50, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=500)
     universities = models.ManyToManyField(
@@ -78,6 +91,8 @@ class Branch(models.Model):
 
     def save(self, *args, **kwargs):
         self.name = self.name.upper()
+        if self.acronym:
+            self.acronym = self.acronym.upper()
         super(Branch, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -86,6 +101,7 @@ class Branch(models.Model):
 
 class Subject(models.Model):
     name = models.CharField(max_length=500, unique=True)
+    acronym = models.CharField(max_length=50, null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     slug = models.SlugField(max_length=500)
     universities = models.ManyToManyField(
@@ -100,6 +116,8 @@ class Subject(models.Model):
 
     def save(self, *args, **kwargs):
         self.name = self.name.upper()
+        if self.acronym:
+            self.acronym = self.acronym.upper()
         super(Subject, self).save(*args, **kwargs)
 
     def __str__(self):
