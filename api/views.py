@@ -29,7 +29,7 @@ from dashboard.models import (University, Collage,
 import os
 from tempfile import NamedTemporaryFile
 from xpapers.tasks import celery_pdf_watermark, celery_images_to_pdf
-from xpapers.utils import utils_long_hash
+from xpapers.utils import utils_long_hash, utils_commaSeperatedString
 
 
 class SignupViewSet(ModelViewSet):
@@ -147,15 +147,10 @@ class SearchObjectTypeViewSet(ModelViewSet):
     permission_classes = (AllowAny,)
     http_method_names = ['get', ]
 
-    def title(self, title=None):
-        if not title:
-            return None
-        return title.replace("-", " ").title()
-
-    def keyword_discription_maker(self, tag_line):
+    def keyword_discription_maker(self, tag_line, replace_with=" "):
         if not tag_line:
             return None
-        return tag_line.replace(" > ", ", ")
+        return tag_line.title().replace(" > ", replace_with)
 
     def list(self, request, *args, **kwargs):
         query_university = request.query_params.get('uni', None)
@@ -163,53 +158,88 @@ class SearchObjectTypeViewSet(ModelViewSet):
         query_branch = request.query_params.get('bra', None)
         query_subject = request.query_params.get('sub', None)
         university = get_object_or_404(University, slug=query_university)
-        description = "Get %s previous year question paper of various subjects"
-        keywords = "%s, previous year question paper, old question paper"
-        university_name = university.name.title()
+        description = "Get %s previous year question paper "
+        keywords = "%s previous year question paper"
+        university_name = university.name.lower()
         tag = university_name
         if query_university and \
                 not query_course and \
                 not query_branch and \
                 not query_subject:
-            description = description % university_name
+            # Course, BTech
+            university_course_name_list = []
+            university_course = Course.objects.filter(universities=university)
+            for course in university_course:
+                if course.acronym:
+                    university_course_name_list.append(course.acronym)
+                else:
+                    university_course_name_list.append(course.name)
+            description = description % university_name.title()
             keywords = keywords % university_name
+            description += "of " + utils_commaSeperatedString(university_course_name_list, capslock="upper")
+            for course_name in university_course_name_list:
+                keywords += ", %s question papers %s" % (university_name, course_name)
             return Response(
                 {
                     "data": "course",
-                    "tag": tag,
+                    "tag": tag.title(),
                     "description": description,
-                    "keywords": keywords
+                    "keywords": keywords.lower()
                 },
                 status=status.HTTP_200_OK)  # NOQA
         elif query_university and \
                 query_course and \
                 not query_branch and \
                 not query_subject:
-            _course = self.title(query_course)
-            tag = tag + " > " + _course
-            keyword_discription = self.keyword_discription_maker(tag)
-            description = description % keyword_discription
-            keywords = keywords % keyword_discription
+            # Branch C.S.E
+            course_branch_name_list = []
+            _course = get_object_or_404(Course, slug=query_course)
+            course_branchs = Branch.objects.filter(universities=university, courses=_course)
+            if _course.acronym:
+                tag = tag + " > " + _course.acronym
+            else:
+                tag = tag + " > " + _course.name.title()
+            for branch in course_branchs:
+                if branch.acronym:
+                    course_branch_name_list.append(branch.acronym)
+                else:
+                    course_branch_name_list.append(branch.name)
+            keyword_discription = self.keyword_discription_maker(tag, replace_with=" question paper ")
+            description = description % self.keyword_discription_maker(tag)
+            keywords = keyword_discription
+            description += "of " + utils_commaSeperatedString(course_branch_name_list, capslock="upper")
+            for branch_name in course_branch_name_list:
+                keywords += ", %s %s" % (tag.replace(" > ", ' question papers '), branch_name)
             return Response({
                 "data": "branch",
-                "tag": tag,
+                "tag": tag.title(),
                 "description": description,
-                "keywords": keywords
+                "keywords": keywords.lower()
             },
             status=status.HTTP_200_OK)  # NOQA
         elif query_university and \
                 query_course and \
                 query_branch and \
                 not query_subject:
-            _course = self.title(query_course)
-            _branch = self.title(query_branch)
-            tag = tag + " > " + _course + " > " + _branch
+            # Subject Opp's
+            _course = get_object_or_404(Course, slug=query_course)
+            _branch = get_object_or_404(Branch, slug=query_branch)
+            if _course.acronym:
+                _course_name = _course.acronym
+            else:
+                _course_name = _course.name.title()
+            if _branch.acronym:
+                _branch_name = _branch.acronym
+            else:
+                _branch_name = _branch.name.title()
+
+            tag = tag + " > " + _course_name + " > " + _branch_name
             keyword_discription = self.keyword_discription_maker(tag)
             description = description % keyword_discription
             keywords = keywords % keyword_discription
             return Response({
                 "data": "subject",
-                "tag": tag,
+                "tag": tag.title(),
                 "description": description,
                 "keywords": keywords
             },
@@ -218,16 +248,29 @@ class SearchObjectTypeViewSet(ModelViewSet):
                 query_course and \
                 query_branch and \
                 query_subject:
-            _course = self.title(query_course)
-            _branch = self.title(query_branch)
-            _subject = self.title(query_subject)
-            tag = tag + " > " + _course + " > " + _branch + " > " + _subject
+            _course = get_object_or_404(Course, slug=query_course)
+            _branch = get_object_or_404(Branch, slug=query_branch)
+            _subject = get_object_or_404(Subject, slug=query_subject)
+            if _course.acronym:
+                _course_name = _course.acronym
+            else:
+                _course_name = _course.name.title()
+            if _branch.acronym:
+                _branch_name = _branch.acronym
+            else:
+                _branch_name = _branch.name.title()
+            if _subject.acronym:
+                _subject_name = _subject.acronym
+            else:
+                _subject_name = _subject.name.title()
+
+            tag = tag + " > " + _course_name + " > " + _branch_name + " > " + _subject_name
             keyword_discription = self.keyword_discription_maker(tag)
             description = description % keyword_discription
             keywords = keywords % keyword_discription
             return Response({
                 "data": "post",
-                "tag": tag,
+                "tag": tag.title(),
                 "description": description,
                 "keywords": keywords
             },

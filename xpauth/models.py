@@ -36,7 +36,7 @@ class XpapersUserManager(BaseUserManager):
 
 class XpapersUser(AbstractBaseUser):
     """
-    parent class for all users in ilovedjango application
+    parent class for all users in xpapers application
     """
     email = models.EmailField(max_length=255, unique=True, db_index=True)
     username = models.CharField(max_length=255, unique=True, db_index=True)

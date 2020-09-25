@@ -3,6 +3,7 @@ from django.views import View
 from django.shortcuts import get_object_or_404
 from dashboard.models import (University, Collage,
                               Course, Branch)
+from xpapers.utils import utils_commaSeperatedString
 
 
 class DashboardView(View):
@@ -10,19 +11,12 @@ class DashboardView(View):
 
     def get(self, request, path=None):
         universities_name = University.objects.all().values_list('name', flat=True)
-        university_keywords = None
-        for uni_name in universities_name:
-            if university_keywords:
-                university_keywords += ", " +uni_name.title()
-            else:
-                university_keywords = uni_name.title()
-        description = "Get %s previous year question paper of various subjects" % university_keywords
-        keywords = "%s, previous year question paper, old question paper" % university_keywords
+        description = "Get %s previous year question papers" % utils_commaSeperatedString(universities_name)
+        keywords = "%s" % utils_commaSeperatedString(universities_name, "previous year question papers")
         context = {
             "keywords": keywords,
             "description": description
         }
-        print(context)
         return render(request, self.template_name, context)
 
 

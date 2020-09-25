@@ -140,10 +140,10 @@ function metaTag(data) {
         return null
     let url = document.URL
     $("#tagline").html(data['tag']);
-    document.title = data['tag'] + " - xpapers";
+    document.title = data['tag'].replaceAll(">", "") + " Previous Year Question Paper | Xpapers";
     $('meta[name=keywords]').attr('content', data['keywords']);
     $('meta[name=description]').attr('content', data['description']);
-    $('meta[property="og:title"]').attr('content', data['tag']);
+    $('meta[property="og:title"]').attr('content', data['tag'].replace(">", ""));
     $('meta[property="og:description"]').attr('content', data['description']);
     $('meta[property="og:keywords"]').attr('content', data['keywords']);
     $('meta[property="og:url"]').attr('content', url);

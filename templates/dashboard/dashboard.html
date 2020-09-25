@@ -1,17 +1,42 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load template_tags %}
 {% block content %}
-    <h1 id="tagline">Select University</h1>
-    <br/>
-    <table id="universityTbl" class="display" style="width:100%"></table>
+<style>
+    .key-info span {
+        color: #fff !important;
+        background-color: #009688 !important;
+        display: inline-block;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-align: center;
+        box-sizing: inherit;
+        font-size: 15px;
+    }
+</style>
+<h1 id="tagline">Select University</h1>
+<br/>
+<table id="universityTbl" class="display" style="width:100%"></table>
+<div class="seo-info">
+    <p>
+        <b>
+            Keywords
+        </b>
+    </p>
+    <div class="key-info">
+        {% for keyword in keywords|split_by_comma %}
+        <span>{{keyword}}</span>
+        {% endfor%}
+    </div>
+</div>
 {% endblock %}
 
 <!--Custom_CSS-->
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'apps/dashboard/search.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'apps/dashboard/search.css' %}"/>
 {% endblock %}
 
 <!--Custom_JS-->
 {% block js %}
-    <script src="{% static 'apps/dashboard/dashboard.js' %}"></script>
+<script src="{% static 'apps/dashboard/dashboard.js' %}"></script>
 {% endblock %}
