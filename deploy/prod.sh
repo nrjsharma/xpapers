@@ -1,12 +1,14 @@
 #!/bin/bash
 
+source_path="/home/ubuntu/xpapers_env/bin/activate"
+project_path="/home/ubuntu/xpapers_env/xpapers"
+scp_path="/home/ubuntu/scp/xpapers/`date +%Y-%m-%d`-xpapers.sql"
+db_user_name="postgres"
+db_name="xpapers_prod_db"
+
 function take_dump {
-
-    db_user_name="postgres"
-    db_name="xpapers_prod_db"
-
     echo "taking dump"
-    pg_dump -U $db_user_name -d $db_name > /home/ubuntu/scp/xpapers/`date +%Y-%m-%d`-xpapers.sql
+    pg_dump -U $db_user_name -d $db_name > $scp_path
 }
 
 current_branch=$(git branch | grep \* | cut -d ' ' -f2)
@@ -37,8 +39,8 @@ git reset --hard HEAD~20
 git fetch origin && git merge origin/$current_branch --ff-only
 
 export DJANGO_SETTINGS_MODULE="settings.prod"
-source /home/ubuntu/env_ild/bin/activate
-cd /home/ubuntu/env_ild/ilovedjango
+source $source_path
+cd $project_path
 pip install -r requirements.txt
 ./manage.py migrate
 sudo supervisorctl restart xpapers

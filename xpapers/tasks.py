@@ -28,7 +28,6 @@ def celery_pdf_watermark(*args, **kwargs):
         file_name += "-Xpapers-%s" % user.upper()
     else:
         file_name += "-Xpapers"
-    file_name += "-"
     try:
         packet = io.BytesIO()
         # create a new PDF with Reportlab
@@ -64,7 +63,6 @@ def celery_pdf_watermark(*args, **kwargs):
             scope.set_extra('User', user)
             scope.level = 'error'
             capture_exception(e)
-        file_name += "nRj7777.pdf"
         obj = PostFiles()  # NOQA
         obj.post = post
         obj.file.save(basename(file_name), content=File(open(filepath, 'rb')))
