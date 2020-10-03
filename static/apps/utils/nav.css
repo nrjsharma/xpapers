@@ -133,6 +133,6 @@ nav a {
         width: 150px;
         height: auto;
         position: absolute;
-        top: 15px;
+        top: 6px !important; 
     }
 }
