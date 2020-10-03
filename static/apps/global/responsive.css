@@ -1,0 +1,6 @@
+@media screen and (max-width: 1050px) {
+    /*Pad*/
+    #upload-paper{
+	width: 100% !important;
+    }
+}
