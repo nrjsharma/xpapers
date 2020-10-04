@@ -45,6 +45,7 @@ DJANGO_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     'django.contrib.sitemaps',
     'django_extensions'
 ]
@@ -67,6 +68,7 @@ OTHER_APPS = [
 
 INSTALLED_APPS = DJANGO_APPS + REST_APPS + XPAPERS_APPS + OTHER_APPS
 
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
