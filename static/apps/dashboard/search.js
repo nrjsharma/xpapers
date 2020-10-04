@@ -48,7 +48,7 @@ function loadPostTable() {
     $('#example').DataTable({
         "processing": true,
         "serverSide": false,
-	"scrollY": "200px",
+	"scrollY": "auto",
         "ajax": {
             "type": "GET",
             "url": SEARCH_URL + `${perms}`,
