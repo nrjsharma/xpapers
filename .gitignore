@@ -11,5 +11,6 @@
 *.sqlite3
 db.sqlite3
 media/*
+scp/*
 .env
 celery_workers.logs
