@@ -140,7 +140,7 @@ function metaTag(data) {
     if (!data)
         return null
     let url = document.URL
-    $("#tagline").html(data['tag']);
+    $("#tagline").html(`<h1>${data['tag']}</h1>`);
     document.title = data['tag'].replaceAll(">", "") + " Previous Year Question Paper | Xpapers";
     $('meta[name=keywords]').attr('content', data['keywords']);
     $('meta[name=description]').attr('content', data['description']);
@@ -149,6 +149,18 @@ function metaTag(data) {
     $('meta[property="og:keywords"]').attr('content', data['keywords']);
     $('meta[property="og:url"]').attr('content', url);
     $("head").append(`<link rel="canonical" href="${url}"/>`);
+    if (data['data'] == "course") {
+	// show university data
+	let tagHtml = `<div id="tag-inner">
+	    <div id="tag-img"><img src="${data['uni-thumbnail']}" width="220px" alt="${document.title}"/></div>
+	    <div id="tag-name">
+	    <h1>${data['tag']}</h1>
+	    ${data['uni-description'] ? `<p>${data['uni-description']}</p>` : `<p>${data['description']}</p>`}
+	    ${data['uni-url'] ? `<p>Go to <a href="${data['uni-url']}" target="_blank">${data['tag']}</a> website</p>` : ''}
+	    </div>
+	    </div>`;
+	$("#tagline").html(tagHtml);
+    }
 }
 
 $(document).ready(function () {

@@ -5,26 +5,31 @@ from dashboard.models import (University, Collage,
 
 
 class UniversityAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'acronym')
+    search_fields = ('id', 'name')
 
 
 class CollageAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'acronym')
+    search_fields = ('id', 'name', 'acronym')
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'acronym')
     raw_id_fields = ('universities',)
+    search_fields = ('id', 'name', 'acronym')
 
 
 class BranchAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'acronym')
     raw_id_fields = ('universities', 'courses')
+    search_fields = ('id', 'name', 'acronym')
 
 
 class SubjectAdmin(admin.ModelAdmin):
-    list_display = ('id', 'name')
+    list_display = ('id', 'name', 'acronym')
     raw_id_fields = ('universities', 'courses', 'branches')
+    search_fields = ('id', 'name', 'acronym')
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -34,6 +39,7 @@ class PostAdmin(admin.ModelAdmin):
         super().save_model(request, obj, form, change)
 
     list_display = ('id', 'created')
+    search_fields = ('id',)
 
 
 class PostFilesAdmin(admin.ModelAdmin):

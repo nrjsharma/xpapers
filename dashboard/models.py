@@ -14,6 +14,8 @@ class University(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     thumbnail = models.FileField(upload_to=get_upload_path_uni,
                                  null=True, blank=True)  # NOQA
+    description = models.TextField(null=True, blank=True)
+    url = models.URLField(max_length=1000, null=True, blank=True)
     slug = models.SlugField(max_length=500)
 
     class Meta:

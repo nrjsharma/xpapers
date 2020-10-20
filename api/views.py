@@ -184,7 +184,10 @@ class SearchObjectTypeViewSet(ModelViewSet):
                     "data": "course",
                     "tag": tag.title(),
                     "description": description,
-                    "keywords": keywords.lower()
+                    "keywords": keywords.lower(),
+                    "uni-thumbnail": university.thumbnail.url if university.thumbnail else None,
+                    "uni-description": university.description,
+                    "uni-url": university.url
                 },
                 status=status.HTTP_200_OK)  # NOQA
         elif query_university and \
