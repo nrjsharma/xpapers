@@ -8,21 +8,15 @@
     <link rel="shortcut icon" type="image/x-icon" href="{% static 'utils/logo/xpapers_title.png' %}" sizes="16x16"/>
     <!--Title Img-->
 
-    <meta name="keywords" content="{{ keywords }}">
-    <meta name="description"
-          content="{{ description }}">
+    {% block head_content %}
+    {% endblock %}
 
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <link rel="canonical" href="https://xpapers.in/"/>
 
     <meta property="og:type" content="website"/>
     <meta property="og:site_name" content="xpapers">
     <meta property="og:title" content="xpapers">
-    <meta property="og:keywords"
-          content="{{ keywords }}">
-    <meta property="og:description"
-          content="{{ description }}">
     <meta property="og:url" content="https://xpapers.in/">
 
 

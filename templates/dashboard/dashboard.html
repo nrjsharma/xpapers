@@ -1,6 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load template_tags %}
+
+{% block head_content %}
+<link rel="canonical" href="https://xpapers.in/"/>
+<meta name="keywords" content="{{ keywords }}">
+<meta name="description"
+      content="{{ description }}">
+<meta property="og:keywords"
+      content="{{ keywords }}">
+<meta property="og:description"
+                content="{{ description }}">
+{% endblock %}
+
 {% block content %}
 <style>
     .key-info span {

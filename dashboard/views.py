@@ -11,7 +11,7 @@ class DashboardView(View):
 
     def get(self, request, path=None):
         universities_name = University.objects.all().values_list('name', flat=True)
-        description = "Get %s previous year question papers" % utils_commaSeperatedString(universities_name)
+        description = "Get previous year question papers of %s" % utils_commaSeperatedString(universities_name)
         keywords = "%s" % utils_commaSeperatedString(universities_name, "previous year question papers")
         context = {
             "keywords": keywords,

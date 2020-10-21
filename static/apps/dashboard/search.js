@@ -142,13 +142,13 @@ function metaTag(data) {
     let url = document.URL
     $("#tagline").html(`<h1>${data['tag']}</h1>`);
     document.title = data['tag'].replaceAll(">", "") + " Previous Year Question Paper | Xpapers";
-    $('meta[name=keywords]').attr('content', data['keywords']);
-    $('meta[name=description]').attr('content', data['description']);
-    $('meta[property="og:title"]').attr('content', data['tag'].replace(">", ""));
+    $('meta[property="og:title"]').attr('content', document.title);
     $('meta[property="og:description"]').attr('content', data['description']);
     $('meta[property="og:keywords"]').attr('content', data['keywords']);
     $('meta[property="og:url"]').attr('content', url);
     $("head").append(`<link rel="canonical" href="${url}"/>`);
+    $("head").append(`<meta name="keywords" content="${data['keywords']}">`);
+    $("head").append(`<meta name="description" content="${data['description']}">`);
     if (data['data'] == "course") {
 	// show university data
 	let tagHtml = `<div id="tag-inner">
