@@ -1,7 +1,7 @@
 from django.contrib import admin
 from dashboard.models import (University, Collage,
                               Course, Subject, Branch,
-                              Post, PostFiles)
+                              Post, PostFiles, SiteMapURL)
 
 
 class UniversityAdmin(admin.ModelAdmin):
@@ -46,6 +46,10 @@ class PostFilesAdmin(admin.ModelAdmin):
     list_display = ('id', 'post')
 
 
+class SiteMapURLAdmin(admin.ModelAdmin):
+        list_display = ('id', 'url')
+
+
 admin.site.register(University, UniversityAdmin)
 admin.site.register(Collage, CollageAdmin)
 admin.site.register(Course, CourseAdmin)
@@ -53,3 +57,4 @@ admin.site.register(Branch, BranchAdmin)
 admin.site.register(Subject, SubjectAdmin)
 admin.site.register(Post, PostAdmin)
 admin.site.register(PostFiles, PostFilesAdmin)
+admin.site.register(SiteMapURL, SiteMapURLAdmin)

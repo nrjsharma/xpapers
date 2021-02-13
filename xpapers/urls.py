@@ -19,12 +19,14 @@ from django.conf import settings
 from django.conf.urls import include
 from django.conf.urls.static import static
 from django.urls import path
-from xpapers.sitemaps import (UniversitySitemap, StaticHomeSitemap)
+from xpapers.sitemaps import (UniversitySitemap, StaticHomeSitemap,
+                              ManualSitemapUrls)
 
 
 sitemaps = {
     'static': StaticHomeSitemap,
-    'university': UniversitySitemap
+    'university': UniversitySitemap,
+    'manual': ManualSitemapUrls
 }
 
 urlpatterns = [
