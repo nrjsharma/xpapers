@@ -1,5 +1,5 @@
 from django.contrib.sitemaps import Sitemap
-from dashboard.models import University
+from dashboard.models import (University, SiteMapURL)
 from django.shortcuts import reverse
 
 
@@ -22,3 +22,12 @@ class StaticHomeSitemap(Sitemap):
 
     def location(self, obj):
         return reverse(obj)
+
+
+class ManualSitemapUrls(Sitemap):
+    changefreq = "monthly"
+    priority = 0.5
+    protocol = "https"
+    
+    def items(self):
+        return SiteMapURL.objects.all()

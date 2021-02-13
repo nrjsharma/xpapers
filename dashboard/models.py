@@ -164,6 +164,16 @@ class PostFiles(models.Model):
         return "%s" % (self.id,)
 
 
+class SiteMapURL(models.Model):
+    url = models.CharField(max_length=1000, unique=True)
+
+    class Meta:
+        verbose_name_plural = "SitemapUrl's"
+
+    def get_absolute_url(self):
+        return self.url
+
+
 @receiver(pre_save, sender=University)
 @receiver(pre_save, sender=Collage)
 @receiver(pre_save, sender=Course)
