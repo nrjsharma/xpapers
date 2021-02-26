@@ -2,6 +2,7 @@ from django.db import models, transaction
 from django.conf import settings
 from django.utils.text import slugify
 from django.db.models.signals import pre_save
+from django.core.exceptions import ValidationError
 from django.dispatch import receiver
 from dashboard.utils import (get_upload_path_collage,
                              get_upload_path_uni,
@@ -165,11 +166,19 @@ class PostFiles(models.Model):
 
 
 class SiteMapURL(models.Model):
-    url = models.CharField(max_length=1000, unique=True)
+    url = models.CharField(max_length=1000, unique=True, help_text="URL example \"/s?uni=punjabi-university&cou=btech\"")
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = "SitemapUrl's"
 
+    def clean(self):
+        if self.url:
+            if "." in self.url:
+                raise ValidationError("URL should not include \".\"")
+            if not self.url[0] == "/":
+                self.url = "%s%s" % ("/", self.url)
+    
     def get_absolute_url(self):
         return self.url
 

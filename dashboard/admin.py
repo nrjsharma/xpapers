@@ -47,7 +47,7 @@ class PostFilesAdmin(admin.ModelAdmin):
 
 
 class SiteMapURLAdmin(admin.ModelAdmin):
-        list_display = ('id', 'url')
+        list_display = ('id', 'url', 'is_active')
 
 
 admin.site.register(University, UniversityAdmin)

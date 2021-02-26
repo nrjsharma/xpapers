@@ -30,4 +30,4 @@ class ManualSitemapUrls(Sitemap):
     protocol = "https"
     
     def items(self):
-        return SiteMapURL.objects.all()
+        return SiteMapURL.objects.filter(is_active=True)
