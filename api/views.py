@@ -187,6 +187,7 @@ class SearchObjectTypeViewSet(ModelViewSet):
                     "keywords": keywords.lower(),
                     "uni-thumbnail": university.thumbnail.url if university.thumbnail else None,
                     "uni-description": university.description,
+                    "uni-about": university.about,
                     "uni-url": university.url
                 },
                 status=status.HTTP_200_OK)  # NOQA

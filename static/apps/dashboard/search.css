@@ -1,3 +1,4 @@
+
 #tagline h1{
     margin-bottom: 0px !important;
     line-height: 1 !important;
@@ -10,13 +11,23 @@
     display: flex;
 }
 
-#tag-img{
-}
-
 #tag-name{
     padding: 0px 0px 0px 10px;
 }
 
 #tag-name > p{
     margin-top: 10px !important;
+}
+
+#underTable-inner h2{
+    margin-bottom: 15px !important;
+    line-height: 1 !important;
+    font-weight: 800 !important;
+    font-size: 1.5rem !important;;
+    letter-spacing: -1px !important;
+    font-weight: 400 !important;
+}
+
+#underTable-inner{
+    margin-top: 15px;
 }

@@ -154,12 +154,23 @@ function metaTag(data) {
 	let tagHtml = `<div id="tag-inner">
 	    <div id="tag-img"><img src="${data['uni-thumbnail']}" width="220px" alt="${document.title}"/></div>
 	    <div id="tag-name">
-	    <h1>${data['tag']}</h1>
+	    <h1>${data['tag']} Previous Year Papers</h1>
 	    ${data['uni-description'] ? `<p>${data['uni-description']}</p>` : `<p>${data['description']}</p>`}
 	    ${data['uni-url'] ? `<p>Go to <a href="${data['uni-url']}" target="_blank">${data['tag']}</a> website</p>` : ''}
 	    </div>
 	    </div>`;
+	let underTableData = `
+	    ${data['uni-about'] ?
+	      `
+	      <div id="underTable-inner">
+	      <h2>About ${data['tag']}</h2>
+	      <p>${data['uni-about']}</p>
+	      </div>
+	      `
+	      :``}
+	    `;
 	$("#tagline").html(tagHtml);
+	$("#underTable").html(underTableData);
     }
 }
 
