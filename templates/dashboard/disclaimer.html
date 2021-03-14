@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_content %}
+        <meta name="keywords" content="xpapers, disclaimer for xpapers">
+        <meta name="description"
+              content="Xpapers is an educational website that provides
+                       students an online platform to share notes
+                       and question papers for various universities.">
+        <meta property="og:keywords"
+              content="xpapers, about xpapers">
+        <meta property="og:description"
+              content="Xpapers is an educational website that provides
+                       students an online platform to share notes
+                       and question papers for various universities.">
+{% endblock %}
+
+{% block content %}
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h2 class="card-label">
+                Disclaimer
+            </h2>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>
+                The information/files contained in this website is for general information purposes only. The
+                information is provided by xpapers.in and while we endeavour to keep the information up to date and
+                correct.
+                </p>
+                We make no representations or warranties of any kind, express or implied, about the completeness,
+                accuracy, reliability, suitability or availability with respect to the website or the information,
+                products, services, or related graphics contained on the website for any purpose.
+                <p>
+                Any reliance you place on such information is therefore strictly at your own risk. In no event will we
+                be liable for any loss or damage including without limitation, indirect or consequential loss or damage,
+                or any loss or damage whatsoever arising from loss of data or profits arising out of, or in connection
+                with, the use of this website. Every effort is made to keep the website up and running smoothly.
+                However,xpapers.in takes no responsibility for, and will not be liable for, the website being
+                temporarily unavailable due to technical issues beyond our control.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block css %}
+<style>
+    .para-sep{
+        padding-top: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function () {
+        document.title = "Disclaimer for Xpapers";
+    });
+</script>
+{% endblock %}

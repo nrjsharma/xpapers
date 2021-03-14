@@ -1,98 +1,181 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=1.0">
-    <title>xpapers</title>
-    <link rel="shortcut icon" type="image/x-icon" href="{% static 'utils/logo/xpapers_title.png' %}" sizes="16x16"/>
-    <!--Title Img-->
 
-    {% block head_content %}
-    {% endblock %}
+	<!--begin::Head-->
+	<head>
+        <meta charset="utf-8"/>
+        <title>Xpapers</title>
 
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-    <meta property="og:type" content="website"/>
-    <meta property="og:site_name" content="xpapers">
-    <meta property="og:title" content="xpapers">
-    <meta property="og:url" content="https://xpapers.in/">
-
-
-    <!--bootstrap-->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-    <!--ajax-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-    <!--cookie-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-
-    <!--Progress-bar-->
-    <script src="{% static 'library/loading-bar/loading-bar.js' %}"></script>
-    <script src="{% static 'library/loading-bar/loading-bar.min.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'library/loading-bar/loading-bar.css' %}">
-
-    <!--Select-2-->
-    <link rel="stylesheet" type="text/css" href="{% static 'library/select2/select2.custom.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'library/select2/select2.min.css' %}"/>
-    <script src="{% static 'library/select2/select2.min.js' %}"></script>
-
-    <!--dataTables-2-->
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8"
-            src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
-
-    <!--Custom_CSS-->
-    <link rel="stylesheet" type="text/css" href="{% static 'apps/base.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'apps/global/responsive.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'apps/utils/nav.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'apps/dashboard/dashboard.css' %}"/>
-
-    <!--Custom JS-->
-
-</head>
-<body>
-
-<div class="base_container">
-    <section class="base_nav">
-        {% include 'utils/nav.html' %}
-    </section>
-    <section class="upload-paper-link main-container">
-        <a href="/upload-paper">Upload your Question Paper and help other students</a>
-    </section>
-    <section class="main-container main-top">
-        {% block content %}
+        <!--begin::meta-->
+        <meta name="description" content="Updates and statistics"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <meta property="og:type" content="website"/>
+        <meta property="og:site_name" content="xpapers">
+        <meta property="og:title" content="xpapers">
+        <meta property="og:url" content="https://xpapers.in/">
+        {% block head_content %}
         {% endblock %}
-    </section>
-    <!--<section class="base_footer">-->
-    <!--</section>-->
-</div>
+        <!--end::meta-->
 
-<script>
-    var LOGOUT_URL = "{% url 'api:logout' %}";
-    var UNIVERSITY_SELECT2_URL = "{% url 'api:university-select2-list' %}";
-    var COLLAGE_SELECT2_URL = "{% url 'api:collage-select2-list' %}";
-    var COURSE_SELECT2_URL = "{% url 'api:course-select2-list' %}";
-    var SUBJECT_SELECT2_URL = "{% url 'api:subject-select2-list' %}";
-    var BRANCH_SELECT2_URL = "{% url 'api:branch-select2-list' %}";
-    var UPLOAD_PAPER_URL = "{% url 'api:upload-paper' %}";
-    var SEARCH_OBJECT_URL = "{% url 'api:search-object-list' %}";
-    var SEARCH_URL = "{% url 'api:search-list' %}";
-    var UNIVERSITY_URL = "{% url 'api:university-list' %}";
-</script>
+        <link rel="canonical" href="https://xpapers.in/"/>
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'utils/logo/xpapers_title.png' %}" sizes="16x16"/>
 
-<!--Custom_CSS-->
-{% block css %}
+		<!--begin::Fonts-->
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+		<!--end::Fonts-->
 
-{% endblock %}
+        <!--begin::bundle-css-->
+        <link rel="stylesheet" type="text/css" href="{% static 'bundle/plugins/custom/fullcalendar/fullcalendar.bundle.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'bundle/plugins/global/plugins.bundle.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'bundle/plugins/custom/prismjs/prismjs.bundle.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'bundle/css/style.bundle.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'bundle/plugins/custom/datatables/datatables.bundle.css' %}"/>
+        <!--end::bundle-css-->
 
-<!--Custom_JS-->
-{% block js %}
+        <!--Progress-bar-->
+        <script src="{% static 'library/loading-bar/loading-bar.js' %}"></script>
+        <script src="{% static 'library/loading-bar/loading-bar.min.js' %}"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'library/loading-bar/loading-bar.css' %}">
 
-{% endblock %}
+        <!--begin::custom-css-->
+        <link rel="stylesheet" type="text/css" href="{% static 'apps/base.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'apps/responsive.css' %}"/>
+        <link rel="stylesheet" type="text/css" href="{% static 'apps/dashboard/dashboard.css' %}"/>
+        <!--end::custom-css-->
+	</head>
 
-</body>
+	<!--end::Head-->
+
+	<!--begin::Body-->
+	<body id="kt_body" class="quick-panel-right demo-panel-right offcanvas-right header-fixed header-mobile-fixed subheader-enabled aside-enabled aside-static page-loading">
+
+        <!--begin::Main-->
+        {% include 'partials/header/_header-mobile.html' %}
+		<div class="d-flex flex-column flex-root">
+			<div class="d-flex flex-row flex-column-fluid page">
+				<div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+                    {% include 'partials/header/_header.html' %}
+					<div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                        {% block sub-header %}
+                        {% endblock %}
+                        <div class="d-flex flex-column-fluid">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-xl-12">
+                                        {% block content %}
+                                        {% endblock %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+                    {% include 'partials/_footer.html' %}
+				</div>
+			</div>
+		</div>
+		<!--end::Main-->
+
+        <!--{#% include 'partials/_extras/offcanvas/quick-notifications.html' %}-->
+        <!--{#% include 'partials/_extras/offcanvas/quick-actions.html' %}-->
+        <!--{#% include 'partials/_extras/offcanvas/quick-user.html' %}-->
+        <!--{#% include 'partials/_extras/offcanvas/quick-panel.html' %}-->
+        <!--{#% include 'partials/_extras/chat.html' %}-->
+        {% include 'partials/_extras/scrolltop.html' %}
+
+        <!--begin::bundle-js-->
+        <script src="{% static 'bundle/plugins/global/plugins.bundle.js' %}"></script>
+        <script src="{% static 'bundle/js/scripts.bundle.js' %}"></script>
+        <script src="{% static 'bundle/plugins/custom/prismjs/prismjs.bundle.js' %}"></script>
+        <script src="{% static 'bundle/plugins/custom/fullcalendar/fullcalendar.bundle.js' %}"></script>
+        <script src="{% static 'bundle/js/pages/widgets.js' %}"></script>
+		<script src="{% static 'bundle/plugins/custom/datatables/datatables.bundle.js' %}"></script>
+        <script>
+            var KTAppSettings = {
+                "breakpoints": {
+                    "sm": 576,
+                    "md": 768,
+                    "lg": 992,
+                    "xl": 1200,
+                    "xxl": 1200
+                },
+                "colors": {
+                    "theme": {
+                        "base": {
+                            "white": "#ffffff",
+                            "primary": "#6993FF",
+                            "secondary": "#E5EAEE",
+                            "success": "#1BC5BD",
+                            "info": "#8950FC",
+                            "warning": "#FFA800",
+                            "danger": "#F64E60",
+                            "light": "#F3F6F9",
+                            "dark": "#212121"
+                        },
+                        "light": {
+                            "white": "#ffffff",
+                            "primary": "#E1E9FF",
+                            "secondary": "#ECF0F3",
+                            "success": "#C9F7F5",
+                            "info": "#EEE5FF",
+                            "warning": "#FFF4DE",
+                            "danger": "#FFE2E5",
+                            "light": "#F3F6F9",
+                            "dark": "#D6D6E0"
+                        },
+                        "inverse": {
+                            "white": "#ffffff",
+                            "primary": "#ffffff",
+                            "secondary": "#212121",
+                            "success": "#ffffff",
+                            "info": "#ffffff",
+                            "warning": "#ffffff",
+                            "danger": "#ffffff",
+                            "light": "#464E5F",
+                            "dark": "#ffffff"
+                        }
+                    },
+                    "gray": {
+                        "gray-100": "#F3F6F9",
+                        "gray-200": "#ECF0F3",
+                        "gray-300": "#E5EAEE",
+                        "gray-400": "#D6D6E0",
+                        "gray-500": "#B5B5C3",
+                        "gray-600": "#80808F",
+                        "gray-700": "#464E5F",
+                        "gray-800": "#1B283F",
+                        "gray-900": "#212121"
+                    }
+                },
+                "font-family": "Poppins"
+            };
+        </script>
+        <!--end::bundle-js-->
+
+        <!--cookie-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+
+        <script>
+            var LOGOUT_URL = "{% url 'api:logout' %}";
+            var UNIVERSITY_SELECT2_URL = "{% url 'api:university-select2-list' %}";
+            var COLLAGE_SELECT2_URL = "{% url 'api:collage-select2-list' %}";
+            var COURSE_SELECT2_URL = "{% url 'api:course-select2-list' %}";
+            var SUBJECT_SELECT2_URL = "{% url 'api:subject-select2-list' %}";
+            var BRANCH_SELECT2_URL = "{% url 'api:branch-select2-list' %}";
+            var UPLOAD_PAPER_URL = "{% url 'api:upload-paper' %}";
+            var SEARCH_OBJECT_URL = "{% url 'api:search-object-list' %}";
+            var SEARCH_URL = "{% url 'api:search-list' %}";
+            var UNIVERSITY_URL = "{% url 'api:university-list' %}";
+        </script>
+
+        {% block css %}
+        {% endblock %}
+
+        {% block js %}
+        {% endblock %}
+
+	</body>
+	<!--end::Body-->
 </html>

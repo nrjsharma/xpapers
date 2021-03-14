@@ -1,9 +1,26 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block sub-header %}
+    {% include 'partials/_subheader/subheader-v6.html' %}
+{% endblock %}
+
 {% block content %}
     <div id="tagline"></div>
     <br/>
-    <table id="example" class="display" style="width:100%"></table>
+    <div class="card card-custom">
+        <div class="card-body">
+            <div id class="dataTables_wrapper dt-bootstrap4 no-footer">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <table id="example"
+                               class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline">
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="underTable"></div>
 {% endblock %}
 

@@ -3,42 +3,31 @@
 {% load template_tags %}
 
 {% block head_content %}
-<link rel="canonical" href="https://xpapers.in/"/>
-<meta name="keywords" content="{{ keywords }}">
-<meta name="description"
-      content="{{ description }}">
-<meta property="og:keywords"
-      content="{{ keywords }}">
-<meta property="og:description"
-                content="{{ description }}">
+        <meta name="keywords" content="{{ keywords }}">
+        <meta name="description"
+              content="{{ description }}">
+        <meta property="og:keywords"
+              content="{{ keywords }}">
+        <meta property="og:description"
+                        content="{{ description }}">
+{% endblock %}
+
+{% block sub-header %}
+    {% include 'partials/_subheader/subheader-v6.html' %}
 {% endblock %}
 
 {% block content %}
-<style>
-    .key-info span {
-        color: #fff !important;
-        background-color: #009688 !important;
-        display: inline-block;
-        padding-left: 8px;
-        padding-right: 8px;
-        text-align: center;
-        box-sizing: inherit;
-        font-size: 15px;
-    }
-</style>
-<div id="tagline"><h1>Select University</h1></div>
-<br/>
-<table id="universityTbl" class="display" style="width:100%"></table>
-<div class="seo-info">
-    <p>
-        <b>
-            Keywords
-        </b>
-    </p>
-    <div class="key-info">
-        {% for keyword in keywords|split_by_comma %}
-        <span>{{keyword}}</span>
-        {% endfor%}
+<div class="card card-custom">
+    <div class="card-body">
+        <div id class="dataTables_wrapper dt-bootstrap4 no-footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="universityTbl"
+                           class="table table-separate table-head-custom table-checkable dataTable no-footer dtr-inline">
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

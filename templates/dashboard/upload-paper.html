@@ -1,33 +1,44 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <div class="wraper-paper">
-        <div class="upload-paper">
-            <h1>Upload Paper</h1>
-            <form id="upload-paper" style="width: 50%">
-                {% csrf_token %}
+<div class="card card-custom col-lg-8 uploadPaperDiv">
+    <div class="card-header">
+        <h3 class="card-title">
+            Upload Paper
+        </h3>
+        <div class="card-toolbar">
+            <div class="example-tools justify-content-center">
+                <span class="example-toggle" data-toggle="tooltip" title="View code"></span>
+                <span class="example-copy" data-toggle="tooltip" title="Copy code"></span>
+            </div>
+        </div>
+    </div>
+    <div class="upload-paper">
+        <!--begin::Form-->
+        <form id="upload-paper">
+            <div class="card-body">
                 <div class="form-group" style="width: 100px">
-                    <label for="title">Year</label>
+                    <label>Year <span class="text-danger">*</span></label>
                     <select name="year" class="js-example-basic-single form-control" id="year" required>
                     </select>
                 </div>
                 <div class="form-group" style="width: 100px">
-                    <label for="title">Type</label>
+                    <label>Type <span class="text-danger">*</span></label>
                     <select name="type" class="js-example-basic-single form-control sel-type" id="type" required>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="title">University</label>
+                    <label>University:</label>
                     <select name="university" class="js-example-basic-single form-control" id="university" required>
                     </select>
                 </div>
                 <div class="form-group" id="divCollage">
-                    <label for="title">Collage</label>
+                    <label>Collage:</label>
                     <select name="collage" class="js-example-basic-single form-control" id="collage">
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="title">Course</label>
+                    <label>Course:</label>
                     <select name="course" class="js-example-basic-single form-control" id="course" required>
                     </select>
                 </div>
@@ -44,31 +55,36 @@
                 <div class="form-group">
                     <label for="title">Select Files</label><br/>
                     <input type="file" name="file" id="getFile" autocomplete=off
-                           multiple accept="image/x-jpg, image/jpeg, application/pdf" required/>
+                           accept="image/x-jpg, image/jpeg, application/pdf" multiple required/>
                 </div>
                 <p class="error"></p>
-                <button type="submit" id="btn-submit">Submit</button>
-            </form>
-
-        </div>
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary mr-2" id="btn-submit">Upload</button>
+            </div>
+        </form>
+        <!--end::Form-->
+    </div>
+    <div class="messageDiv">
         <div class="uploading">
-            <h1>Uploading...</h1>
+            <h2>Uploading...</h2>
             <div id="progressBar"
                  data-preset="rainbow">
             </div>
         </div>
         <div class="upload-successfully">
-            <h1>Uploaded Successfully</h1>
+            <h2>Uploaded Successfully</h2>
         </div>
     </div>
+</div>
 {% endblock %}
 
 <!--Custom_CSS-->
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'apps/dashboard/uploadPaper.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'apps/dashboard/uploadPaper.css' %}"/>
 {% endblock %}
 
 <!--Custom_JS-->
 {% block js %}
-    <script src="{% static 'apps/dashboard/uploadPaper.js' %}"></script>
+<script src="{% static 'apps/dashboard/uploadPaper.js' %}"></script>
 {% endblock %}

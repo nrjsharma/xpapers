@@ -28,10 +28,22 @@ $("#upload-paper").submit(function (event) {
         processData: false,
         contentType: false,
         success: function (data) {
+            Swal.fire({
+                icon: "success",
+                title: "Uploaded Successfully",
+                showConfirmButton: false,
+                timer: 2000
+            });
             $('.uploading').css("display", "none");
             $('.upload-successfully').css("display", "block");
         }, error: function (rs, e) {
-            alert(rs.responseText);
+            Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: rs.responseText,
+                showConfirmButton: true,
+                confirmButtonText: "Close"
+            });
             $('#btn-submit').prop('disabled', false);
         }
     });
@@ -198,6 +210,7 @@ function initSelect2() {
 
 $(document).ready(function () {
     $('#divCollage').css('display', 'none');
+    $('#kt_subheader').css('display', 'none');
     $('.upload-paper-link').css("display", "none");
     initSelect2();
 

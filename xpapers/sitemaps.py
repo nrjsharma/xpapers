@@ -18,7 +18,12 @@ class StaticHomeSitemap(Sitemap):
     protocol = "https"
 
     def items(self):
-        return ['dashboard:dashboard']
+        return ['dashboard:dashboard',
+                'dashboard:about',
+                'dashboard:contact',
+                'dashboard:privacy-policy',
+                'dashboard:disclaimer',
+                ]
 
     def location(self, obj):
         return reverse(obj)

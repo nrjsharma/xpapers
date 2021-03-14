@@ -57,3 +57,31 @@ class SearchDataView(View):
             context['data'] = self.get_branch()
 
         return render(request, self.template_name)
+
+
+class AboutView(View):
+    template_name = 'dashboard/about-us.html'
+
+    def get(self, request, path=None):
+        return render(request, self.template_name)
+
+
+class ContactView(View):
+    template_name = 'dashboard/contact-us.html'
+
+    def get(self, request, path=None):
+        return render(request, self.template_name)
+
+
+class PrivacyPolicyView(View):
+    template_name = 'dashboard/privacy-policy.html'
+
+    def get(self, request, path=None):
+        return render(request, self.template_name)
+
+
+class DisclaimerView(View):
+    template_name = 'dashboard/disclaimer.html'
+
+    def get(self, request, path=None):
+        return render(request, self.template_name)

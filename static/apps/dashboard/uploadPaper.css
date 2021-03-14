@@ -1,10 +1,7 @@
 #progressBar {
     width: 100% !important;
     height: 60px !important;
-}
-
-.wraper-paper{
-    margin-top: 120px;
+    padding: 15px 0px 15px 23px;
 }
 
 .ldBar-label {
@@ -23,4 +20,8 @@
 
 #divCollage{
     display: none;
+}
+
+.messageDiv{
+    padding: 15px 0px 15px 23px;
 }

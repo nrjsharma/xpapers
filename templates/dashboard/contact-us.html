@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head_content %}
+        <meta name="keywords" content="xpapers, contact xpapers">
+        <meta name="description"
+              content="Xpapers is an educational website that provides
+                       students an online platform to share notes
+                       and question papers for various universities.">
+        <meta property="og:keywords"
+              content="xpapers, about xpapers">
+        <meta property="og:description"
+              content="Xpapers is an educational website that provides
+                       students an online platform to share notes
+                       and question papers for various universities.">
+{% endblock %}
+
+{% block content %}
+<div class="card card-custom gutter-b">
+    <div class="card-header">
+        <div class="card-title">
+            <h2 class="card-label">
+                Contacts
+            </h2>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <p>
+                    Have questions or need to report an issue?
+                    <br/>
+                    We would love to hear from you!
+                </p>
+                <p>
+                    Connect with us : Facebook Page : <a href="https://www.facebook.com/xpapers.in">https://www.facebook.com/xpapers</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    $(document).ready(function () {
+        document.title = "Contact Xpapers";
+    });
+</script>
+{% endblock %}

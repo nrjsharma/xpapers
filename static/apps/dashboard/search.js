@@ -140,7 +140,7 @@ function metaTag(data) {
     if (!data)
         return null
     let url = document.URL
-    $("#tagline").html(`<h1>${data['tag']}</h1>`);
+
     document.title = data['tag'].replaceAll(">", "") + " Previous Year Question Paper | Xpapers";
     $('meta[property="og:title"]').attr('content', document.title);
     $('meta[property="og:description"]').attr('content', data['description']);
@@ -150,8 +150,8 @@ function metaTag(data) {
     $("head").append(`<meta name="keywords" content="${data['keywords']}">`);
     $("head").append(`<meta name="description" content="${data['description']}">`);
     if (data['data'] == "course") {
-	// show university data
-	let tagHtml = `<div id="tag-inner">
+        // show university data
+        let tagHtml = `<div id="tag-inner">
 	    <div id="tag-img"><img src="${data['uni-thumbnail']}" width="220px" alt="${document.title}"/></div>
 	    <div id="tag-name">
 	    <h1>${data['tag']} Previous Year Papers</h1>
@@ -159,18 +159,30 @@ function metaTag(data) {
 	    ${data['uni-url'] ? `<p>Go to <a href="${data['uni-url']}" target="_blank">${data['tag']}</a> website</p>` : ''}
 	    </div>
 	    </div>`;
-	let underTableData = `
+        let underTableData = `
 	    ${data['uni-about'] ?
-	      `
+            `
 	      <div id="underTable-inner">
 	      <h2>About ${data['tag']}</h2>
 	      <p>${data['uni-about']}</p>
 	      </div>
 	      `
-	      :``}
+            : ``}
 	    `;
-	$("#tagline").html(tagHtml);
-	$("#underTable").html(underTableData);
+        $("#tagline").html(tagHtml);
+        $("#underTable").html(underTableData);
+        $("#pageTitle").html(`${data['tag']}`);
+    }else{
+        var a = data['tag'].split(" > "),
+        i;
+        let tagHtml = ``;
+        for (i = 1; i < a.length; i++) {
+            tagHtml = tagHtml + `
+                <li class="breadcrumb-item text-muted">${a[i]}</li>
+            `;
+        }
+        $("#pageTitle").html(`${a[0]}`);
+        $("#pageTitleList").html(tagHtml);
     }
 }
 

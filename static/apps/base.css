@@ -1,43 +1,5 @@
 body {
-    background-color: #e8eae9;
-    font-family: 'Open Sans', Verdana, Helvetica, sans-serif;
-    font-size: 1rem !important;
-    line-height: 1.63 !important;
-    margin: 0 !important;
-    overflow-x: hidden !important;
-}
-
-a {
-    text-decoration: none;
-    cursor: pointer;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-button:focus { outline: none; }
-
-h1 {
-    margin-bottom: 30px;
-    font-size: 40px;
-    color: #252b33;
-    font-weight: 800;
-    line-height: 55px;
-    letter-spacing: -.5px;
-}
-
-.main-container {
-    padding-left: 15% !important;
-    padding-right: 15% !important;
-}
-
-.base_container{
-    margin-top: 120px;
-}
-
-.main-top{
-    margin-top: 30px !important;
+    background-color: #eef0f8;
 }
 
 .error{
