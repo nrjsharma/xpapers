@@ -141,14 +141,15 @@ function metaTag(data) {
         return null
     let url = document.URL
 
-    document.title = data['tag'].replaceAll(">", "") + " Previous Year Question Paper | Xpapers";
-    $('meta[property="og:title"]').attr('content', document.title);
-    $('meta[property="og:description"]').attr('content', data['description']);
-    $('meta[property="og:keywords"]').attr('content', data['keywords']);
-    $('meta[property="og:url"]').attr('content', url);
+    document.title = data['tag'].replaceAll(">", "") + " Previous Year Question Paper - Xpapers";
     $("head").append(`<link rel="canonical" href="${url}"/>`);
     $("head").append(`<meta name="keywords" content="${data['keywords']}">`);
     $("head").append(`<meta name="description" content="${data['description']}">`);
+    $("head").append(`<meta property="og:title" content="${document.title}"/>`);
+    $("head").append(`<meta property="og:url" content="${url}"/>`);
+    $("head").append(`<meta property="og:keywords" content="${data['keywords']}"/>`);
+    $("head").append(`<meta property="og:description" content="${data['description']}"/>`);
+    
     if (data['data'] == "course") {
         // show university data
         let tagHtml = `<div id="tag-inner">
