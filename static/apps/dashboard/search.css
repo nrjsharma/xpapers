@@ -1,5 +1,5 @@
 
-#tagline h1{
+#tagline h1 {
     margin-bottom: 0px !important;
     line-height: 1 !important;
     font-weight: 800 !important;
@@ -7,19 +7,27 @@
     letter-spacing: -1px !important;
     font-weight: 400 !important;
 }
-#tag-inner{
+
+#tag-inner {
+    position: relative;
     display: flex;
+    flex-wrap: wrap;
 }
 
-#tag-name{
+#tag-img {
+    /*flex-basis: 29%;*/
+}
+
+#tag-name {
     padding: 0px 0px 0px 10px;
+    flex-basis: 70%;
 }
 
-#tag-name > p{
+#tag-name > p {
     margin-top: 10px !important;
 }
 
-#underTable-inner h2{
+#underTable-inner h2 {
     margin-bottom: 15px !important;
     line-height: 1 !important;
     font-weight: 800 !important;
@@ -28,6 +36,21 @@
     font-weight: 400 !important;
 }
 
-#underTable-inner{
+#underTable-inner {
     margin-top: 15px;
+}
+
+@media (max-width: 770px) {
+    #tag-img {
+        width: 100%;
+        text-align: center;
+    }
+
+    #tag-name {
+        padding: 0px 0px 0px 10px;
+        flex-basis: 100%;
+        width: 100%;
+        text-align: center;
+        padding-top: 20px;
+    }
 }

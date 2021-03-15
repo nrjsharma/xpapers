@@ -398,11 +398,9 @@ class UploadPaperView(APIView):
             post.save()
             for file in files:
                 extension = os.path.splitext(file.name)[1]
-                print('extension', extension)
                 if extension == ".pdf":
                     if len(files) == 1:
                         pdf_path = self.save_file_temp(file, extension='.pdf')
-                        print('PDF PATH', pdf_path)
                         if not pdf_path == "400":
                             self.pdf_watermark(post_id=post.id,
                                                user=user,
