@@ -34,9 +34,28 @@ fi
 
 echo "merging with "$current_branch
 git checkout $current_branch
+
+read -r -p 'stash [y/n], any other key to abort ' is_stash
+
+if [ "$is_stash" == "y" ]
+then
+    git stash
+elif [ "$is_stash" != "n" ]
+then
+    echo "Abort"
+    exit 1
+fi
+
 git stash
 git reset --hard HEAD~20
 git fetch origin && git merge origin/$current_branch --ff-only
+
+read -r -p 'stash apply [y/n]' is_stash_apply
+
+if [ "$is_stash_apply" == "y" ]
+then
+    git stash apply
+fi
 
 export DJANGO_SETTINGS_MODULE="settings.prod"
 source $source_path
