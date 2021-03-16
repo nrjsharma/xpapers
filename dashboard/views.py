@@ -1,9 +1,21 @@
-from django.shortcuts import render
 from django.views import View
-from django.shortcuts import get_object_or_404
+from django.shortcuts import (get_object_or_404, render,
+                              render_to_response)
 from dashboard.models import (University, Collage,
                               Course, Branch)
 from xpapers.utils import utils_commaSeperatedString
+
+
+def handler404(request, *args, **argv):
+    response = render_to_response('error-pages/404.html')
+    response.status_code = 404
+    return response
+
+
+def handler500(request, *args, **argv):
+    response = render_to_response('error-pages/500.html')
+    response.status_code = 500
+    return response
 
 
 class DashboardView(View):

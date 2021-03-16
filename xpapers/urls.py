@@ -29,6 +29,9 @@ sitemaps = {
     'manual': ManualSitemapUrls
 }
 
+handler404 = 'dashboard.views.handler404'
+handler500 = 'dashboard.views.handler500'
+
 urlpatterns = [
     path('superadmin/', admin.site.urls),
     path('api/v1/', include('api.urls'), name="api"),

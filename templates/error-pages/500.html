@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>500 - Xpapers</title>
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'utils/logo/xpapers_title.png' %}" sizes="16x16"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+        /*======================
+            Font
+        =======================*/
+        @font-face {
+            font-family: 'Arvo';
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://fonts.gstatic.com/s/arvo/v14/tDbD2oWUg0MKqScQ7Z7o_vo.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+
+        .page_404 {
+            padding: 40px 0;
+            background: #fff;
+            font-family: 'Arvo', serif;
+        }
+
+        .page_404 img {
+            width: 100%;
+        }
+
+        .four_zero_four_bg {
+            background: url("{% static 'utils/images/error/shock.gif' %}");
+            height: 400px;
+            background-position: center;
+        }
+
+        .four_zero_four_bg h1 {
+            font-size: 80px;
+        }
+
+        .four_zero_four_bg h3 {
+            font-size: 80px;
+        }
+
+        .link_404 {
+            color: #fff !important;
+            padding: 10px 20px;
+            background: #39ac31;
+            margin: 20px 0;
+            display: inline-block;
+        }
+
+        .contant_box_404 {
+            margin-top: -50px;
+        }
+    </style>
+
+    <script>
+        window.console = window.console || function (t) {
+                };
+    </script>
+
+
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+
+
+</head>
+
+<body translate="no" data-new-gr-c-s-check-loaded="14.998.0" data-gr-ext-installed="">
+<section class="page_404">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 ">
+                <div class="col-sm-10 col-sm-offset-1  text-center">
+                    <div class="four_zero_four_bg">
+                        <h1 class="text-center ">Oops...</h1>
+                    </div>
+
+                    <div class="contant_box_404">
+                        <h3 class="h2">
+                            Something went wrong here!
+                        </h3>
+
+                        <p>We're working on it and we'll get it fixed as soon possible.</p>
+
+                        <a href="/" class="link_404" style="background-color: #F64E60">Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
