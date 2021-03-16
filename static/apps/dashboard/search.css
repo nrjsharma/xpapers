@@ -40,6 +40,14 @@
     margin-top: 15px;
 }
 
+#pageTitle a {
+    color: #000000;
+}
+
+#pageTitle a:hover{
+    color: #F64E60 !important;
+}
+
 @media (max-width: 770px) {
     #tag-img {
         width: 100%;

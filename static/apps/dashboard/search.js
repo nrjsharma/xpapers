@@ -139,8 +139,12 @@ function loadPostTable() {
 function metaTag(data) {
     if (!data)
         return null
-    let url = document.URL
 
+    let url = document.URL;
+    let breadcrumbs_url = url.split("s?");
+    let url_host = breadcrumbs_url[0] + "s?";
+    let url_body = breadcrumbs_url[1].split('&')
+    let url_university = url_host + url_body[0]
     document.title = data['tag'].replaceAll(">", "") + " Previous Year Question Paper - Xpapers";
     $("head").append(`<link rel="canonical" href="${url}"/>`);
     $("head").append(`<meta name="keywords" content="${data['keywords']}">`);
@@ -175,14 +179,33 @@ function metaTag(data) {
         $("#pageTitle").html(`${data['tag']}`);
     }else{
         var a = data['tag'].split(" > "),
-        i;
+        i, thisURL, j;
         let tagHtml = ``;
         for (i = 1; i < a.length; i++) {
-            tagHtml = tagHtml + `
-                <li class="breadcrumb-item text-muted">${a[i]}</li>
+            // breadcrumbs
+            for (j = 0; j <= i; j++){
+                if (j == 0){
+                    thisURL = url_host + url_body[j];
+                }else{
+                    thisURL = thisURL + "&" + url_body[j];
+                }
+            }
+            if (i == a.length - 1) {
+                tagHtml = tagHtml + `
+                <li class="breadcrumb-item text">
+                <a href="${thisURL}" class="text">${a[i]}</a>
+                </li>
             `;
+            } else {
+                tagHtml = tagHtml + `
+                <li class="breadcrumb-item text-muted">
+                <a href="${thisURL}" class="text-muted">${a[i]}</a>
+                </li>
+            `;
+            }
+
         }
-        $("#pageTitle").html(`${a[0]}`);
+        $("#pageTitle").html(`<a href="${url_university}">${a[0]}</a>`);
         $("#pageTitleList").html(tagHtml);
     }
 }
