@@ -136,79 +136,80 @@ function loadPostTable() {
 //         }
 //     });
 // }
-function metaTag(data) {
-    if (!data)
-        return null
 
-    let url = document.URL;
-    let breadcrumbs_url = url.split("s?");
-    let url_host = breadcrumbs_url[0] + "s?";
-    let url_body = breadcrumbs_url[1].split('&')
-    let url_university = url_host + url_body[0]
-    document.title = data['tag'].replaceAll(">", "") + " Previous Year Question Paper - Xpapers";
-    $("head").append(`<link rel="canonical" href="${url}"/>`);
-    $("head").append(`<meta name="keywords" content="${data['keywords']}">`);
-    $("head").append(`<meta name="description" content="${data['description']}">`);
-    $("head").append(`<meta property="og:title" content="${document.title}"/>`);
-    $("head").append(`<meta property="og:url" content="${url}"/>`);
-    $("head").append(`<meta property="og:keywords" content="${data['keywords']}"/>`);
-    $("head").append(`<meta property="og:description" content="${data['description']}"/>`);
-    
-    if (data['data'] == "course") {
-        // show university data
-        let tagHtml = `<div id="tag-inner">
-	    <div id="tag-img"><img src="${data['uni-thumbnail']}" width="220px" alt="${document.title}"/></div>
-	    <div id="tag-name">
-	    <h1>${data['tag']} Previous Year Papers</h1>
-	    ${data['uni-description'] ? `<p>${data['uni-description']}</p>` : `<p>${data['description']}</p>`}
-	    ${data['uni-url'] ? `<p>Go to <a href="${data['uni-url']}" target="_blank">${data['tag']}</a> website</p>` : ''}
-	    </div>
-	    </div>`;
-        let underTableData = `
-	    ${data['uni-about'] ?
-            `
-	      <div id="underTable-inner">
-	      <h2>About ${data['tag']}</h2>
-	      <p>${data['uni-about']}</p>
-	      </div>
-	      `
-            : ``}
-	    `;
-        $("#tagline").html(tagHtml);
-        $("#underTable").html(underTableData);
-        $("#pageTitle").html(`${data['tag']}`);
-    }else{
-        var a = data['tag'].split(" > "),
-        i, thisURL, j;
-        let tagHtml = ``;
-        for (i = 1; i < a.length; i++) {
-            // breadcrumbs
-            for (j = 0; j <= i; j++){
-                if (j == 0){
-                    thisURL = url_host + url_body[j];
-                }else{
-                    thisURL = thisURL + "&" + url_body[j];
-                }
-            }
-            if (i == a.length - 1) {
-                tagHtml = tagHtml + `
-                <li class="breadcrumb-item text">
-                <a href="${thisURL}" class="text">${a[i]}</a>
-                </li>
-            `;
-            } else {
-                tagHtml = tagHtml + `
-                <li class="breadcrumb-item text-muted">
-                <a href="${thisURL}" class="text-muted">${a[i]}</a>
-                </li>
-            `;
-            }
-
-        }
-        $("#pageTitle").html(`<a href="${url_university}">${a[0]}</a>`);
-        $("#pageTitleList").html(tagHtml);
-    }
-}
+// function metaTag(data) {
+//     if (!data)
+//         return null
+//
+//     let url = document.URL;
+//     let breadcrumbs_url = url.split("s?");
+//     let url_host = breadcrumbs_url[0] + "s?";
+//     let url_body = breadcrumbs_url[1].split('&')
+//     let url_university = url_host + url_body[0]
+//     document.title = data['tag'].replaceAll(">", "") + " Previous Year Question Paper - Xpapers";
+//     $("head").append(`<link rel="canonical" href="${url}"/>`);
+//     $("head").append(`<meta name="keywords" content="${data['keywords']}">`);
+//     $("head").append(`<meta name="description" content="${data['description']}">`);
+//     $("head").append(`<meta property="og:title" content="${document.title}"/>`);
+//     $("head").append(`<meta property="og:url" content="${url}"/>`);
+//     $("head").append(`<meta property="og:keywords" content="${data['keywords']}"/>`);
+//     $("head").append(`<meta property="og:description" content="${data['description']}"/>`);
+//
+//     if (data['data'] == "course") {
+//         // show university data
+//         let tagHtml = `<div id="tag-inner">
+// 	    <div id="tag-img"><img src="${data['uni-thumbnail']}" width="220px" alt="${document.title}"/></div>
+// 	    <div id="tag-name">
+// 	    <h1>${data['tag']} Previous Year Papers</h1>
+// 	    ${data['uni-description'] ? `<p>${data['uni-description']}</p>` : `<p>${data['description']}</p>`}
+// 	    ${data['uni-url'] ? `<p>Go to <a href="${data['uni-url']}" target="_blank">${data['tag']}</a> website</p>` : ''}
+// 	    </div>
+// 	    </div>`;
+//         let underTableData = `
+// 	    ${data['uni-about'] ?
+//             `
+// 	      <div id="underTable-inner">
+// 	      <h2>About ${data['tag']}</h2>
+// 	      <p>${data['uni-about']}</p>
+// 	      </div>
+// 	      `
+//             : ``}
+// 	    `;
+//         $("#tagline").html(tagHtml);
+//         $("#underTable").html(underTableData);
+//         $("#pageTitle").html(`${data['tag']}`);
+//     }else{
+//         var a = data['tag'].split(" > "),
+//         i, thisURL, j;
+//         let tagHtml = ``;
+//         for (i = 1; i < a.length; i++) {
+//             // breadcrumbs
+//             for (j = 0; j <= i; j++){
+//                 if (j == 0){
+//                     thisURL = url_host + url_body[j];
+//                 }else{
+//                     thisURL = thisURL + "&" + url_body[j];
+//                 }
+//             }
+//             if (i == a.length - 1) {
+//                 tagHtml = tagHtml + `
+//                 <li class="breadcrumb-item text">
+//                 <a href="${thisURL}" class="text">${a[i]}</a>
+//                 </li>
+//             `;
+//             } else {
+//                 tagHtml = tagHtml + `
+//                 <li class="breadcrumb-item text-muted">
+//                 <a href="${thisURL}" class="text-muted">${a[i]}</a>
+//                 </li>
+//             `;
+//             }
+//
+//         }
+//         $("#pageTitle").html(`<a href="${url_university}">${a[0]}</a>`);
+//         $("#pageTitleList").html(tagHtml);
+//     }
+// }
 
 $(document).ready(function () {
     let perms = window.location.search;
@@ -219,7 +220,7 @@ $(document).ready(function () {
         },
         type: "get",
         success: function (data) {
-            metaTag(data)
+            // metaTag(data)
             if (data['data'] == "post") {
                 loadPostTable()
             } else {

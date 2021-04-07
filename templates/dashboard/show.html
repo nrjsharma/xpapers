@@ -1,12 +1,48 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load template_tags %}
+
+{% block head_content %}
+        <title>{{ tag|title_replace_with_space }} Previous Year Question Paper - Xpapers</title>
+        <meta name="keywords" content="{{ keywords }}">
+        <meta name="description"
+              content="{{ description }}">
+        <meta property="og:title"
+              content="{{ tag }} Previous Year Question Paper - Xpapers" />
+        <meta property="og:url" content="https://xpapers.in/"/>
+        <meta property="og:keywords"
+              content="{{ keywords }}">
+        <meta property="og:description"
+                        content="{{ description }}">
+{% endblock %}
 
 {% block sub-header %}
     {% include 'partials/_subheader/subheader-v6.html' %}
 {% endblock %}
 
 {% block content %}
-    <div id="tagline"></div>
+
+    {% if data == "course" %}
+        <div id="tagline">
+            <div id="tag-inner">
+                <div id="tag-img">
+                    <img src="{{ uni_thumbnail }}" width="220px" alt="{{ tag }} Previous Year Question Paper - Xpapers"/>
+                </div>
+                <div id="tag-name">
+                    <h1>{{tag}} Previous Year Papers</h1>
+                    {% if uni_description %}
+                    <p>{{ uni_description }}</p>
+                    {% else %}
+                    <p>{{ description }}</p>
+                    {% endif %}
+                    {% if uni_url %}
+                    <p>Go to <a href="{{uni_url}}" target="_blank">{{tag}}</a> website</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
     <br/>
     <div class="card card-custom">
         <div class="card-body">
@@ -21,7 +57,14 @@
             </div>
         </div>
     </div>
-    <div id="underTable"></div>
+    <div id="underTable">
+        {% if uni_about %}
+        <div id="underTable-inner">
+            <h2>About {{tag}}</h2>
+            <p>{{uni_about}}</p>
+        </div>
+        {% endif %}
+    </div>
 {% endblock %}
 
 <!--Custom_CSS-->
