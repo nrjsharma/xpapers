@@ -170,7 +170,13 @@
                                         <b>Sign in with Google</b>
                                     </div>
                                     <div class="connectServiceHeaderBtn">
-                                        {% include "account/user-profile.html" %}
+                                        {% if user.is_social %}
+                                            <button type="button" class="btn btn-outline-danger mr-5">
+                                                Disconnect
+                                            </button>
+                                        {% else %}
+                                            {% include "account/user-profile.html" %}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>

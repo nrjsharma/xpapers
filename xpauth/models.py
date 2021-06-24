@@ -1,4 +1,5 @@
 from django.db import models
+from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from xpauth.utils import get_upload_path_user
@@ -87,3 +88,11 @@ class XpapersUser(AbstractBaseUser):
             return self.first_name
         else:
             return self.email
+
+    @property
+    def is_social(self):
+        try:
+            SocialAccount.objects.get(user=self)
+            return True
+        except SocialAccount.DoesNotExist:
+            return False
