@@ -64,6 +64,10 @@ XPAPERS_APPS = [
 
 OTHER_APPS = [
     'storages',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + REST_APPS + XPAPERS_APPS + OTHER_APPS
@@ -101,8 +105,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'xpapers.wsgi.application'
 
 
-# Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -127,8 +133,23 @@ AUTH_PASSWORD_VALIDATORS = [
 AUTH_USER_MODEL = 'xpauth.XpapersUser'
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/2.2/topics/i18n/
+###########################
+# SOCIAL ACCOUNT
+###########################
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'SCOPE': [
+            'profile',
+            'email',
+        ],
+        'APP': {
+            'client_id': '747309140873-sqitn722gku65q.apps.googleusercontent.com',
+            'secret': 'ip1-mGTtRc31XGsxrfuZ8CLB',
+            'key': ''
+        }
+    }
+}
 
 LANGUAGE_CODE = 'en-us'
 

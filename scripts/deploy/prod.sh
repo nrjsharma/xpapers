@@ -60,7 +60,7 @@ fi
 export DJANGO_SETTINGS_MODULE="settings.prod"
 source $source_path
 cd $project_path
-pip install -r requirements.txt
+pip install -r requirements.txt --no-cache-dir
 ./manage.py migrate
 sudo supervisorctl restart xpapers
 sudo supervisorctl restart celery-xpapers

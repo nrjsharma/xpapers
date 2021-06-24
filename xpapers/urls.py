@@ -36,6 +36,7 @@ urlpatterns = [
     path('superadmin/', admin.site.urls),
     path('api/v1/', include('api.urls'), name="api"),
     path('auth/', include('xpauth.urls'), name="auth"),
+    path('accounts/', include('allauth.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
          name="django.contrib.sitemaps.views.sitemap"),  # NOQA
     path('sitemap.xml/', sitemap, {'sitemaps': sitemaps},

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div id="loginDiv">
+    <div class="loginMsg">
+        <div>Log in to continue to:</div>
+        <div class="IloginMsg">Xpapers</div>
+    </div>
+    <div class="loginFormDiv">
+        <form id="loginForm" method="post">
+            <input name="email" id="email" type="email" placeholder="Enter email"/>
+            <input name="password" id="password" type="password" placeholder="Enter password"/>
+            <span id="error"></span>
+            <button type="submit" id="loginBtn" class="btn btn-primary">Login</button>
+        </form>
+    </div>
+    {% include 'account/login.html' %}
+    <!--Dont DELETE-->
+    <!--<div class="lsAw">-->
+        <!--<ul>-->
+            <!--<li>-->
+                <!--<a id="resetPassword" href="/login/resetpassword">-->
+                    <!--<span>Can't log in?</span>-->
+                <!--</a>-->
+            <!--</li>-->
+            <!--<p class="lsAw2">-->
+                <!--•-->
+            <!--</p>-->
+            <!--<li>-->
+                <!--<a id="signup" href="/auth/signup">-->
+                    <!--<span>Sign Up</span>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+    <!--</div>-->
+</div>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'apps/auth/login.css' %}"/>
+{% endblock %}
+
+{% block js %}
+        <script>
+            var LOGIN_URL = "{% url 'api:login' %}";
+            var LOGOUT_URL = "{% url 'api:logout' %}";
+        </script>
+    <script src="{% static 'apps/auth/login.js' %}"></script>
+{% endblock %}

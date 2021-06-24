@@ -1,0 +1,24 @@
+{% load static %}
+{% load socialaccount %}
+{% get_providers as socialaccount_providers %}
+
+<div id="socialDiv" login-or="or">
+  {% for provider in socialaccount_providers %}
+  {% if provider.id == "google"%}
+  <li>
+    <a title="{{provider.name}}" class="socialaccount_provider provider-{{provider.id}}"
+       href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+      <button id="google-auth-button" type="button" class="socialaccount_btn">
+      <span class="btn-aw2">
+        <span class="btn-akw2">
+          <img src="{% static 'utils/images/auth/google-logo.svg' %}"
+               alt="" style="height: 18px; margin-right: 8px; width: 18px;">
+          <span>Continue with Google</span>
+        </span>
+      </span>
+      </button>
+    </a>
+  </li>
+  {% endif %}
+  {% endfor %}
+</div>
