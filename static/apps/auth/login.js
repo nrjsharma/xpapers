@@ -8,8 +8,8 @@ $(document).ready(function () {
     $("#loginForm").submit(function (event) {
         event.preventDefault();
         resetForm();
-        let email = $('#email').val().trim()
-        let password = $('#password').val().trim()
+        let email = $('#email').val().trim();
+        let password = $('#password').val().trim();
 
         if(!email){
             $("#error").html("enter email");
@@ -40,7 +40,7 @@ $(document).ready(function () {
                 console.log('saving...')
             },
             success: function (data) {
-                window.location = '/'+data.username
+                window.location = '/'
             },
             error: function (rs, e) {
                 console.log(rs)

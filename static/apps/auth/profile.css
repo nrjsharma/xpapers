@@ -1,0 +1,23 @@
+.connectServiceDiv {
+    box-sizing: border-box;
+    border-style: solid;
+    border-color: rgb(223, 225, 230);
+    border-radius: 1px;
+    border-width: 1px;
+    padding: 25px;
+}
+
+.connectServiceHeader {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.connectServiceHeaderMsg {
+    margin-left: 10px !important;
+    margin-top: 3px;
+}
+
+.connectServiceHeaderBtn{
+    margin-left: 50px !important;
+    margin-top: -6px;
+}

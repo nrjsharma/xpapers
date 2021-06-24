@@ -11,3 +11,10 @@ class LoginView(View):
             path = "/{username}/"
             return redirect(path.format(username=request.user.username))
         return render(request, self.template_name)
+
+
+class ProfileView(View):
+    template_name = 'auth/profile.html'
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
