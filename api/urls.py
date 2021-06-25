@@ -24,6 +24,7 @@ urlpatterns = [
     url(r'^upload-paper/', views.UploadPaperView.as_view(), name="upload-paper"),
     url(r'^login/', views.LoginView.as_view(), name="login"),
     url(r'^logout/', views.LogoutView.as_view(), name="logout"),
+    url(r'^disconnect-social/', views.DisconnectSocialView.as_view(), name="disconnect-social"),
 ]
 
 urlpatterns += router.urls

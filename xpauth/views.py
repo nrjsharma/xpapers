@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from xpauth.models import XpapersUser
 
 
 class LoginView(View):
@@ -8,7 +7,7 @@ class LoginView(View):
 
     def get(self, request, path=None):
         if request.user.is_authenticated:
-            path = "/{username}/"
+            path = "/auth/profile/{username}/"
             return redirect(path.format(username=request.user.username))
         return render(request, self.template_name)
 

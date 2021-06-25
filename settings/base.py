@@ -144,12 +144,20 @@ SOCIALACCOUNT_PROVIDERS = {
             'email',
         ],
         'APP': {
-            'client_id': '747309140873-sqitn722gku65q.apps.googleusercontent.com',
-            'secret': 'ip1-mGTtRc31XGsxrfuZ8CLB',
+            'client_id': os.getenv('gcp_client_id'),
+            'secret': os.getenv('gcp_secret_id'),
             'key': ''
         }
     }
 }
+
+SOCIALACCOUNT_ADAPTER = 'xpauth.adapter.SocialAccountAdapter'
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = "username"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+LOGIN_REDIRECT_URL = '/'
 
 LANGUAGE_CODE = 'en-us'
 

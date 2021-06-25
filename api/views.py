@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.conf import settings
+from allauth.socialaccount.models import SocialAccount
 from django.shortcuts import get_object_or_404
 
 # REST Framework Imports
@@ -63,6 +64,16 @@ class LogoutView(APIView):
         if Token.objects.filter(user=request.user).exists():
             Token.objects.get(user=request.user).delete()
         logout(request)
+        return Response(status=status.HTTP_200_OK)
+
+
+class DisconnectSocialView(APIView):
+    permission_classes = (IsAuthenticated,)
+    http_method_names = ['post', ]
+
+    def post(self, request):
+        user_social_account = get_object_or_404(SocialAccount, user=request.user)
+        user_social_account.delete()
         return Response(status=status.HTTP_200_OK)
 
 

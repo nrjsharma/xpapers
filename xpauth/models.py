@@ -91,8 +91,4 @@ class XpapersUser(AbstractBaseUser):
 
     @property
     def is_social(self):
-        try:
-            SocialAccount.objects.get(user=self)
-            return True
-        except SocialAccount.DoesNotExist:
-            return False
+        return SocialAccount.objects.filter(user=self).exists()

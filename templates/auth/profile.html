@@ -154,6 +154,13 @@
                         <label class="col-xl-3"></label>
                         <div class="col-lg-9 col-xl-6">
                             <h5 class="font-weight-bold mt-10 mb-6">Connected services</h5>
+                            {% if messages %}
+                                {% for message in messages %}
+                                    {% if message.extra_tags and message.extra_tags == "custom"%}
+                                        <span id="error" style="color: red">{{ message }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
                         </div>
                     </div>
 
@@ -171,7 +178,7 @@
                                     </div>
                                     <div class="connectServiceHeaderBtn">
                                         {% if user.is_social %}
-                                            <button type="button" class="btn btn-outline-danger mr-5">
+                                            <button type="button" id="disconnect-btn" onclick="disconectSocial()" class="btn btn-outline-danger mr-5">
                                                 Disconnect
                                             </button>
                                         {% else %}
@@ -194,4 +201,9 @@
 
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'apps/auth/profile.css' %}"/>
+{% endblock %}
+
+
+{% block js %}
+    <script src="{% static 'apps/auth/profile.js' %}"></script>
 {% endblock %}

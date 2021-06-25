@@ -12,6 +12,13 @@
             <input name="email" id="email" type="email" placeholder="Enter email"/>
             <input name="password" id="password" type="password" placeholder="Enter password"/>
             <span id="error"></span>
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.extra_tags and message.extra_tags == "custom"%}
+                        <span id="error" style="display: block">{{ message }}</span>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
             <button type="submit" id="loginBtn" class="btn btn-primary">Login</button>
         </form>
     </div>
