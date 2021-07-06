@@ -38,7 +38,7 @@ class PostAdmin(admin.ModelAdmin):
             obj.user = request.user
         super().save_model(request, obj, form, change)
 
-    list_display = ('id', 'created')
+    list_display = ('id', 'created', 'is_verified')
     search_fields = ('id',)
 
 

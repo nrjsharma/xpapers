@@ -181,12 +181,18 @@ class Post(models.Model):
                                 related_name="posts", on_delete=models.CASCADE)  # NOQA
     created = models.DateTimeField(auto_now_add=True)
     type = models.CharField(max_length=1, choices=POST_CHOICES, default='F')
+    is_verified = models.BooleanField(default=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name="posts", null=True, blank=True,
                              on_delete=models.CASCADE)  # NOQA
 
     def __str__(self):
         return "%s" % (self.id,)
+
+    def save(self, *args, **kwargs):
+        if self.user and self.user.is_admin:
+            self.is_verified = True
+        super(Post, self).save(*args, **kwargs)
 
 
 class PostFiles(models.Model):
