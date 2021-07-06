@@ -19,6 +19,11 @@ class University(models.Model):
     about = models.TextField(null=True, blank=True)
     url = models.URLField(max_length=1000, null=True, blank=True)
     slug = models.SlugField(max_length=500)
+    is_verified = models.BooleanField(default=False)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   related_name="universities", null=True, blank=True,
+                                   on_delete=models.CASCADE)  # NOQA
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Universities"
@@ -27,6 +32,8 @@ class University(models.Model):
         self.name = self.name.upper()
         if self.acronym:
             self.acronym = self.acronym.upper()
+        if self.created_by and self.created_by.is_admin:
+            self.is_verified = True
         super(University, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -45,6 +52,11 @@ class Collage(models.Model):
     university = models.ForeignKey(University,
                                    related_name="colleagues", on_delete=models.CASCADE)  # NOQA
     slug = models.SlugField(max_length=500)
+    is_verified = models.BooleanField(default=False)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   related_name="colleagues", null=True, blank=True,
+                                   on_delete=models.CASCADE)  # NOQA
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Colleagues"
@@ -53,6 +65,8 @@ class Collage(models.Model):
         self.name = self.name.upper()
         if self.acronym:
             self.acronym = self.acronym.upper()
+        if self.created_by and self.created_by.is_admin:
+            self.is_verified = True
         super(Collage, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -66,6 +80,11 @@ class Course(models.Model):
     slug = models.SlugField(max_length=500)
     universities = models.ManyToManyField(
         University, related_name="courses")
+    is_verified = models.BooleanField(default=False)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   related_name="courses", null=True, blank=True,
+                                   on_delete=models.CASCADE)  # NOQA
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Courses"
@@ -74,6 +93,8 @@ class Course(models.Model):
         self.name = self.name.upper()
         if self.acronym:
             self.acronym = self.acronym.upper()
+        if self.created_by and self.created_by.is_admin:
+            self.is_verified = True
         super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -89,6 +110,11 @@ class Branch(models.Model):
         University, related_name="branches")
     courses = models.ManyToManyField(
         Course, related_name="branches")
+    is_verified = models.BooleanField(default=False)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   related_name="branches", null=True, blank=True,
+                                   on_delete=models.CASCADE)  # NOQA
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Branches"
@@ -97,6 +123,8 @@ class Branch(models.Model):
         self.name = self.name.upper()
         if self.acronym:
             self.acronym = self.acronym.upper()
+        if self.created_by and self.created_by.is_admin:
+            self.is_verified = True
         super(Branch, self).save(*args, **kwargs)
 
     def __str__(self):
@@ -114,6 +142,11 @@ class Subject(models.Model):
         Course, related_name="subjects")
     branches = models.ManyToManyField(
         Branch, related_name="subjects")
+    is_verified = models.BooleanField(default=False)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
+                                   related_name="subjects", null=True, blank=True,
+                                   on_delete=models.CASCADE)  # NOQA
+    created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
         verbose_name_plural = "Subjects"
@@ -122,6 +155,8 @@ class Subject(models.Model):
         self.name = self.name.upper()
         if self.acronym:
             self.acronym = self.acronym.upper()
+        if self.created_by and self.created_by.is_admin:
+            self.is_verified = True
         super(Subject, self).save(*args, **kwargs)
 
     def __str__(self):
