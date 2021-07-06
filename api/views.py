@@ -228,6 +228,9 @@ class UploadPaperView(APIView):
             university = get_object_or_404(University, id=university_id)
         else:
             university = University.objects.create(name=university)
+            if request.user.is_authenticated:
+                university.created_by = request.user
+                university.save()
 
         if collage:
             if '#Ea^T|@I^p<0>-' in collage:
@@ -235,24 +238,36 @@ class UploadPaperView(APIView):
                 collage = get_object_or_404(Collage, id=collage_id)
             else:
                 collage = Collage.objects.create(name=collage, university=university)
+                if request.user.is_authenticated:
+                    collage.created_by = request.user
+                    collage.save()
 
         if '#Ea^T|@I^p<0>-' in course:
             course_id = course.split('-')[1]
             course = get_object_or_404(Course, id=course_id)
         else:
             course = Course.objects.create(name=course)
+            if request.user.is_authenticated:
+                course.created_by = request.user
+                course.save()
 
         if '#Ea^T|@I^p<0>-' in branch:
             branch_id = branch.split('-')[1]
             branch = get_object_or_404(Branch, id=branch_id)
         else:
             branch = Branch.objects.create(name=branch)
+            if request.user.is_authenticated:
+                branch.created_by = request.user
+                branch.save()
 
         if '#Ea^T|@I^p<0>-' in subject:
             subject_id = subject.split('-')[1]
             subject = get_object_or_404(Subject, id=subject_id)
         else:
             subject = Subject.objects.create(name=subject)
+            if request.user.is_authenticated:
+                subject.created_by = request.user
+                subject.save()
 
         # Adding M2M keys in course model
         if not course.universities.filter(id=university.id).exists():
