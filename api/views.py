@@ -33,10 +33,22 @@ from xpapers.tasks import celery_pdf_watermark, celery_images_to_pdf
 from xpapers.utils import utils_long_hash, utils_commaSeperatedString
 
 
-class SignupViewSet(ModelViewSet):
+class SignupViewSet(APIView):
     serializer_class = SignupSerializer
     permission_classes = (AllowAny,)
     http_method_names = ['post', ]
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            login(request, user)
+            Token.objects.create(user=user)
+            token = Token.objects.get(user=user).key
+            return Response({'token': token, 'username': user.username},
+                            status=status.HTTP_201_CREATED)  # NOQA
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class LoginView(APIView):

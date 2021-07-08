@@ -1,5 +1,6 @@
 import os
 import codecs
+import random
 import string
 from django.utils.crypto import get_random_string
 
@@ -12,6 +13,12 @@ def set_env():
 
 def utils_get_random_string():
     return get_random_string(10, string.ascii_letters)
+
+
+def utils_get_random_number(stringify=False):
+    if stringify:
+        return str(random.randint(0, 99))
+    return random.randint(0, 99)
 
 
 def utils_short_hash():

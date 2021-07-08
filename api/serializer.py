@@ -13,6 +13,8 @@ from dashboard.models import (University, Collage,
                               Course, Subject, Branch,
                               Post, PostFiles)
 
+from xpapers.utils import utils_get_random_number
+
 
 # Generic Serializer
 class GenericUniversitySerializer(ModelSerializer):
@@ -52,21 +54,42 @@ class GenericUserSerializer(ModelSerializer):
 
 # Generic Serializer END <<
 
+
 class SignupSerializer(ModelSerializer):
-    class Meta:
-        model = XpapersUser
-        write_only_fields = ('password',)
-        fields = ('username', 'email', 'password')
+
+    def get_username(self, email=None):
+        counter = 0
+        if not email:
+            return None
+        username = email.split("@")[0]
+        while counter <= 5:
+            counter += 1
+            if XpapersUser.objects.filter(username=username).exists():
+                username = username + utils_get_random_number(True)
+            else:
+                break
+        return username
+
+    def validate(self, validated_data):
+        email = validated_data.get('email', None)
+        validated_data['username'] = self.get_username(email)
+        return validated_data
 
     def create(self, validated_data):
         user = XpapersUser.objects.create(
             username=validated_data['username'],
             email=validated_data['email'],
         )
-
         user.set_password(validated_data['password'])
         user.save()
+        user = authenticate(email=validated_data['email'],
+                            password=validated_data['password'])  # NOQA
         return user
+
+    class Meta:
+        model = XpapersUser
+        write_only_fields = ('password',)
+        fields = ('email', 'password')
 
 
 class LoginSerializer(Serializer):
