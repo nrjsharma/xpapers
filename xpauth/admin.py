@@ -12,6 +12,7 @@ class XpapersUserAdmin(BaseUserAdmin):
     fieldsets = (
         (None, {'fields': ('username', 'email', 'password')}),
         ('Personal information', {'fields': ('first_name', 'last_name', 'profile_image')}),  # NOQA
+        ('Education information', {'fields': ('university', 'collage', 'course', 'branch')}),  # NOQA
         ('Permissions', {'fields': ('is_active', 'is_admin', 'is_staff')}),
         ('Verification', {'fields': ('is_email_varified',)}),
         ('Dates', {'fields': ('last_login',)}),

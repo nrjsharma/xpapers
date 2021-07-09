@@ -3,6 +3,8 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from xpauth.utils import get_upload_path_user
+from dashboard.models import (University, Collage,
+                              Course, Branch)
 
 
 class XpapersUserManager(BaseUserManager):
@@ -54,6 +56,18 @@ class XpapersUser(AbstractBaseUser):
     # Other
     created = models.DateTimeField(auto_now_add=True)  # Automatically set the field to now when the object is first created.  # NOQA
     updated = models.DateTimeField(auto_now=True)  # Automatically set the field to now every time the object is saved.  # NOQA
+    university = models.ForeignKey(University,
+                                   related_name="users", null=True, blank=True,
+                                   on_delete=models.SET_NULL)  # NOQA
+    collage = models.ForeignKey(Collage,
+                                related_name="users", null=True, blank=True,
+                                on_delete=models.SET_NULL)  # NOQA
+    course = models.ForeignKey(Course,
+                               related_name="users", null=True, blank=True,
+                               on_delete=models.SET_NULL)  # NOQA
+    branch = models.ForeignKey(Branch,
+                               related_name="users", null=True, blank=True,
+                               on_delete=models.SET_NULL)  # NOQA
     objects = XpapersUserManager()
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']

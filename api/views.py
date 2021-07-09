@@ -19,13 +19,15 @@ from api.serializer import (UniversitySelect2Serializer, CollageSelect2Serialize
                             CourseSelect2Serializer, SubjectSelect2Serializer,
                             BranchSelect2Serializer, ShowCollageSerializer, ShowCourseSerializer,
                             ShowBranchSerializer, ShowSubjectSerializer, ShowPostSerializer,
-                            GenericUniversitySerializer, SignupSerializer, LoginSerializer)
+                            GenericUniversitySerializer, SignupSerializer, LoginSerializer,
+                            UpdateUserProfileSerializer, GetUserProfileSerializer)
 
 
 # Models Imports
 from dashboard.models import (University, Collage,
                               Course, Subject, Branch,
                               Post)
+from xpauth.models import XpapersUser
 # OTHER IMPORT
 import os
 from tempfile import NamedTemporaryFile
@@ -89,6 +91,81 @@ class DisconnectSocialView(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
+class UserProfileViewSet(ModelViewSet):
+    queryset = XpapersUser.objects.none()
+    permission_classes = (IsAuthenticated,)
+    http_method_names = ['get', 'patch']
+
+    def get_serializer_class(self):
+        if self.action == "partial_update":
+            return UpdateUserProfileSerializer
+        return GetUserProfileSerializer
+
+    def retrieve(self, request, pk=None):
+        instance = request.user
+        return Response(self.get_serializer(instance).data,
+                        status=status.HTTP_200_OK)
+
+    def update(self, request, pk=None, *args, **kwargs):
+        university = request.data.get('university', None)
+        collage = request.data.get('collage', None)
+        course = request.data.get('course', None)
+        branch = request.data.get('branch', None)
+        instance = request.user
+
+        data = {
+            "username": request.POST.get('username', None),
+            "profile_image": request.FILES.get('profile_image', None),
+            }
+
+        if university:
+            if '#Ea^T|@I^p<0>-' in university:
+                university = university.split('-')[1]
+            else:
+                university = University.objects.create(name=university,
+                                                       created_by=request.user)
+                university = university.id
+            data['university'] = university
+
+        if university and collage:
+            if '#Ea^T|@I^p<0>-' in collage:
+                collage = collage.split('-')[1]
+            else:
+                university = get_object_or_404(University, id=university)
+                collage = Collage.objects.create(name=collage,
+                                                 university=university,
+                                                 created_by=request.user)
+                collage = collage.id
+            data['collage'] = collage
+
+        if course:
+            if '#Ea^T|@I^p<0>-' in course:
+                course = course.split('-')[1]
+            else:
+                course = Course.objects.create(name=course,
+                                               created_by=request.user)
+                course = course.id
+            data['course'] = course
+
+        if branch:
+            if '#Ea^T|@I^p<0>-' in branch:
+                branch = branch.split('-')[1]
+            else:
+                branch = Branch.objects.create(name=branch,
+                                               created_by=request.user)
+                branch = branch.id
+            data['branch'] = branch
+
+        serializer = self.get_serializer(instance=instance,
+                                         data=data,
+                                         partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class UniversitySelect2ViewSet(ModelViewSet):
     serializer_class = UniversitySelect2Serializer
     permission_classes = (AllowAny,)
@@ -109,7 +186,7 @@ class CollageSelect2ViewSet(ModelViewSet):
 
     def get_queryset(self, *args, **kwargs):
         uni_id = self.request.GET.get('uni', None)
-        if not uni_id == "null":
+        if uni_id == "null":
             self.queryset = Collage.objects.all()
         else:
             self.queryset = Collage.objects.none()

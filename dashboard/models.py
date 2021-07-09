@@ -37,7 +37,7 @@ class University(models.Model):
         super(University, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "%s" % (self.id,)
+        return "(%s) %s" % (self.id, self.name)
 
     def get_absolute_url(self):
         return "/s?uni=%s" % self.slug
@@ -70,7 +70,7 @@ class Collage(models.Model):
         super(Collage, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "%s" % (self.id,)
+        return "(%s) %s" % (self.id, self.name)
 
 
 class Course(models.Model):
@@ -98,7 +98,7 @@ class Course(models.Model):
         super(Course, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "%s" % (self.id,)
+        return "(%s) %s" % (self.id, self.name)
 
 
 class Branch(models.Model):
@@ -128,7 +128,7 @@ class Branch(models.Model):
         super(Branch, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "%s" % (self.id,)
+        return "(%s) %s" % (self.id, self.name)
 
 
 class Subject(models.Model):
@@ -160,7 +160,7 @@ class Subject(models.Model):
         super(Subject, self).save(*args, **kwargs)
 
     def __str__(self):
-        return "%s" % (self.id,)
+        return "(%s) %s" % (self.id, self.name)
 
 
 class Post(models.Model):

@@ -1,5 +1,6 @@
 # Django Imports
 from django.contrib.auth import authenticate
+from django.conf import settings
 
 
 # REST Framework Imports
@@ -111,6 +112,65 @@ class LoginSerializer(Serializer):
         else:
             raise exceptions.ValidationError(detail='email or password is not provided')  # NOQA
         return validated_data
+
+
+class GetUserProfileSerializer(ModelSerializer):
+
+    class UniversitySerializer(ModelSerializer):
+        class Meta:
+            model = University
+            fields = ('id', 'name')
+
+    class CollageSerializer(ModelSerializer):
+        class Meta:
+            model = Collage
+            fields = ('id', 'name')
+
+    class CourseSerializer(ModelSerializer):
+        class Meta:
+            model = Course
+            fields = ('id', 'name')
+
+    class BranchSerializer(ModelSerializer):
+        class Meta:
+            model = Branch
+            fields = ('id', 'name')
+
+    def get_profile_image(self, instance):
+        if instance.profile_image:
+            return instance.profile_image.url
+        else:
+            return settings.STATIC_URL + 'utils/images/default-profile.png'
+
+    university = UniversitySerializer()
+    collage = CollageSerializer()
+    course = CourseSerializer()
+    branch = BranchSerializer()
+    profile_image = SerializerMethodField()
+
+    class Meta:
+        model = XpapersUser
+        fields = ('username', 'email', 'profile_image',
+                  'university', 'collage', 'course',
+                  'branch')
+
+
+class UpdateUserProfileSerializer(ModelSerializer):
+
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username', instance.username)
+        instance.university = validated_data.get('university', None)
+        instance.collage = validated_data.get('collage', None)
+        instance.course = validated_data.get('course', None)
+        instance.branch = validated_data.get('branch', None)
+        if validated_data.get('profile_image'):
+            instance.profile_image = validated_data.get('profile_image', instance.profile_image)
+        instance.save()
+        return instance
+
+    class Meta:
+        model = XpapersUser
+        fields = '__all__'
 
 
 class UniversitySelect2Serializer(ModelSerializer):
