@@ -202,12 +202,15 @@ function setData() {
         type: "GET",
         success: function (data) {
             $("#set-user-name").html(data.username)
+            $("#user-email").html(data.email)
+            $("#username").val(data.username);
+            $("#email").val(data.email);
             $('#user-profile').css('background-image', 'url(' + data.profile_image + ')');
             $('#main-user-profile').css('background-image', 'url(' + data.profile_image + ')');
         },
         error: function (rs, e) {
-            console.error(rs.responseText);
-            console.error(rs.status);
+            $(".error").html(rs.responseJSON);
+            $(".error").css('display', 'block');
         }
     }); // end ajax
 }
@@ -260,10 +263,13 @@ $(document).ready(function () {
                 location.reload()
             },
             error: function (rs, e) {
-                if (rs.responseJSON['username']) {
-                    $(".error").html(rs.responseJSON['username']);
-                } else {
-                    $(".error").html(rs.responseText);
+                console.log(rs)
+                if (rs.responseJSON) {
+                    if (rs.responseJSON['username']) {
+                        $(".error").html(rs.responseJSON['username']);
+                    } else {
+                        $(".error").html(rs.responseText);
+                    }
                 }
 
                 $(".error").css('display', 'block');

@@ -8,7 +8,8 @@ from django.shortcuts import get_object_or_404
 
 # REST Framework Imports
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.permissions import IsAuthenticated, AllowAny  # NOQA
+from rest_framework.permissions import (IsAuthenticated, AllowAny,
+                                        IsAuthenticatedOrReadOnly)  # NOQA
 from rest_framework.authtoken.models import Token
 from rest_framework import status
 from rest_framework.views import APIView
@@ -93,7 +94,7 @@ class DisconnectSocialView(APIView):
 
 class UserProfileViewSet(ModelViewSet):
     queryset = XpapersUser.objects.none()
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticatedOrReadOnly,)
     http_method_names = ['get', 'patch']
 
     def get_serializer_class(self):
@@ -102,16 +103,18 @@ class UserProfileViewSet(ModelViewSet):
         return GetUserProfileSerializer
 
     def retrieve(self, request, pk=None):
-        instance = request.user
+        instance = get_object_or_404(XpapersUser, username=pk)
         return Response(self.get_serializer(instance).data,
                         status=status.HTTP_200_OK)
 
     def update(self, request, pk=None, *args, **kwargs):
+        if pk != request.user.username:
+            return Response(data='USER UNAUTHORIZED', status=status.HTTP_401_UNAUTHORIZED)
+        instance = request.user
         university = request.data.get('university', None)
         collage = request.data.get('collage', None)
         course = request.data.get('course', None)
         branch = request.data.get('branch', None)
-        instance = request.user
 
         data = {
             "username": request.POST.get('username', None),

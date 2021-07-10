@@ -1,0 +1,81 @@
+{% load static %}
+
+<!--begin::Header-->
+<div class="card-header py-3">
+    <div class="card-title align-items-start flex-column">
+        <h3 class="card-label font-weight-bolder text-dark" style="padding-top: 10px;">Personal Information</h3>
+        <p class="error" style="margin-top: 10px"></p>
+    </div>
+</div>
+<!--end::Header-->
+<!--begin::Form-->
+<form class="form" id="profileForm">
+    <!--begin::Body-->
+    <div class="card-body">
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Profile Picture</label>
+            <div class="col-lg-9 col-xl-6">
+                <div class="image-input image-input-outline" id="kt_profile_avatar">
+                    <div class="image-input-wrapper" id="main-user-profile"></div>
+                </div>
+            </div>
+        </div>
+        <input type="hidden" name="post" id="userID" value="{{ profile_user.username }}"/>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Username*</label>
+            <div class="col-lg-9 col-xl-6">
+                <input class="form-control form-control-lg form-control-solid"
+                       name="username" id="username" disabled="True" type="text">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Email Address*</label>
+            <div class="col-lg-9 col-xl-6">
+                <div class="input-group input-group-lg input-group-solid">
+                    <div class="input-group-prepend">
+																	<span class="input-group-text">
+																		<i class="la la-at"></i>
+																	</span>
+                    </div>
+                    <input type="text" class="form-control form-control-lg form-control-solid"
+                           id="email" disabled="True"
+                           placeholder="Email" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">University</label>
+            <div class="col-lg-9 col-xl-6">
+                <input class="form-control form-control-lg form-control-solid"
+                       id="university" disabled="True" type="text">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Collage</label>
+            <div class="col-lg-9 col-xl-6">
+                <input class="form-control form-control-lg form-control-solid"
+                       id="collage" disabled="True" type="text">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Course</label>
+            <div class="col-lg-9 col-xl-6">
+                <input class="form-control form-control-lg form-control-solid"
+                       id="course" disabled="True" type="text">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Branch</label>
+            <div class="col-lg-9 col-xl-6">
+                <input class="form-control form-control-lg form-control-solid"
+                       id="branch" disabled="True" type="text">
+            </div>
+        </div>
+    </div>
+    <!--end::Body-->
+</form>
+<!--end::Form-->
+
+{% block js %}
+
+{% endblock %}

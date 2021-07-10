@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views import View
+from django.shortcuts import get_object_or_404
+from xpauth.models import XpapersUser
 
 
 class LoginView(View):
@@ -26,4 +28,6 @@ class ProfileView(View):
     template_name = 'auth/profile.html'
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        this_user = get_object_or_404(XpapersUser, username=kwargs['username'])
+        editable = True if kwargs['username'] == request.user.username else False
+        return render(request, self.template_name, {'profile_user': this_user, 'editable': editable})

@@ -1,0 +1,153 @@
+{% load static %}
+<!--begin::Header-->
+<div class="card-header py-3">
+    <div class="card-title align-items-start flex-column">
+        <h3 class="card-label font-weight-bolder text-dark">Personal Information</h3>
+        <span class="text-muted font-weight-bold font-size-sm mt-1">Update your personal informaiton</span>
+        <p class="error" style="margin-top: 10px"></p>
+    </div>
+    <div class="card-toolbar">
+        <button type="reset" id="formBtn" class="btn btn-success mr-2">Save Changes</button>
+    </div>
+</div>
+<!--end::Header-->
+<!--begin::Form-->
+<form class="form" id="profileForm">
+    <!--begin::Body-->
+    <div class="card-body">
+        <div class="row">
+            <label class="col-xl-3"></label>
+            <div class="col-lg-9 col-xl-6">
+                <h5 class="font-weight-bold mb-6">Customer Info</h5>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Profile Picture</label>
+            <div class="col-lg-9 col-xl-6">
+                <div class="image-input image-input-outline" id="kt_profile_avatar">
+                    <div class="image-input-wrapper" id="main-user-profile"></div>
+                    <label class="btn btn-xs btn-icon btn-circle btn-white btn-hover-text-primary btn-shadow"
+                           data-action="change" data-toggle="tooltip" title=""
+                           data-original-title="Change Picture">
+                        <i class="fa fa-pen icon-sm text-muted"></i>
+                        <input type="file" name="profile_image" accept=".png, .jpg, .jpeg">
+                        <input type="hidden" name="profile_avatar_remove">
+                    </label>
+                </div>
+                <span class="form-text text-muted">Allowed file types: png, jpg, jpeg.</span>
+            </div>
+        </div>
+        <input type="hidden" name="post" id="userID" value="{{ profile_user.username }}"/>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Username*</label>
+            <div class="col-lg-9 col-xl-6">
+                <input class="form-control form-control-lg form-control-solid"
+                       style="background-color: #fff" name="username"
+                       id="username" type="text" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Email Address*</label>
+            <div class="col-lg-9 col-xl-6">
+                <div class="input-group input-group-lg input-group-solid">
+                    <div class="input-group-prepend">
+																	<span class="input-group-text">
+																		<i class="la la-at"></i>
+																	</span>
+                    </div>
+                    <input type="text" class="form-control form-control-lg form-control-solid"
+                           id="email" disabled="True"
+                           placeholder="Email" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">University</label>
+            <div class="col-lg-9 col-xl-6">
+                <div class="input-group input-group-lg input-group-solid">
+                    <select name="university" class="js-example-basic-single form-control"
+                            id="university"
+                            required>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Collage</label>
+            <div class="col-lg-9 col-xl-6">
+                <div class="input-group input-group-lg input-group-solid">
+                    <select name="collage" class="js-example-basic-single form-control" id="collage">
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Course</label>
+            <div class="col-lg-9 col-xl-6">
+                <div class="input-group input-group-lg input-group-solid">
+                    <select name="course" class="js-example-basic-single form-control" id="course"
+                            required>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Branch</label>
+            <div class="col-lg-9 col-xl-6">
+                <div class="input-group input-group-lg input-group-solid">
+                    <select name="branch" class="js-example-basic-single form-control" id="branch"
+                            required>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <label class="col-xl-3"></label>
+            <div class="col-lg-9 col-xl-6">
+                <h5 class="font-weight-bold mt-10 mb-6">Connected services</h5>
+                {% if messages %}
+                {% for message in messages %}
+                {% if message.extra_tags and message.extra_tags == "custom"%}
+                <span id="error" style="color: red">{{ message }}</span>
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label">Google</label>
+            <div class="col-lg-9 col-xl-6">
+                <div class="connectServiceDiv">
+                    <div class="connectServiceHeader">
+                        <div class="connectServiceHeaderImage">
+                            <img src="{% static 'utils/images/auth/google-logo.svg' %}" alt="xpapers"
+                                 style="height: 26px; width: 26px;">
+                        </div>
+                        <div class="connectServiceHeaderMsg">
+                            <b>Sign in with Google</b>
+                        </div>
+                        <div class="connectServiceHeaderBtn">
+                            {% if user.is_social %}
+                            <button type="button" id="disconnect-btn" onclick="disconectSocial()"
+                                    class="btn btn-outline-danger mr-5">
+                                Disconnect
+                            </button>
+                            {% else %}
+                            {% include "account/user-profile.html" %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end::Body-->
+</form>
+<!--end::Form-->
+
+
+{% block js %}
+<script src="{% static 'apps/auth/editablle-profile.js' %}"></script>
+{% endblock %}

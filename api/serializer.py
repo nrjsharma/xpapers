@@ -142,11 +142,22 @@ class GetUserProfileSerializer(ModelSerializer):
         else:
             return settings.STATIC_URL + 'utils/images/default-profile.png'
 
+    def get_email(self, instance):
+        return_email = instance.email
+        try:
+            email = return_email.split('@')[0]
+            email_provider = return_email.split('@')[1]
+            return_email = email[0] + '...' + email[-1] + "@" + email_provider
+        except:
+            return_email = None
+        return return_email
+
     university = UniversitySerializer()
     collage = CollageSerializer()
     course = CourseSerializer()
     branch = BranchSerializer()
     profile_image = SerializerMethodField()
+    email = SerializerMethodField()
 
     class Meta:
         model = XpapersUser
