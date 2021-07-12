@@ -4,8 +4,6 @@ $(document).ready(function () {
         url: USER_PROFILE_URL + userID + '/',
         type: "GET",
         success: function (data) {
-            $("#set-user-name").html(data.username)
-            $("#user-email").html(data.email)
             $("#username").val(data.username);
             $("#email").val(data.email);
             if (data.university) {
@@ -22,8 +20,6 @@ $(document).ready(function () {
             if (data.branch) {
                 $("#branch").val(data.branch.name);
             }
-
-            $('#user-profile').css('background-image', 'url(' + data.profile_image + ')');
             $('#main-user-profile').css('background-image', 'url(' + data.profile_image + ')');
         },
         error: function (rs, e) {

@@ -195,26 +195,6 @@ function initSelect2() {
     select2_branch();
 }
 
-function setData() {
-    var userID = $('#userID').val()
-    $.ajax({
-        url: USER_PROFILE_URL + userID + '/',
-        type: "GET",
-        success: function (data) {
-            $("#set-user-name").html(data.username)
-            $("#user-email").html(data.email)
-            $("#username").val(data.username);
-            $("#email").val(data.email);
-            $('#user-profile').css('background-image', 'url(' + data.profile_image + ')');
-            $('#main-user-profile').css('background-image', 'url(' + data.profile_image + ')');
-        },
-        error: function (rs, e) {
-            $(".error").html(rs.responseJSON);
-            $(".error").css('display', 'block');
-        }
-    }); // end ajax
-}
-
 function resetForm() {
     $(".error").html("");
     $(".error").css('display', 'none');
@@ -222,8 +202,6 @@ function resetForm() {
 }
 
 $(document).ready(function () {
-
-    setData()
     initSelect2();
 
     $("#formBtn").click(function () {

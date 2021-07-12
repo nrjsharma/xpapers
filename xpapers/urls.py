@@ -35,7 +35,7 @@ handler500 = 'dashboard.views.handler500'
 urlpatterns = [
     path('superadmin/', admin.site.urls),
     path('api/v1/', include('api.urls'), name="api"),
-    path('auth/', include('xpauth.urls'), name="auth"),
+    path('user/', include('xpauth.urls'), name="user"),
     path('accounts/', include('allauth.urls')),
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps},
          name="django.contrib.sitemaps.views.sitemap"),  # NOQA

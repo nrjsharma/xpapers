@@ -102,6 +102,11 @@ class UserProfileViewSet(ModelViewSet):
             return UpdateUserProfileSerializer
         return GetUserProfileSerializer
 
+    def get_serializer_context(self, pk=None):
+        context = super(UserProfileViewSet, self).get_serializer_context()
+        context.update({"user": self.request.user})
+        return context
+
     def retrieve(self, request, pk=None):
         instance = get_object_or_404(XpapersUser, username=pk)
         return Response(self.get_serializer(instance).data,

@@ -28,6 +28,14 @@ class ProfileView(View):
     template_name = 'auth/profile.html'
 
     def get(self, request, *args, **kwargs):
-        this_user = get_object_or_404(XpapersUser, username=kwargs['username'])
+        profile_user = get_object_or_404(XpapersUser, username=kwargs['username'])
         editable = True if kwargs['username'] == request.user.username else False
-        return render(request, self.template_name, {'profile_user': this_user, 'editable': editable})
+        return render(request, self.template_name, {'profile_user': profile_user, 'editable': editable})
+
+
+class UserPapersView(View):
+    template_name = 'auth/user-papers.html'
+
+    def get(self, request, *args, **kwargs):
+        profile_user = get_object_or_404(XpapersUser, username=kwargs['username'])
+        return render(request, self.template_name, {'profile_user': profile_user})
