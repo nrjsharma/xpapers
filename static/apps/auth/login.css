@@ -31,7 +31,7 @@ form input {
     margin-top: 20px;
 }
 
-#loginDiv {
+.loginDiv {
     display: flex;
     flex-direction: column;
     margin: 0px auto 24px;
@@ -67,10 +67,18 @@ form input {
     max-width: 100%;
 }
 
-#loginBtn{
+.loginBtn{
     margin-top: 20px;
     margin-bottom: 20px;
     width: 100%;
+}
+
+#SignupBlock{
+    display: block;
+}
+
+#UsernameBlock{
+    display: none;
 }
 
 .socialaccount_btn{

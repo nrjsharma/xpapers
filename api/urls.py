@@ -20,6 +20,7 @@ router.register(r'search', views.SearchViewSet, base_name="search")  # NOQA
 router.register(r'show-user-papers', views.ShowUserPapersViewSet, base_name="show-user-papers")  # NOQA
 router.register(r'university', views.UniversityViewSet, base_name="university")  # NOQA
 router.register(r'user-profile', views.UserProfileViewSet, base_name="user-profile")  # NOQA
+router.register(r'set-username', views.SetUserNameViewSet, base_name="set-username")  # NOQA
 
 urlpatterns = [
     url(r'^upload-paper/', views.UploadPaperView.as_view(), name="upload-paper"),

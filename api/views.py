@@ -21,7 +21,8 @@ from api.serializer import (UniversitySelect2Serializer, CollageSelect2Serialize
                             BranchSelect2Serializer, ShowUniversitySerializer, ShowCollageSerializer,
                             ShowCourseSerializer, ShowBranchSerializer, ShowSubjectSerializer,
                             ShowPostSerializer, GenericUniversitySerializer, SignupSerializer,
-                            LoginSerializer, UpdateUserProfileSerializer, GetUserProfileSerializer)
+                            LoginSerializer, UpdateUserProfileSerializer, GetUserProfileSerializer,
+                            SetUserNameSerializer)
 
 
 # Models Imports
@@ -50,6 +51,24 @@ class SignupViewSet(APIView):
             token = Token.objects.get(user=user).key
             return Response({'token': token, 'username': user.username},
                             status=status.HTTP_201_CREATED)  # NOQA
+        else:
+            return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SetUserNameViewSet(ModelViewSet):
+    queryset = XpapersUser.objects.all()
+    serializer_class = SetUserNameSerializer
+    permission_classes = (IsAuthenticated,)
+    http_method_names = ['patch', ]
+
+    def update(self, request, pk=None, *args, **kwargs):
+        user = request.user
+        serializer = self.serializer_class(instance=user,
+                                           data=request.data,
+                                           partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(data=serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -122,7 +141,6 @@ class UserProfileViewSet(ModelViewSet):
         branch = request.data.get('branch', None)
 
         data = {
-            "username": request.POST.get('username', None),
             "profile_image": request.FILES.get('profile_image', None),
             }
 

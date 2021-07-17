@@ -82,6 +82,13 @@ function loadPostTable() {
             {
                 "title": 'User',
                 "data": "user",
+                "render": function (data, type, row, meta) {
+                    if (row.user != "anon") {
+                        return `<a href="/user/${row.user}/" target="_blank">${row.user}</a>`
+                    } else {
+                        return row.user
+                    }
+                }
             },
             {
                 "title": 'View',

@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div id="loginDiv">
+<div class="loginDiv">
     <div class="loginMsg">
         <div>Log in to continue to:</div>
         <div class="IloginMsg">Xpapers</div>
@@ -19,7 +19,7 @@
                     {% endif %}
                 {% endfor %}
             {% endif %}
-            <button type="submit" id="loginBtn" class="btn btn-primary">Login</button>
+            <button type="submit" class="btn btn-primary loginBtn">Login</button>
         </form>
     </div>
     {% include 'account/login.html' %}

@@ -22,7 +22,7 @@ class University(models.Model):
     is_verified = models.BooleanField(default=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    related_name="universities", null=True, blank=True,
-                                   on_delete=models.CASCADE)  # NOQA
+                                   on_delete=models.SET_NULL)  # NOQA
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
@@ -55,7 +55,7 @@ class Collage(models.Model):
     is_verified = models.BooleanField(default=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    related_name="colleagues", null=True, blank=True,
-                                   on_delete=models.CASCADE)  # NOQA
+                                   on_delete=models.SET_NULL)  # NOQA
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
@@ -83,7 +83,7 @@ class Course(models.Model):
     is_verified = models.BooleanField(default=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    related_name="courses", null=True, blank=True,
-                                   on_delete=models.CASCADE)  # NOQA
+                                   on_delete=models.SET_NULL)  # NOQA
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
@@ -113,7 +113,7 @@ class Branch(models.Model):
     is_verified = models.BooleanField(default=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    related_name="branches", null=True, blank=True,
-                                   on_delete=models.CASCADE)  # NOQA
+                                   on_delete=models.SET_NULL)  # NOQA
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
@@ -145,7 +145,7 @@ class Subject(models.Model):
     is_verified = models.BooleanField(default=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL,
                                    related_name="subjects", null=True, blank=True,
-                                   on_delete=models.CASCADE)  # NOQA
+                                   on_delete=models.SET_NULL)  # NOQA
     created = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
@@ -184,7 +184,7 @@ class Post(models.Model):
     is_verified = models.BooleanField(default=False)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              related_name="posts", null=True, blank=True,
-                             on_delete=models.CASCADE)  # NOQA
+                             on_delete=models.SET_NULL)  # NOQA
 
     def __str__(self):
         return "%s" % (self.id,)

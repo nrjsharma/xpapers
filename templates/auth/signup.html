@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-<div id="loginDiv">
+<div class="loginDiv" id="SignupBlock">
     <div class="loginMsg">
         <div>Sign up for your account:</div>
         <div class="IloginMsg">Xpapers</div>
@@ -11,15 +11,16 @@
         <form id="signupForm" method="post">
             <input name="email" id="email" type="email" placeholder="Enter email"/>
             <input name="password" id="password" type="password" placeholder="Enter password"/>
+            <input name="conform-password" id="conform-password" type="password" placeholder="Conform password"/>
             <span id="error"></span>
             {% if messages %}
-                {% for message in messages %}
-                    {% if message.extra_tags and message.extra_tags == "custom"%}
-                        <span id="error" style="display: block">{{ message }}</span>
-                    {% endif %}
-                {% endfor %}
+            {% for message in messages %}
+            {% if message.extra_tags and message.extra_tags == "custom"%}
+            <span id="error" style="display: block">{{ message }}</span>
             {% endif %}
-            <button type="submit" id="loginBtn" class="btn btn-primary">Sign Up</button>
+            {% endfor %}
+            {% endif %}
+            <button type="submit" id="signup-form-btn" class="btn btn-primary loginBtn">Sign Up</button>
         </form>
     </div>
     {% include 'account/login.html' %}
@@ -33,16 +34,41 @@
         </ul>
     </div>
 </div>
+
+<div class="loginDiv" id="UsernameBlock">
+    <div class="loginMsg">
+        <div>Sign up for your account:</div>
+        <div class="IloginMsg">Xpapers</div>
+    </div>
+    <div class="usernameFormDiv">
+        <form id="usernameForm" method="post">
+            <input name="username" id="username" type="text" placeholder="Enter UserName"/>
+            <span id="error-username" class="error"></span>
+
+            <button type="submit" id="username-form-btn" class="btn btn-primary loginBtn">Sign Up</button>
+        </form>
+        <div class="lsAw">
+            <ul>
+                <li>
+                    <a id="resetPassword" href="/user/login">
+                        <span>Already have an account?</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
 {% endblock %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="{% static 'apps/auth/login.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'apps/auth/login.css' %}"/>
 {% endblock %}
 
 {% block js %}
-        <script>
-            var SIGNUP_URL = "{% url 'api:signup' %}";
-            var LOGOUT_URL = "{% url 'api:logout' %}";
-        </script>
-    <script src="{% static 'apps/auth/signup.js' %}"></script>
+<script>
+    var SIGNUP_URL = "{% url 'api:signup' %}";
+    var LOGOUT_URL = "{% url 'api:logout' %}";
+    var SET_USERNAME_URL = "{% url 'api:set-username-list' %}";
+</script>
+<script src="{% static 'apps/auth/signup.js' %}"></script>
 {% endblock %}

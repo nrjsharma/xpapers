@@ -11,8 +11,8 @@ def set_env():
     )
 
 
-def utils_get_random_string():
-    return get_random_string(10, string.ascii_letters)
+def utils_get_random_string(N=10):
+    return get_random_string(N, string.ascii_letters)
 
 
 def utils_get_random_number(stringify=False):

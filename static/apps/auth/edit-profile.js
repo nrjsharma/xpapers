@@ -238,7 +238,7 @@ $(document).ready(function () {
                 console.log('saving...')
             },
             success: function (data) {
-                location.reload()
+                window.location = `/user/${data.username}/`
             },
             error: function (rs, e) {
                 console.log(rs)

@@ -14,7 +14,7 @@ from dashboard.models import (University, Collage,
                               Course, Subject, Branch,
                               Post, PostFiles)
 
-from xpapers.utils import utils_get_random_number
+from xpapers.utils import utils_get_random_string
 
 
 # Generic Serializer
@@ -62,11 +62,11 @@ class SignupSerializer(ModelSerializer):
         counter = 0
         if not email:
             return None
-        username = email.split("@")[0]
+        username = utils_get_random_string(5)
         while counter <= 5:
             counter += 1
             if XpapersUser.objects.filter(username=username).exists():
-                username = username + utils_get_random_number(True)
+                username = utils_get_random_string(5)
             else:
                 break
         return username
@@ -91,6 +91,13 @@ class SignupSerializer(ModelSerializer):
         model = XpapersUser
         write_only_fields = ('password',)
         fields = ('email', 'password')
+
+
+class SetUserNameSerializer(ModelSerializer):
+
+    class Meta:
+        model = XpapersUser
+        fields = ('username',)
 
 
 class LoginSerializer(Serializer):
@@ -169,7 +176,7 @@ class GetUserProfileSerializer(ModelSerializer):
 class UpdateUserProfileSerializer(ModelSerializer):
 
     def update(self, instance, validated_data):
-        instance.username = validated_data.get('username', instance.username)
+        instance.username = instance.username
         instance.university = validated_data.get('university', None)
         instance.collage = validated_data.get('collage', None)
         instance.course = validated_data.get('course', None)
