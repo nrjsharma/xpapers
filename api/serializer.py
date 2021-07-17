@@ -214,6 +214,17 @@ class BranchSelect2Serializer(ModelSerializer):
         fields = ('id', 'name')
 
 
+class ShowUniversitySerializer(ModelSerializer):
+    obj_type = SerializerMethodField()
+
+    def get_obj_type(self, instance):
+        return "university"
+
+    class Meta:
+        model = Collage
+        fields = ('id', 'name', 'obj_type', 'slug')
+
+
 class ShowCollageSerializer(ModelSerializer):
     obj_type = SerializerMethodField()
 

@@ -18,10 +18,10 @@ from rest_framework.response import Response
 # API Imports
 from api.serializer import (UniversitySelect2Serializer, CollageSelect2Serializer,
                             CourseSelect2Serializer, SubjectSelect2Serializer,
-                            BranchSelect2Serializer, ShowCollageSerializer, ShowCourseSerializer,
-                            ShowBranchSerializer, ShowSubjectSerializer, ShowPostSerializer,
-                            GenericUniversitySerializer, SignupSerializer, LoginSerializer,
-                            UpdateUserProfileSerializer, GetUserProfileSerializer)
+                            BranchSelect2Serializer, ShowUniversitySerializer, ShowCollageSerializer,
+                            ShowCourseSerializer, ShowBranchSerializer, ShowSubjectSerializer,
+                            ShowPostSerializer, GenericUniversitySerializer, SignupSerializer,
+                            LoginSerializer, UpdateUserProfileSerializer, GetUserProfileSerializer)
 
 
 # Models Imports
@@ -478,4 +478,77 @@ class SearchViewSet(ModelViewSet):
                                                 subject=subject)
         else:
             self.queryset = Collage.objects.none()
+        return self.queryset
+
+
+class ShowUserPapersViewSet(ModelViewSet):
+    queryset = Post.objects.none()
+    permission_classes = (AllowAny,)
+    http_method_names = ['get', ]
+
+    def get_queryset(self, *args, **kwargs):
+        user_instance = get_object_or_404(XpapersUser,
+                                          username=self.request.GET.get('username', None))
+        user_posts = Post.objects.filter(user=user_instance)
+        query_university = self.request.query_params.get('uni', None)
+        query_course = self.request.query_params.get('cou', None)
+        query_branch = self.request.query_params.get('bra', None)
+        query_subject = self.request.query_params.get('sub', None)
+        university = None
+
+        if query_university:
+            university = get_object_or_404(University, slug=query_university)
+
+        if not query_university and \
+                not query_course and \
+                not query_branch and \
+                not query_subject:
+            self.serializer_class = ShowUniversitySerializer
+            self.queryset = University.objects.filter(
+                id__in=user_posts.values_list('university').distinct()
+            )
+        elif query_university and \
+                not query_course and \
+                not query_branch and \
+                not query_subject:
+            self.serializer_class = ShowCourseSerializer
+            self.queryset = Course.objects.filter(id__in=user_posts.values_list('course').distinct(),
+                                                  universities=university,
+                                                  )
+        elif query_university and \
+                query_course and \
+                not query_branch and \
+                not query_subject:
+            course = get_object_or_404(Course, slug=query_course)
+            self.serializer_class = ShowBranchSerializer
+            self.queryset = Branch.objects.filter(id__in=user_posts.values_list('branch').distinct(),
+                                                  universities=university,
+                                                  courses=course,
+                                                  )
+        elif query_university and \
+                query_course and \
+                query_branch and \
+                not query_subject:
+            course = get_object_or_404(Course, slug=query_course)
+            branch = get_object_or_404(Branch, slug=query_branch)
+            self.serializer_class = ShowSubjectSerializer
+            self.queryset = Subject.objects.filter(id__in=user_posts.values_list('subject').distinct(),
+                                                   universities=university,
+                                                   courses=course,
+                                                   branches=branch
+                                                   )
+        elif query_university and \
+                query_course and \
+                query_branch and \
+                query_subject:
+            course = get_object_or_404(Course, slug=query_course)
+            branch = get_object_or_404(Branch, slug=query_branch)
+            subject = get_object_or_404(Subject, slug=query_subject)
+            self.serializer_class = ShowPostSerializer
+            self.queryset = user_posts.filter(university=university,
+                                              course=course,
+                                              branch=branch,
+                                              subject=subject)
+        else:
+            self.queryset = Post.objects.none()
         return self.queryset
