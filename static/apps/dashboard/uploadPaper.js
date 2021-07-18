@@ -49,6 +49,22 @@ $("#upload-paper").submit(function (event) {
     });
 });
 
+function preSetSelect2Data(field=null) {
+    // Setting the preselected item, and add to the control
+    if (field && window['user'] && window['user'][`${field}`]) {
+        var thisSelect = $(`#${field}`);
+        var option = new Option(window['user'][`${field}`]['name'], "#Ea^T|@I^p<0>-" + window['user'][`${field}`]['id'], true, true);
+        thisSelect.append(option).trigger('change');
+        // manually trigger the `select2:select` event
+        thisSelect.trigger({
+            type: 'select2:select',
+            params: {
+                data: window['user']
+            }
+        });
+    }
+}
+
 // serialize -->
 function select2_serialize(data) {
     let return_data = []
@@ -108,6 +124,7 @@ function select2_university() {
             data.push(tag);
         }
     });
+    preSetSelect2Data('university')
 }
 
 function select2_collage(university_id = null) {
@@ -152,6 +169,8 @@ function select2_course() {
     });
     $('.select2-selection--multiple').css('border', '1px solid #ced4da');
     $('.select2-search__field').css('height', '27px');
+
+    preSetSelect2Data('course')
 }
 
 function select2_branch() {
@@ -174,6 +193,8 @@ function select2_branch() {
     });
     $('.select2-selection--multiple').css('border', '1px solid #ced4da');
     $('.select2-search__field').css('height', '27px');
+
+    preSetSelect2Data('branch')
 }
 
 function select2_subject() {
@@ -198,6 +219,23 @@ function select2_subject() {
     $('.select2-search__field').css('height', '27px');
 }
 
+function getUser() {
+    $(document).ready(function () {
+        $.ajax({
+            url: USER_PROFILE_URL,
+            type: "GET",
+            success: function (data) {
+                window['user'] = data
+            },
+            error: function (rs, e) {
+                console.error(rs.status);
+            }, complete: function () {
+                initSelect2();
+            }
+        }); // end ajax
+    });
+}
+
 function initSelect2() {
     select2_year();
     select2_type();
@@ -212,7 +250,7 @@ $(document).ready(function () {
     $('#divCollage').css('display', 'none');
     $('#kt_subheader').css('display', 'none');
     $('.upload-paper-link').css("display", "none");
-    initSelect2();
+    getUser()
 
     $('#type').on('change', function (e) {
         if ($('#university').select2('data')[0]) {

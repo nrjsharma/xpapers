@@ -126,6 +126,12 @@ class UserProfileViewSet(ModelViewSet):
         context.update({"user": self.request.user})
         return context
 
+    def list(self, request):
+        if request.user.is_authenticated:
+            return Response(self.get_serializer(request.user).data,
+                            status=status.HTTP_200_OK)
+        return Response(status=status.HTTP_401_UNAUTHORIZED)
+
     def retrieve(self, request, pk=None):
         instance = get_object_or_404(XpapersUser, username=pk)
         return Response(self.get_serializer(instance).data,
@@ -493,7 +499,7 @@ class SearchViewSet(ModelViewSet):
             self.queryset = Post.objects.filter(university=university,
                                                 course=course,
                                                 branch=branch,
-                                                subject=subject)
+                                                subject=subject).order_by('-year', '-id')
         else:
             self.queryset = Collage.objects.none()
         return self.queryset
