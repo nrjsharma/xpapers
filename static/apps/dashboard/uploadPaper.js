@@ -147,6 +147,7 @@ function select2_collage(university_id = null) {
     });
     $('.select2-selection--multiple').css('border', '1px solid #ced4da');
     $('.select2-search__field').css('height', '27px');
+    preSetSelect2Data('collage')
 }
 
 function select2_course() {

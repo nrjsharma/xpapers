@@ -221,7 +221,7 @@ class CollageSelect2ViewSet(ModelViewSet):
         if uni_id == "null":
             self.queryset = Collage.objects.all()
         else:
-            self.queryset = Collage.objects.none()
+            self.queryset = Collage.objects.filter(university__id=uni_id)
         search_query = self.request.GET.get('term', None)
         if search_query:
             return self.queryset.filter(name__icontains=search_query)
