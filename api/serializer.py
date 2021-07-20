@@ -76,9 +76,15 @@ class SignupSerializer(ModelSerializer):
 
 class SetUserNameSerializer(ModelSerializer):
 
+    def update(self, instance, validated_data):
+        instance.username = validated_data.get('username', instance.username)
+        instance.is_username_varified = True
+        instance.save()
+        return instance
+
     class Meta:
         model = XpapersUser
-        fields = ('username',)
+        fields = ('username', 'is_username_varified')
 
 
 class LoginSerializer(Serializer):

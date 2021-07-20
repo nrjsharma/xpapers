@@ -11,12 +11,17 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
 
         # 1. social account already exists
         if sociallogin.is_existing:
+            email = sociallogin.account.extra_data['email']
+            if request.user.is_authenticated and request.user.email != email:
+                messages.error(request, 'Gmail didn\'t match the user email', extra_tags='custom')
+                profile_path = "/user/{username}/"
+                raise ImmediateHttpResponse(redirect(profile_path.format(username=request.user.username)))
             return
 
         # 2. social account has no email or email is unknown, return
         if 'email' not in sociallogin.account.extra_data:
             messages.error(request, 'email is not provided', extra_tags='custom')
-            raise ImmediateHttpResponse(redirect('/auth/login/'))
+            raise ImmediateHttpResponse(redirect('/user/login/'))
 
         # 3. link auth user account to social account
         try:
@@ -31,11 +36,10 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
                 raise ImmediateHttpResponse(redirect(profile_path.format(username=request.user.username)))
 
             messages.error(request, 'Google account isn\'t associated with Xpapers account', extra_tags='custom')
-            raise ImmediateHttpResponse(redirect('/auth/login/'))
+            raise ImmediateHttpResponse(redirect('/user/login/'))
         except XpapersUser.DoesNotExist:
             if request.user.is_authenticated:
                 messages.error(request, 'Gmail didn\'t match the user email', extra_tags='custom')
                 profile_path = "/user/{username}/"
                 raise ImmediateHttpResponse(redirect(profile_path.format(username=request.user.username)))
             return
-                                

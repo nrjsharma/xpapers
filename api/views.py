@@ -43,7 +43,11 @@ class SignupViewSet(APIView):
     http_method_names = ['post', ]
 
     def post(self, request):
-        serializer = self.serializer_class(data=request.data)
+        data = {
+            "email": request.POST.get('email', None).lower(),
+            "password": request.POST.get('password', None),
+        }
+        serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             user = serializer.save()
             login(request, user)
@@ -63,8 +67,11 @@ class SetUserNameViewSet(ModelViewSet):
 
     def update(self, request, pk=None, *args, **kwargs):
         user = request.user
+        data = {
+            "username": request.POST.get('username', None).lower(),
+        }
         serializer = self.serializer_class(instance=user,
-                                           data=request.data,
+                                           data=data,
                                            partial=True)
         if serializer.is_valid():
             serializer.save()

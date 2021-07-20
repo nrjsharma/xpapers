@@ -43,7 +43,7 @@
             <label class="col-xl-3 col-lg-3 col-form-label">Username*</label>
             <div class="col-lg-9 col-xl-6">
                 <input class="form-control form-control-lg form-control-solid"
-                       id="username" disabled="True" type="text"  required>
+                       id="username" disabled="True" type="text" required>
             </div>
         </div>
         <div class="form-group row">
@@ -101,46 +101,48 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <label class="col-xl-3"></label>
-            <div class="col-lg-9 col-xl-6">
-                <h5 class="font-weight-bold mt-10 mb-6">Connected services</h5>
-                {% if messages %}
-                {% for message in messages %}
-                {% if message.extra_tags and message.extra_tags == "custom"%}
-                <span id="error" style="color: red">{{ message }}</span>
-                {% endif %}
-                {% endfor %}
-                {% endif %}
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-xl-3 col-lg-3 col-form-label">Google</label>
-            <div class="col-lg-9 col-xl-6">
-                <div class="connectServiceDiv">
-                    <div class="connectServiceHeader">
-                        <div class="connectServiceHeaderImage">
-                            <img src="{% static 'utils/images/auth/google-logo.svg' %}" alt="xpapers"
-                                 style="height: 26px; width: 26px;">
-                        </div>
-                        <div class="connectServiceHeaderMsg">
-                            <b>Sign in with Google</b>
-                        </div>
-                        <div class="connectServiceHeaderBtn">
-                            {% if user.is_social %}
-                            <button type="button" id="disconnect-btn" onclick="disconectSocial()"
-                                    class="btn btn-outline-danger mr-5">
-                                Disconnect
-                            </button>
-                            {% else %}
-                            {% include "account/user-profile.html" %}
+        {% if user.is_social_only %}
+            <div class="row">
+                <label class="col-xl-3"></label>
+                <div class="col-lg-9 col-xl-6">
+                    <h5 class="font-weight-bold mt-10 mb-6">Connected services</h5>
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if message.extra_tags and message.extra_tags == "custom" %}
+                                <span id="error" style="color: red">{{ message }}</span>
                             {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-xl-3 col-lg-3 col-form-label">Google</label>
+                <div class="col-lg-9 col-xl-6">
+                    <div class="connectServiceDiv">
+                        <div class="connectServiceHeader">
+                            <div class="connectServiceHeaderImage">
+                                <img src="{% static 'utils/images/auth/google-logo.svg' %}" alt="xpapers"
+                                     style="height: 26px; width: 26px;">
+                            </div>
+                            <div class="connectServiceHeaderMsg">
+                                <b>Sign in with Google</b>
+                            </div>
+                            <div class="connectServiceHeaderBtn">
+                                {% if user.is_social %}
+                                    <button type="button" id="disconnect-btn" onclick="disconectSocial()"
+                                            class="btn btn-outline-danger mr-5">
+                                        Disconnect
+                                    </button>
+                                {% else %}
+                                    {% include "account/user-profile.html" %}
+                                {% endif %}
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
     </div>
     <!--end::Body-->
 </form>

@@ -17,8 +17,9 @@ function setUserName() {
             $("#error").css('display', 'block');
             return false;
         }
+        username = username.toLowerCase();
         var formData = new FormData();
-        formData.append('username', username)
+        formData.append('username', username);
         $.ajax({
             url: SET_USERNAME_URL +'0/',
             headers: {

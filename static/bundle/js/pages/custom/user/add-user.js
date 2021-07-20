@@ -2,7 +2,7 @@
 /******/ 	"use strict";
 var __webpack_exports__ = {};
 /*!*****************************************************!*\
-  !*** ../demo5/src/js/pages/custom/user/add-user.js ***!
+  !*** ../demo5/src/js/pages/custom/user/add-header-user.js ***!
   \*****************************************************/
 
 
@@ -276,4 +276,4 @@ jQuery(document).ready(function () {
 
 /******/ })()
 ;
-//# sourceMappingURL=add-user.js.map
+//# sourceMappingURL=add-header-user.js.map

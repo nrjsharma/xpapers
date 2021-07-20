@@ -10788,7 +10788,7 @@ if (true) {
 
 /***/ "../demo5/src/js/layout/extended/quick-user.js":
 /*!*****************************************************!*\
-  !*** ../demo5/src/js/layout/extended/quick-user.js ***!
+  !*** ../demo5/src/js/layout/extended/quick-header-user.js ***!
   \*****************************************************/
 /***/ ((module) => {
 
@@ -11292,7 +11292,7 @@ window.KTLayoutQuickCartPanel = __webpack_require__(/*! @/src/js/layout/extended
 window.KTLayoutQuickNotifications = __webpack_require__(/*! @/src/js/layout/extended/quick-notifications.js */ "../demo5/src/js/layout/extended/quick-notifications.js");
 window.KTLayoutQuickPanel = __webpack_require__(/*! @/src/js/layout/extended/quick-panel.js */ "../demo5/src/js/layout/extended/quick-panel.js");
 window.KTLayoutQuickSearch = __webpack_require__(/*! @/src/js/layout/extended/quick-search.js */ "../demo5/src/js/layout/extended/quick-search.js");
-window.KTLayoutQuickUser = __webpack_require__(/*! @/src/js/layout/extended/quick-user.js */ "../demo5/src/js/layout/extended/quick-user.js");
+window.KTLayoutQuickUser = __webpack_require__(/*! @/src/js/layout/extended/quick-header-user.js */ "../demo5/src/js/layout/extended/quick-header-user.js");
 window.KTLayoutScrolltop = __webpack_require__(/*! @/src/js/layout/extended/scrolltop.js */ "../demo5/src/js/layout/extended/scrolltop.js");
 window.KTLayoutSearch = window.KTLayoutSearchInline = __webpack_require__(/*! @/src/js/layout/extended/search.js */ "../demo5/src/js/layout/extended/search.js");
 

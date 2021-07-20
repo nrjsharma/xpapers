@@ -45,8 +45,8 @@ function signup() {
             return
         }
         var formData = new FormData();
-        formData.append('email', email)
-        formData.append('password', password)
+        formData.append('email', email);
+        formData.append('password', password);
         $.ajax({
             url: SIGNUP_URL,
             headers: {

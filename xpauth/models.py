@@ -90,6 +90,7 @@ class XpapersUser(AbstractBaseUser):
                     self.username = utils_get_random_string(5)
                 else:
                     break
+        self.username = self.username.lower()
         super(XpapersUser, self).save(*args, **kwargs)
 
     def get_short_name(self):
@@ -120,3 +121,7 @@ class XpapersUser(AbstractBaseUser):
     @property
     def is_social(self):
         return SocialAccount.objects.filter(user=self).exists()
+
+    @property
+    def is_social_only(self):
+        return self.has_usable_password()
