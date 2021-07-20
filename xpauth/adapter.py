@@ -27,7 +27,7 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
                     sociallogin.connect(request, user)  # linking account
                     return
                 messages.error(request, 'Gmail didn\'t match the user email', extra_tags='custom')
-                profile_path = "/auth/profile/{username}/"
+                profile_path = "/user/{username}/"
                 raise ImmediateHttpResponse(redirect(profile_path.format(username=request.user.username)))
 
             messages.error(request, 'Google account isn\'t associated with Xpapers account', extra_tags='custom')
@@ -35,8 +35,7 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
         except XpapersUser.DoesNotExist:
             if request.user.is_authenticated:
                 messages.error(request, 'Gmail didn\'t match the user email', extra_tags='custom')
-                profile_path = "/auth/profile/{username}/"
+                profile_path = "/user/{username}/"
                 raise ImmediateHttpResponse(redirect(profile_path.format(username=request.user.username)))
-            else:
-                messages.error(request, 'account not found.', extra_tags='custom')
-                raise ImmediateHttpResponse(redirect('/auth/login/'))
+            return
+                                

@@ -3,6 +3,7 @@ from allauth.socialaccount.models import SocialAccount
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.core.exceptions import ValidationError
 from xpauth.utils import get_upload_path_user
+from xpapers.utils import utils_get_random_string
 from dashboard.models import (University, Collage,
                               Course, Branch)
 
@@ -53,6 +54,7 @@ class XpapersUser(AbstractBaseUser):
     is_admin = models.BooleanField(default=False)
     # Verification
     is_email_varified = models.BooleanField(default=False)
+    is_username_varified = models.BooleanField(default=False)
     # Other
     created = models.DateTimeField(auto_now_add=True)  # Automatically set the field to now when the object is first created.  # NOQA
     updated = models.DateTimeField(auto_now=True)  # Automatically set the field to now every time the object is saved.  # NOQA
@@ -77,6 +79,18 @@ class XpapersUser(AbstractBaseUser):
             raise ValidationError({'username': ('space is not allowed in username')})  # NOQA
         else:
             pass
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            counter = 0
+            self.username = utils_get_random_string(5)
+            while counter <= 5:
+                counter += 1
+                if XpapersUser.objects.filter(username=self.username).exists():
+                    self.username = utils_get_random_string(5)
+                else:
+                    break
+        super(XpapersUser, self).save(*args, **kwargs)
 
     def get_short_name(self):
         if self.first_name:

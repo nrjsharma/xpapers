@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="loginDiv">
+        <div class="loginMsg">
+            <div>Set Username for your account:</div>
+            <div class="IloginMsg">Xpapers</div>
+        </div>
+        <div class="usernameFormDiv">
+            <form id="usernameForm" method="post">
+                <input name="username" id="username" type="text" placeholder="Enter UserName"/>
+                <span id="error" class="error"></span>
+
+                <button type="submit" id="username-form-btn" class="btn btn-primary loginBtn">Save</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'apps/auth/login.css' %}"/>
+{% endblock %}
+
+{% block js %}
+    <script>
+        var LOGOUT_URL = "{% url 'api:logout' %}";
+        var SET_USERNAME_URL = "{% url 'api:set-username-list' %}";
+    </script>
+    <script src="{% static 'apps/auth/set-username.js' %}"></script>
+{% endblock %}

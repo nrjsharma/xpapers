@@ -33,62 +33,6 @@ function signUpValidation(email=null, password=null, conformPassword=null) {
     return true
 }
 
-function setUserName() {
-    window.onbeforeunload = function () {
-        return "Username will be set randomly?";
-    };
-    $("#usernameForm").submit(function (event) {
-        event.preventDefault();
-        resetForm();
-        let username = $('#username').val().trim();
-
-        if (!username) {
-            $("#error-username").html("enter username");
-            $("#error-username").css('display', 'block');
-            return false;
-        }
-        var formData = new FormData();
-        formData.append('username', username)
-        $.ajax({
-            url: SET_USERNAME_URL +'0/',
-            headers: {
-                'Conten-Type': 'application/json',
-                'X-CSRFToken': $.cookie("csrftoken")
-            },
-            type: "PATCH",
-            data: formData,
-            cache: false,
-            processData: false,
-            contentType: false,
-            beforeSend: function () {
-                $('#username-form-btn').prop('disabled', true);
-                console.log('saving...')
-            },
-            success: function (data) {
-                window.onbeforeunload = function () {};
-                window.location = `/user/${data.username}/`
-            },
-            error: function (rs, e) {
-                if (rs.responseJSON['detail']) {
-                    $("#error-username").html(rs.responseJSON['detail']);
-                } else if (rs.responseJSON['non_field_errors']) {
-                    $("#error-username").html(rs.responseJSON['non_field_errors']);
-                } else if (rs.responseJSON['username']) {
-                    $("#error-username").html(rs.responseJSON['username']);
-                } else {
-                    $("#error-username").html(rs.responseText);
-                }
-                $("#error-username").css('display', 'block');
-                console.error(rs.status);
-            },
-            complete: function () {
-                $('#username-form-btn').prop('disabled', false);
-            }
-        }); // end ajax
-
-    });
-}
-
 function signup() {
     $("#signupForm").submit(function (event) {
         event.preventDefault();
@@ -116,12 +60,9 @@ function signup() {
             contentType: false,
             beforeSend: function () {
                 $('#signup-form-btn').prop('disabled', true);
-                console.log('saving...')
             },
             success: function (data) {
-                // window.location = `/user/${data.username}/`
-                $("#SignupBlock").css('display', 'none');
-                $("#UsernameBlock").css('display', 'block');
+                window.location = '/'
             },
             error: function (rs, e) {
                 if (rs.responseJSON['detail']) {
@@ -146,5 +87,4 @@ function signup() {
 
 $(document).ready(function () {
     signup()
-    setUserName()
 });

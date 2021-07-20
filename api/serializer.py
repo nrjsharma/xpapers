@@ -58,27 +58,8 @@ class GenericUserSerializer(ModelSerializer):
 
 class SignupSerializer(ModelSerializer):
 
-    def get_username(self, email=None):
-        counter = 0
-        if not email:
-            return None
-        username = utils_get_random_string(5)
-        while counter <= 5:
-            counter += 1
-            if XpapersUser.objects.filter(username=username).exists():
-                username = utils_get_random_string(5)
-            else:
-                break
-        return username
-
-    def validate(self, validated_data):
-        email = validated_data.get('email', None)
-        validated_data['username'] = self.get_username(email)
-        return validated_data
-
     def create(self, validated_data):
         user = XpapersUser.objects.create(
-            username=validated_data['username'],
             email=validated_data['email'],
         )
         user.set_password(validated_data['password'])
@@ -170,7 +151,7 @@ class GetUserProfileSerializer(ModelSerializer):
         model = XpapersUser
         fields = ('username', 'email', 'profile_image',
                   'university', 'collage', 'course',
-                  'branch')
+                  'branch', 'is_username_varified')
 
 
 class UpdateUserProfileSerializer(ModelSerializer):

@@ -9,7 +9,7 @@ class LoginView(View):
 
     def get(self, request, path=None):
         if request.user.is_authenticated:
-            path = "/auth/profile/{username}/"
+            path = "/user/{username}/"
             return redirect(path.format(username=request.user.username))
         return render(request, self.template_name)
 
@@ -19,8 +19,21 @@ class SignUpView(View):
 
     def get(self, request, path=None):
         if request.user.is_authenticated:
-            path = "/auth/profile/{username}/"
+            path = "/user/{username}/"
             return redirect(path.format(username=request.user.username))
+        return render(request, self.template_name)
+
+
+class SetUsernameView(View):
+    template_name = 'auth/set-username.html'
+
+    def get(self, request, path=None):
+        if request.user.is_authenticated:
+            if request.user.is_username_varified:
+                path = "/user/{username}/"
+                return redirect(path.format(username=request.user.username))
+        else:
+            return redirect('/user/login/')
         return render(request, self.template_name)
 
 
