@@ -260,4 +260,21 @@ $(document).ready(function () {
         }); // end ajax
     });
 
+
 });
+
+$("#profile-image").change(function () {
+    readURL(this);
+});
+
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            // $('#profile-img-tag').attr('src', e.target.result);
+            $('#main-user-profile').css('background-image', 'url(' + e.target.result + ')');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}

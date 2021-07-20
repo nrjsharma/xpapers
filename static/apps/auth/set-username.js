@@ -16,6 +16,17 @@ function setUserName() {
             $("#error").html("enter username");
             $("#error").css('display', 'block');
             return false;
+        }else{
+            var format = /[!@#$%^&*()+\-_=\[\]{};':"\\|,.<>\/?]+/;
+            if (format.test(username)) {
+                $("#error").html("can not use special characters like !@#$%^&*");
+                $("#error").css('display', 'block');
+                return false;
+            }else if(username.indexOf(' ') >= 0){
+                $("#error").html("can not add space in username");
+                $("#error").css('display', 'block');
+                return false;
+            }
         }
         username = username.toLowerCase();
         var formData = new FormData();
@@ -61,5 +72,5 @@ function setUserName() {
 }
 
 $(document).ready(function () {
-    setUserName()
+    setUserName();
 });
