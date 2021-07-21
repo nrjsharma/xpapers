@@ -551,6 +551,7 @@ class ShowUserPapersViewSet(ModelViewSet):
                 not query_branch and \
                 not query_subject:
             course = get_object_or_404(Course, slug=query_course)
+            user_posts = user_posts.filter(course=course)
             self.serializer_class = ShowBranchSerializer
             self.queryset = Branch.objects.filter(id__in=user_posts.values_list('branch').distinct(),
                                                   universities=university,
@@ -562,6 +563,7 @@ class ShowUserPapersViewSet(ModelViewSet):
                 not query_subject:
             course = get_object_or_404(Course, slug=query_course)
             branch = get_object_or_404(Branch, slug=query_branch)
+            user_posts = user_posts.filter(branch=branch)
             self.serializer_class = ShowSubjectSerializer
             self.queryset = Subject.objects.filter(id__in=user_posts.values_list('subject').distinct(),
                                                    universities=university,
@@ -572,14 +574,9 @@ class ShowUserPapersViewSet(ModelViewSet):
                 query_course and \
                 query_branch and \
                 query_subject:
-            course = get_object_or_404(Course, slug=query_course)
-            branch = get_object_or_404(Branch, slug=query_branch)
             subject = get_object_or_404(Subject, slug=query_subject)
             self.serializer_class = ShowPostSerializer
-            self.queryset = user_posts.filter(university=university,
-                                              course=course,
-                                              branch=branch,
-                                              subject=subject)
+            self.queryset = user_posts.filter(subject=subject)
         else:
             self.queryset = Post.objects.none()
         return self.queryset
