@@ -285,9 +285,7 @@ class ShowPostSerializer(ModelSerializer):
         return instance.subject.name
     
     def get_user(self, instance):
-        if instance.user and instance.user.id == 1:
-            return "admin"
-        elif instance.user:
+        if instance.user:
             return instance.user.username
         else:
             return 'anon'

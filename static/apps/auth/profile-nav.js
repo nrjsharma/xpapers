@@ -10,7 +10,7 @@ $(document).ready(function () {
             $('#nav-user-profile').css('background-image', 'url(' + data.profile_image + ')');
             $("#nav-user-profile-link").attr("href", '/user/' + data.username + '/');
             $("#nav-user-profile-paper-link").attr("href", '/user/' + data.username + '/papers/');
-            if(window.location.pathname.includes('papers')) {
+            if(window.location.pathname.split('/')[3] == "papers") {
                 $("#nav-user-profile-paper-link").addClass("active");
             }else{
                 $("#nav-user-profile-link").addClass("active");
